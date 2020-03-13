@@ -4,7 +4,7 @@ export class Action {
 
     date: string
     title: string
-    image: ImageSourcePropType | undefined
+    image: ImageSourcePropType = require('../assets/images/image.jpeg');
     
     constructor (date: string, title: string, image?: ImageSourcePropType){
        this.date = date;

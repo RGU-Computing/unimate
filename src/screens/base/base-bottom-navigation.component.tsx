@@ -22,12 +22,12 @@ export const BaseBottomNavigation = (props): React.ReactElement => {
           icon={HomeIcon}
         />
         <BottomNavigationTab
-          title='Traxivity'
-          icon={BarChartIcon}
-        />
-        <BottomNavigationTab
           title='Emotivity'
           icon={EyeIcon}
+        />
+        <BottomNavigationTab
+          title='Traxivity'
+          icon={BarChartIcon}
         />
         <BottomNavigationTab
           title='Notifications'

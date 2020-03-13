@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ImageOverlay } from './image-overlay.component';
 import {
   Card,
@@ -8,8 +8,10 @@ import {
   StyleService,
   Text,
   useStyleSheet,
+  Button,
 } from '@ui-kitten/components';
 import { Action } from '../models/action';
+import { HeartIcon } from './icons';
 
 export interface ActionCardProps extends Omit<CardProps, 'children'> {
   greeting: string;
@@ -41,6 +43,15 @@ export const ActionCard = (props: ActionCardProps): CardElement => {
             status='control'>
             {action.title}
           </Text>
+          <View style={styles.itemFooter}>
+            <Button
+              style={styles.iconButton}
+              appearance='ghost'
+              status='control'
+              icon={HeartIcon}>
+              {'16'}
+            </Button>
+          </View>
           <Text
             style={styles.date}
             category='s1'
@@ -54,27 +65,36 @@ export const ActionCard = (props: ActionCardProps): CardElement => {
 
 const ActionCardStyles = StyleService.create({
   container: {
-      height: 200,
+    height: 200,
   },
   image: {
-      ...StyleSheet.absoluteFillObject,
-      height: 200,
-      paddingVertical: 24,
-      paddingHorizontal: 16,
+    ...StyleSheet.absoluteFillObject,
+    height: 200,
+    paddingVertical: 24,
+    paddingHorizontal: 16,
   },
   greeting: {
-      zIndex: 1,
-      fontSize: 16,
-      marginBottom: 4
+    zIndex: 1,
+    fontSize: 16,
+    marginBottom: 4
   },
   title: {
-      zIndex: 1,
+    zIndex: 1,
   },
   date: {
-      position: 'absolute',
-      left: 16,
-      bottom: 16,
-      borderRadius: 16,
-      paddingHorizontal: 0,
+    position: 'absolute',
+    right: 16,
+    bottom: 20,      
+    paddingHorizontal: 0,
+    //fontWeight: 'bold'
+  },
+  itemFooter: {
+    position: 'absolute',
+    flexDirection: 'row',
+    left: 8,
+    bottom: 8,
+  },
+  iconButton: {
+    paddingHorizontal: 0,
   },
 });

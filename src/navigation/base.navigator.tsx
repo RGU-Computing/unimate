@@ -6,9 +6,10 @@ import {
 } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MoodNavigator } from './mood.navigator';
-//import { LayoutsNavigator } from './layouts.navigator';
-//import { ComponentsNavigator } from './components.navigator';
-//import { ThemesNavigator } from './themes.navigator';
+import { TraxivityNavigator } from './traxivity.navigator';
+import { EmotivityNavigator } from './emotivity.navigator';
+import { NotificationsNavigator } from './notifications.navigator';
+import { HealthNavigator } from './health.navigator';
 import { BaseBottomNavigation } from '../screens/base/base-bottom-navigation.component';
 import { BaseDrawer } from '../screens/base/base-drawer.component';
 //import { LibrariesScreen } from '../scenes/libraries/libraries.component';
@@ -20,12 +21,12 @@ const Drawer = createDrawerNavigator();
  * When dev is true in .expo/settings.json (started via `start:dev`),
  * open Components tab as default.
  */
-const initialTabRoute: string = __DEV__ ? 'Mood' : 'Mood';
+const initialTabRoute: string = __DEV__ ? 'Home' : 'Home';
 
 /*
  * Can we access it from `BaseNavigator`?
  */
-const ROOT_ROUTES: string[] = ['Base', 'Mood', 'Traxivity', 'Emotivity', 'Notifications', 'Health'];
+const ROOT_ROUTES: string[] = ['Base', 'Home', 'Traxivity', 'Emotivity', 'Notifications', 'Health'];
 
 const isOneOfRootRoutes = (currentRoute: RouteProp<any, any>): boolean => {
   return ROOT_ROUTES.find(route => currentRoute.name === route) !== undefined;
@@ -41,10 +42,11 @@ const BaseTabsNavigator = (): React.ReactElement => (
     screenOptions={TabBarVisibleOnRootScreenOptions}
     initialRouteName={initialTabRoute}
     tabBar={props => <BaseBottomNavigation {...props} />}>
-    <BottomTab.Screen name='Mood' component={MoodNavigator}/>
-    {/*<BottomTab.Screen name='Traxivity' component={ComponentsNavigator}/>
-    <BottomTab.Screen name='Notifications' component={ThemesNavigator}/>
-<BottomTab.Screen name='Health' component={ThemesNavigator}/>*/}
+    <BottomTab.Screen name='Home' component={MoodNavigator}/>
+    <BottomTab.Screen name='Emotivity' component={EmotivityNavigator}/>
+    <BottomTab.Screen name='Traxivity' component={TraxivityNavigator}/>
+    <BottomTab.Screen name='Notifications' component={NotificationsNavigator}/>
+    <BottomTab.Screen name='Health' component={HealthNavigator}/>
   </BottomTab.Navigator>
 );
 

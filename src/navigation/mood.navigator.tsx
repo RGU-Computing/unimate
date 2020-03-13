@@ -6,6 +6,6 @@ const Stack = createStackNavigator();
 
 export const MoodNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
-    <Stack.Screen name='Mood' component={MoodScreen}/>
+    <Stack.Screen name='Home' component={MoodScreen}/>
   </Stack.Navigator>
 );

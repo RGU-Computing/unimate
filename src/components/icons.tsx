@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageStyle } from 'react-native';
-import { Icon, IconElement } from '@ui-kitten/components';
+import { Icon, IconElement, useTheme } from '@ui-kitten/components';
 
 export const ArrowIosBackIcon = (style: ImageStyle): IconElement => (
   <Icon {...style} name='arrow-ios-back'/>
@@ -42,6 +42,24 @@ export const EyeIcon = (style: ImageStyle): IconElement => (
   <Icon {...style} name='eye'/>
 );
 
+export const DoneAllIcon = (style: ImageStyle): IconElement => {
+  const theme = useTheme();
+  return (
+    <Icon {...style} width={16} height={16} fill={theme['color-primary-default']} name='done-all'/>
+  );
+};
+
+export const MailIcon = (style: ImageStyle): IconElement => {
+  const theme = useTheme();
+  return (
+    <Icon {...style} width={16} height={16} fill={'red'} name='alert-circle'/>
+  );
+};
+
+export const MessageCircleIcon = (style: ImageStyle): IconElement => (
+  <Icon {...style} name='message-circle-outline'/>
+);
+
 export const GithubIcon = (style: ImageStyle): IconElement => (
   <Icon {...style} name='github'/>
 );
@@ -52,6 +70,10 @@ export const GridIcon = (style: ImageStyle): IconElement => (
 
 export const HealthIcon = (style:ImageStyle): IconElement => (
   <Icon {...style} name='thermometer-plus'/>
+);
+
+export const HeartIcon = (style: ImageStyle): IconElement => (
+  <Icon {...style} name='heart'/>
 );
 
 export const HomeIcon = (style:ImageStyle): IconElement => (
