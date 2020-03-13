@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "391105893913",
+    "firebase_url": "https://unimate-rgu.firebaseio.com",
+    "project_id": "unimate-rgu",
+    "storage_bucket": "unimate-rgu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391105893913:android:cbf12cc67984719ff0bc88",
+        "android_client_info": {
+          "package_name": "com.unimate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391105893913-r1ol9fkvnbvgfcpoqgsdqdtvctq46do9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0VedaTvGcLLRqAJQHoo6ytW8SiPo7Lr0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391105893913-r1ol9fkvnbvgfcpoqgsdqdtvctq46do9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
