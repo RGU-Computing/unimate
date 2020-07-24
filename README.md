@@ -1,2 +1,2 @@
 # unimate
-Unimate offers some creative features to enhance a students Mental Health and welbeing.
+Unimate offers some creative features to enhance a students Mental Health and wellbeing.
