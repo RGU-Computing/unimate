@@ -12,6 +12,7 @@ import { NotificationsNavigator } from './notifications.navigator';
 import { HealthNavigator } from './health.navigator';
 import { BaseBottomNavigation } from '../screens/base/base-bottom-navigation.component';
 import { BaseDrawer } from '../screens/base/base-drawer.component';
+import { AboutScreen } from '../screens/about/about.component';
 //import { LibrariesScreen } from '../scenes/libraries/libraries.component';
 
 const BottomTab = createBottomTabNavigator();
@@ -26,7 +27,7 @@ const initialTabRoute: string = __DEV__ ? 'Home' : 'Home';
 /*
  * Can we access it from `BaseNavigator`?
  */
-const ROOT_ROUTES: string[] = ['Base', 'Home', 'Traxivity', 'Emotivity', 'Notifications', 'Health'];
+const ROOT_ROUTES: string[] = ['Base', 'Home', 'Traxivity', 'Emotivity', 'Notifications', 'Health', 'About'];
 
 const isOneOfRootRoutes = (currentRoute: RouteProp<any, any>): boolean => {
   return ROOT_ROUTES.find(route => currentRoute.name === route) !== undefined;
@@ -52,9 +53,10 @@ const BaseTabsNavigator = (): React.ReactElement => (
 
 export const BaseNavigator = (): React.ReactElement => (
   <Drawer.Navigator
-    screenOptions={{ gestureEnabled: false }}
+    screenOptions={{ gestureEnabled: true }}
     drawerContent={props => <BaseDrawer {...props}/>}>
     <Drawer.Screen name='Base' component={BaseTabsNavigator}/>
+    <Drawer.Screen name='About' component={AboutScreen}/>
     {/*<Drawer.Screen name='Libraries' component={LibrariesScreen}/>*/}
   </Drawer.Navigator>
 );
