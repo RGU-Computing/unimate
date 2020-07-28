@@ -4,22 +4,22 @@ export class Article {
 
   constructor(readonly title: string,
               readonly description: string,
-              readonly content: string,
+              readonly website: string,
               readonly image: ImageSourcePropType,
               readonly date: string,
-              readonly author: Profile,
-              readonly likes: Like[],
-              readonly comments: Comment[]) {
+              readonly author?: Profile,
+              readonly likes?: Like[],
+              readonly comments?: Comment[]) {
   }
 
-  static howToEatHealthy(): Article {
+  static three(): Article {
     return new Article(
-      'How To Eat Healthy',
-      '10 useful Tips',
-      'There\'s a lot of advice out there on how to eat healthy, and if we\'re being honest, it can sometimes feel like too much to think about. Especially when you\'re hungry. Remember when you were a kid and eating was as simple as open, chew, enjoy? Yes, those were simpler times. Now, knowing how to eat healthy doesn\'t seem quite as straightforward. Between the diet fads, gourmet trends, and a rotating roster of superfoods, eating well has gotten, well, complicated.',
-      require('../assets/images/image.jpeg'),
-      '19 Sep, 2018',
-      Profile.markVolter(),
+      'Why It’s Important to Care for Your Mental Health.',
+      'Mental-Health',
+      'https://blog.doctorondemand.com/why-its-important-to-care-for-your-mental-health-834c8670b889?gi=c14df33b9497',
+      {uri: 'https://miro.medium.com/max/1400/1*4FRigVMMDJ0aEHFyYKqw7w.jpeg'},
+      'Date',
+      /*Profile.markVolter(),
       [
         Like.byMarkVolter(),
         Like.byHubertFranck(),
@@ -28,18 +28,18 @@ export class Article {
         Comment.byHubertFranck(),
         Comment.byHubertFranck(),
         Comment.byHubertFranck(),
-      ],
+      ],*/
     );
   }
 
-  static whyWorkoutImportant(): Article {
+  static four(): Article {
     return new Article(
-      'Why Is The Workout Important?',
-      'Some Tips',
-      'There\'s a lot of advice out there on how to eat healthy, and if we\'re being honest, it can sometimes feel like too much to think about. Especially when you\'re hungry. Remember when you were a kid and eating was as simple as open, chew, enjoy? Yes, those were simpler times. Now, knowing how to eat healthy doesn\'t seem quite as straightforward. Between the diet fads, gourmet trends, and a rotating roster of superfoods, eating well has gotten, well, complicated.',
-      require('../assets/images/image.jpeg'),
-      '19 Sep, 2018',
-      Profile.hubertFranck(),
+      'Benefits of Good Mental Health.',
+      'Mental-Health',
+      'https://toronto.cmha.ca/documents/benefits-of-good-mental-health/',
+      {uri: 'https://images.pexels.com/photos/774866/pexels-photo-774866.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'},
+      'Date',
+      /*Profile.markVolter(),
       [
         Like.byMarkVolter(),
         Like.byHubertFranck(),
@@ -48,18 +48,18 @@ export class Article {
         Comment.byHubertFranck(),
         Comment.byHubertFranck(),
         Comment.byHubertFranck(),
-      ],
+      ],*/
     );
   }
 
-  static morningWorkouts(): Article {
+  static one(): Article {
     return new Article(
-      '5 Rules Of Morning Workouts',
-      '5 Useful Exercises',
-      'There\'s a lot of advice out there on how to eat healthy, and if we\'re being honest, it can sometimes feel like too much to think about. Especially when you\'re hungry. Remember when you were a kid and eating was as simple as open, chew, enjoy? Yes, those were simpler times. Now, knowing how to eat healthy doesn\'t seem quite as straightforward. Between the diet fads, gourmet trends, and a rotating roster of superfoods, eating well has gotten, well, complicated.',
-      require('../assets/images/image.jpeg'),
-      '19 Sep, 2018',
-      Profile.markVolter(),
+      'Mental-Health Challenges Students Face in College.',
+      'Mental-Health',
+      'https://www.bestcolleges.com/resources/top-5-mental-health-problems-facing-college-students/',
+      {uri: 'https://res.cloudinary.com/highereducation/image/upload/f_auto,fl_lossy,q_auto/v1/BestColleges.com/Mental_Health.jpg'},
+      'Date',
+      /*Profile.hubertFranck(),
       [
         Like.byMarkVolter(),
         Like.byHubertFranck(),
@@ -68,7 +68,27 @@ export class Article {
         Comment.byHubertFranck(),
         Comment.byHubertFranck(),
         Comment.byHubertFranck(),
+      ],*/
+    );
+  }
+
+  static two(): Article {
+    return new Article(
+      'Building Better Mental Health.',
+      'Mental-Health',
+      'https://www.helpguide.org/articles/mental-health/building-better-mental-health.htm',
+      {uri: 'https://www.helpguide.org/wp-content/uploads/hands-putting-together-puzzle-head-1536.jpg'},
+      'Date',
+      /*Profile.markVolter(),
+      [
+        Like.byMarkVolter(),
+        Like.byHubertFranck(),
       ],
+      [
+        Comment.byHubertFranck(),
+        Comment.byHubertFranck(),
+        Comment.byHubertFranck(),
+      ],*/
     );
   }
 }
@@ -141,7 +161,7 @@ export class Profile {
     return new Profile(
       'Mark',
       'Volter',
-      require('../assets/images/image.jpeg'),
+      require('../assets/images/image-app-icon.png'),
     );
   }
 
@@ -149,7 +169,7 @@ export class Profile {
     return new Profile(
       'Hubert',
       'Franck',
-      require('../assets/images/image.jpeg'),
+      require('../assets/images/image-app-icon.png'),
     );
   }
 }

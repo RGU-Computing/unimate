@@ -1,47 +1,74 @@
+import moment from 'moment'
+
+moment.updateLocale('en', {
+  relativeTime : {
+      future: "in %s",
+      past:   "%s ago",
+      s  : '1s',
+      ss : '%ds',
+      m:  "1m",
+      mm: "%dm",
+      h:  "1h",
+      hh: "%dh",
+      d:  "1d",
+      dd: "%dd",
+      w:  "1w",
+      ww: "%dw",
+      M:  "1m",
+      MM: "%dm",
+      y:  "1y",
+      yy: "%dy"
+  }
+});
+
 export class Notification {
 
-  constructor(readonly title: string, readonly subtitle: string, readonly date: string, readonly isRead: boolean) {
+  constructor(readonly title: string, readonly subtitle: string, readonly timestamp: any, readonly type: string, readonly isImportant: boolean) {
 
   }
 
   get formattedText(): string {
-    const isLong: boolean = this.subtitle.length > 36;
-    return isLong ? `${this.subtitle.substring(0, 32)}...` : this.subtitle;
+    const isLong: boolean = this.subtitle.length > 60;
+    return isLong ? `${this.subtitle.substring(0, 60)}...` : this.subtitle;
   }
 
   static first(): Notification {
     return new Notification(
-      'Notification 1',
-      'Subtitle for notification 1',
-      '4.00 PM',
+      'Reminder: Mood Diaryz',
+      'Add daily diary records and reflect on them.',
+      moment(),
+      'Emotivity',
       false,
     );
   }
 
   static second(): Notification {
     return new Notification(
-      'Notification 2',
-      'Subtitle for notification 2',
-      '5.00 PM',
-      false,
+      'Reminder: Mood Tracking',
+      'Track your mood daily and keep track of your moods!',
+      moment(),
+      'Emotivity',
+      true,
     );
   }
 
   static third(): Notification {
     return new Notification(
-      'Notification 3',
-      'Subtitle for notification 3',
-      '6.00 PM',
-      true,
+      'Reminder: Daily Step Goal',
+      'Don\'t forget to keep up with your daily step goal!',
+      moment(),
+      'Traxivity',
+      false,
     );
   }
 
   static fourth(): Notification {
     return new Notification(
-      'Notification 4',
-      'Subtitle for notification 4',
-      '6.00 PM',
-      true,
+      'Welcome to Unimate!',
+      'Thanks for using Unimate!',
+      moment(),
+      'Emotivity',
+      false,
     );
   }
 }
