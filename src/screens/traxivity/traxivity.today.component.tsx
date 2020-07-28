@@ -10,23 +10,26 @@ import { MenuIcon } from '../../components/icons';
 import TraxivityDataTab from '../../components/traxivity-data.component'
 import BarChart from '../../components/bar-chart.component'
 import { GoogleSignin } from '@react-native-community/google-signin';
+import { AppStorage } from '../../services/app-storage.service';
+import { FirebaseService } from '../../services/firebase.service';
 
 const screenWidth = Dimensions.get('window').width
 const screenHeight = Dimensions.get('window').height
 
-export class TraxivityScreen extends React.Component {
+export class TraxivityTodayScreen extends React.Component {
   tab: any[];
 
   constructor(props) {
     super(props);
-    this.setSelectedIndex = this.setSelectedIndex.bind(this)
+    this.setSelectedIndex = this.setSelectedIndex.bind(this);
+    this.onSuccess = this.onSuccess.bind(this);
     this.state = {
       selectedIndex: 0,
       steps: 0,
       cals: 0,
       dists: 0,
       goal: 5000,
-      user: null
+      user: AppStorage.getUser()
     }
     this.tab = []
   }
@@ -43,12 +46,9 @@ export class TraxivityScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log('trax')
     const options = {
       scopes: [
-        Scopes.FITNESS_ACTIVITY_READ_WRITE,
-        //Scopes.FITNESS_BODY_READ_WRITE,
-        //Scopes.FITNESS_LOCATION_READ_WRITE
+        Scopes.FITNESS_ACTIVITY_READ_WRITE
       ],
     }
     GoogleFit.authorize(options).then(res => {
@@ -56,37 +56,25 @@ export class TraxivityScreen extends React.Component {
       console.log(res)
       this._getData()
     }).catch(err => console.log(err));
-    GoogleSignin.getCurrentUser().then(user => {
-      console.log('usr')
-      console.log(user)
-      this.setState({user})
-    }).catch(err => console.log(err));
 
-    this.props.navigation.addListener('didFocus', () => {
-      const ref = firestore().collection('users').doc(this.state.user.user.id);
-      
-      firestore().runTransaction(async transaction => {
-        const doc = await transaction.get(ref);
+    this.setState({goal: AppStorage.getTraxivityDetails().goal})
 
-        if(!doc.exists) {
-          transaction.set(ref, {user: this.state.user.user, dailyStepGoal: 5000})
-        } else {
-          this.setState({goal: doc._data.dailyStepGoal})
-        }
-      })
-    })
+    FirebaseService.subscribeForTraxivity(this.onSuccess);
 
     GoogleFit.isAvailable((err, res) => {
       if(err || !res) {
-        Alert.alert('Download Google Fit', 'No data available for this account, please download Google Fit', [
+        Alert.alert('Download Google Fit', 'No data available for this account, please download Google Fit.', [
           {text: 'OK', style: 'cancel'}
         ])
       }
     })
   }
 
+  onSuccess(documentSnapshot) {
+    this.setState({goal: documentSnapshot.data().dailyStepGoal})
+  }
+
   async _getData() {
-    console.log('getdata')
     var start = new Date()
     var end = new Date()
     start.setHours(0, 0, 0, 0)
@@ -145,59 +133,23 @@ export class TraxivityScreen extends React.Component {
       formatter.push(i.toString());
     }
     return (
-      <SafeAreaLayout
-        style={styles.safeArea}
-        insets='top'>
-        <TopNavigation
-          title='Traxivity'
-          leftControl={this.renderDrawerAction()}
-        />
-        <Divider/>
-        <Layout style={styles.container}>
-          <TabView
-            style={styles.tabView}
-            tabBarStyle={styles.bar}
-            indicatorStyle={styles.tabViewIndicator}
-            selectedIndex={this.state.selectedIndex}
-            onSelect={this.setSelectedIndex}>
-            <Tab titleStyle={this.state.selectedIndex === 0 ? styles.active_title : styles.inactive_title} title='Today'>
-              <Layout style={styles.tabContainer}>
-                <ScrollView style={{flex: 1}}>
-                  <View style={{alignItems: 'center', margin: 10}}>
+        <Layout style={styles.tabContainer}>
+            <ScrollView style={{flex: 1}}>
+                <View style={{alignItems: 'center', margin: 10}}>
                     <Progress.Circle 
-                      size={screenWidth/1.6} 
-                      progress={progress/100}
-                      color='#712177'
-                      thickness={10}
-                      showsText={true}
+                        size={screenWidth/1.6} 
+                        progress={progress/100}
+                        color='#712177'
+                        thickness={10}
+                        showsText={true}
                     />
-                  </View>
-                  <View style={{height: screenHeight/1.5, marginBottom: 180}}>
+                </View>
+                <View style={{height: screenHeight/1.5, marginBottom: 0}}>
                     <TraxivityDataTab data={BoxData}/>
                     <BarChart tabStep={this.tab} formatter={formatter} granularity={4}/>
-                  </View>
-                </ScrollView>
-              </Layout>
-            </Tab>
-            {/*<Tab titleStyle={this.state.selectedIndex === 1 ? styles.active_title : styles.inactive_title} title='Weekly'>
-              <Layout style={styles.tabContainer}>
-              <View style={{flex: 1}}>
-                <BarChart tabStep={this.state.steps} formatter={formatter} granularity={1}/>
-                <TraxivityDataTab data={BoxData}/>
-              </View>
-              </Layout>
-            </Tab>
-            <Tab titleStyle={this.state.selectedIndex === 2 ? styles.active_title : styles.inactive_title} title='Monthly'>
-              <Layout style={styles.tabContainer}>
-              <View style={{flex: 1}}>
-                <BarChart tabStep={this.state.steps} formatter={formatter} granularity={5}/>
-                <TraxivityDataTab data={BoxData}/>
-              </View>
-              </Layout>
-            </Tab>*/}
-          </TabView>
+                </View>
+            </ScrollView>
         </Layout>
-      </SafeAreaLayout>
     );
   }
 
