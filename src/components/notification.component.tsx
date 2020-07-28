@@ -3,9 +3,10 @@ import { StyleSheet, View, ViewStyle } from 'react-native';
 import { Avatar, ListItem, ListItemProps, Text } from '@ui-kitten/components';
 import { MailIcon } from './icons';
 import { Notification } from '../models/notification';
+import moment from 'moment';
 
 export type MessageItemProps = ListItemProps & {
-    notification: Notification;
+    notification: Notification
 };
 
 export const NotificationItem = (props: MessageItemProps): React.ReactElement => {
@@ -14,12 +15,12 @@ export const NotificationItem = (props: MessageItemProps): React.ReactElement =>
 
   const renderMessageDate = (style: ViewStyle, index: number): React.ReactElement => (
     <View style={styles.dateContainer}>
-      {!notification.isRead && <MailIcon/>}
+      {notification.isImportant && <MailIcon/>}
       <Text
         style={styles.dateText}
         appearance='hint'
         category='c1'>
-        {notification.date}
+        {moment(notification.timestamp).fromNow()}
       </Text>
     </View>
   );
@@ -27,7 +28,7 @@ export const NotificationItem = (props: MessageItemProps): React.ReactElement =>
   const renderProfileAvatar = (): React.ReactElement => (
     <Avatar
       style={styles.avatar}
-      source={require('../assets/images/image-app-icon.png')}
+      source={notification.type === 'Traxivity' ? require('../assets/images/traxivity.png') : require('../assets/images/emotivity.png')}
     />
   );
 
@@ -35,7 +36,7 @@ export const NotificationItem = (props: MessageItemProps): React.ReactElement =>
     <ListItem
       {...listItemProps}
       title={notification.title}
-      description={notification.formattedText}
+      description={notification.subtitle}
       icon={renderProfileAvatar}
       accessory={renderMessageDate}
     />

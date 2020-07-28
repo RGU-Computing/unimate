@@ -10,13 +10,14 @@ import { Button, List, Text } from '@ui-kitten/components';
 import { ImageOverlay } from './image-overlay.component';
 import { HeartIcon, MessageCircleIcon } from './icons';
 import { Article } from '../models/article';
+import { WebBrowserService } from '../services/web-browser.service';
 
 const data: Article[] = [
-  Article.howToEatHealthy(),
-  Article.whyWorkoutImportant(),
-  Article.morningWorkouts(),
-  Article.howToEatHealthy(),
-  Article.whyWorkoutImportant(),
+  Article.one(),
+  Article.one(),
+  Article.two(),
+  Article.three(),
+  Article.four(),
 ];
 
 const [headingArticle, ...listArticles] = data;
@@ -29,6 +30,7 @@ export default ({ navigation }): React.ReactElement => {
 
   const onItemPress = (index: number): void => {
     //navigation && navigation.navigate('Article3');
+    WebBrowserService.openBrowserAsync('https://www.actionforhappiness.org/');
   };
 
   const renderHeadingItem = (): React.ReactElement => (
@@ -60,7 +62,8 @@ export default ({ navigation }): React.ReactElement => {
     <TouchableOpacity
       style={[styles.item, isItemReverse(info.index) && styles.itemReverse]}
       activeOpacity={0.95}
-      onPress={() => onItemPress(info.index + 1)}>
+      //onPress={() => onItemPress(info.index + 1)}>
+      onPress={() => WebBrowserService.openBrowserAsync(info.item.website)}>
       <ImageBackground
         style={styles.itemSection}
         source={info.item.image}
@@ -68,7 +71,7 @@ export default ({ navigation }): React.ReactElement => {
       <View style={styles.itemSection}>
         <Text
           style={styles.itemTitle}
-          category='h5'>
+          category='h6'>
           {info.item.title}
         </Text>
         <View style={styles.footer}>
@@ -88,8 +91,8 @@ export default ({ navigation }): React.ReactElement => {
           </Button>*/}
             <Button
                 style={styles.readButtonFull}
-                onPress={() => onItemPress(0)}>
-                Visit Link
+                onPress={() => WebBrowserService.openBrowserAsync(info.item.website)}>
+                Read More
             </Button>
         </View>
       </View>
@@ -115,8 +118,6 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   readButtonFull: {
-    backgroundColor: '#712177',
-    borderColor: '#712177',
     width: '100%',
     marginTop: 32,
   },

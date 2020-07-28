@@ -1,21 +1,51 @@
 import React from 'react';
 import { ImageStyle } from 'react-native';
-import { Icon, IconElement, useTheme } from '@ui-kitten/components';
+import { Avatar, Icon, IconElement, useTheme } from '@ui-kitten/components';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faBell, faHome, faNewspaper, faSmile, faWalking, faTrophy, faGlobeEurope, faGlobeAsia, faGlobe, faGlobeAmericas, faFirstAid } from '@fortawesome/free-solid-svg-icons'
+
+export const EmotivityAvatar = (props) => (
+  <Avatar
+    {...props}
+    style={[props.style, { tintColor: null }]}
+    source={require('../assets/images/emotivity.png')}
+  />
+);
+
+export const TraxivityAvatar = (props) => (
+  <Avatar
+    {...props}
+    style={[props.style, { tintColor: null }]}
+    source={require('../assets/images/traxivity.png')}
+  />
+);
+
+export const ArrowHeadUpIcon = (style: ImageStyle): IconElement => (
+  <Icon {...style} fill={'#712177'} name='arrowhead-up'/>
+);
+
+export const ArrowHeadDownIcon = (style: ImageStyle): IconElement => (
+  <Icon {...style} fill={'#712177'} name='arrowhead-down'/>
+);
 
 export const ArrowIosBackIcon = (style: ImageStyle): IconElement => (
-  <Icon {...style} name='arrow-ios-back'/>
+  <Icon {...style} name='arrow-ios-back' width={24} height={24}/>
 );
 
 export const ArrowIosForwardIcon = (style: ImageStyle): IconElement => (
-  <Icon {...style} name='arrow-ios-forward'/>
+  <Icon {...style} name='arrow-ios-forward' width={24} height={24}/>
 );
 
-export const BarChartIcon = (style: ImageStyle): IconElement => (
-  <Icon {...style} name='bar-chart-2'/>
+export const CheckIcon = (style: ImageStyle): IconElement => (
+  <Icon {...style} name='checkmark-outline' fill={'rgba(255, 255, 255, .9)'} width={24} height={24}/>
+);
+
+export const TraxivityIcon = (style: ImageStyle): IconElement => (
+  <FontAwesomeIcon size={24} color={style.tintColor} icon={faWalking} style={{marginVertical: 2}}/>
 );
 
 export const BellIcon = (style: ImageStyle): IconElement => (
-  <Icon {...style} name='bell'/>
+  <FontAwesomeIcon size={24} color={style.tintColor} icon={faBell} style={{marginVertical: 2}}/>
 )
 
 export const BookIcon = (style: ImageStyle): IconElement => (
@@ -38,8 +68,8 @@ export const CloseIcon = (style: ImageStyle): IconElement => (
   <Icon {...style} name='close'/>
 );
 
-export const EyeIcon = (style: ImageStyle): IconElement => (
-  <Icon {...style} name='eye'/>
+export const EmotivityIcon = (style: ImageStyle): IconElement => (
+  <FontAwesomeIcon size={24} color={style.tintColor} icon={faSmile} style={{marginVertical: 2}}/>
 );
 
 export const DoneAllIcon = (style: ImageStyle): IconElement => {
@@ -49,10 +79,14 @@ export const DoneAllIcon = (style: ImageStyle): IconElement => {
   );
 };
 
+export const InfoIcon = (style: ImageStyle): IconElement => (
+  <FontAwesomeIcon color={'#A3223C'} icon={faFirstAid} size={24} />
+);
+
 export const MailIcon = (style: ImageStyle): IconElement => {
   const theme = useTheme();
   return (
-    <Icon {...style} width={16} height={16} fill={'red'} name='alert-circle'/>
+    <Icon {...style} width={16} height={16} fill={theme['color-danger-500']} name='alert-circle'/>
   );
 };
 
@@ -69,7 +103,15 @@ export const GridIcon = (style: ImageStyle): IconElement => (
 );
 
 export const HealthIcon = (style:ImageStyle): IconElement => (
-  <Icon {...style} name='thermometer-plus'/>
+  <FontAwesomeIcon size={24} color={style.tintColor} icon={faNewspaper} style={{marginVertical: 2}}/>
+);
+
+export const GoalIcon = (style:ImageStyle): IconElement => (
+  <FontAwesomeIcon size={22} color={style.tintColor} icon={faTrophy} style={{marginVertical: 2}}/>
+);
+
+export const GlobeIcon = (style:ImageStyle): IconElement => (
+  <FontAwesomeIcon size={20} color={style.tintColor} icon={faGlobeAmericas} style={{marginVertical: 2}}/>
 );
 
 export const HeartIcon = (style: ImageStyle): IconElement => (
@@ -77,7 +119,7 @@ export const HeartIcon = (style: ImageStyle): IconElement => (
 );
 
 export const HomeIcon = (style:ImageStyle): IconElement => (
-  <Icon {...style} name='home'/>
+  <FontAwesomeIcon size={24} color={style.tintColor} icon={faHome} style={{marginVertical: 2}}/>
 );
 
 export const LayoutIcon = (style: ImageStyle): IconElement => (
@@ -96,8 +138,12 @@ export const MoreVerticalIcon = (style: ImageStyle): IconElement => (
   <Icon {...style} name='more-vertical'/>
 );
 
-export const PersonIcon = (style: ImageStyle): IconElement => (
-  <Icon {...style} name='person'/>
+export const PaperPlaneIcon = (style: ImageStyle): IconElement => (
+  <Icon {...style} name='paper-plane'/>
+);
+
+export const AboutIcon = (style: ImageStyle): IconElement => (
+  <Icon {...style} name='award-outline'/>
 )
 
 export const SearchIcon = (style: ImageStyle): IconElement => (

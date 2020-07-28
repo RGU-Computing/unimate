@@ -9,7 +9,7 @@ export default class BarChart extends Component {
         values: this.props.tabStep ? this.props.tabStep.map(item => item.value) : [],
         label: 'Number of steps',
         config: {
-          color: processColor('rgba(0, 220, 169, 0.9)')
+          color: processColor('rgba(113, 33, 119, 0.9)')
         }
       }],
       config: {
