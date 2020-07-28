@@ -12,14 +12,16 @@ import {
   MenuItemType,
   Text,
 } from '@ui-kitten/components';
-import { PersonIcon, SettingsIcon } from '../../components/icons';
+import { AboutIcon, GlobeIcon } from '../../components/icons';
 import { SafeAreaLayout } from '../../components/safe-area-layout.component';
 import { WebBrowserService } from '../../services/web-browser.service';
 import { AppInfoService } from '../../services/app-info.service';
+import { AppStorage } from '../../services/app-storage.service';
 
 const DATA: MenuItemType[] = [
-  { title: 'About', icon: PersonIcon },
-  { title: 'Settings', icon: SettingsIcon },
+  { title: 'About Unimate', icon: AboutIcon },
+  { title: 'Visit Unimate Website', icon: GlobeIcon },
+  { title: 'Robert Gordon University Website', icon: GlobeIcon },
 ];
 
 const version: string = AppInfoService.getVersion();
@@ -30,11 +32,16 @@ export const BaseDrawer = ({ navigation }): DrawerElement => {
     switch (index) {
       case 0: {
         navigation.toggleDrawer();
-        navigation.navigate('Libraries');
+        navigation.navigate('About');
         return;
       }
       case 1: {
-        WebBrowserService.openBrowserAsync('https://akveo.github.io/react-native-ui-kitten');
+        WebBrowserService.openBrowserAsync('https://unimate.app/');
+        navigation.toggleDrawer();
+        return;
+      }
+      case 2: {
+        WebBrowserService.openBrowserAsync('http://www.comp.rgu.ac.uk/');
         navigation.toggleDrawer();
         return;
       }
@@ -48,12 +55,13 @@ export const BaseDrawer = ({ navigation }): DrawerElement => {
       <View style={styles.profileContainer}>
         <Avatar
           size='giant'
-          source={require('../../assets/images/image-app-icon.png')}
+          source={{ uri: AppStorage.getUser().photoURL }}
+          style={{borderRadius: 5}}
         />
         <Text
           style={styles.profileName}
           category='h6'>
-          UniMate
+          {AppStorage.getUser().displayName}
         </Text>
       </View>
     </Layout>
@@ -64,7 +72,7 @@ export const BaseDrawer = ({ navigation }): DrawerElement => {
       <Divider/>
       <DrawerHeaderFooter
         disabled={true}
-        description={`Version ${AppInfoService.getVersion()}`}
+        description={'Copyright © 2020 Robert Gordon University'}
       />
     </React.Fragment>
   );

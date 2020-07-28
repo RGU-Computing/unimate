@@ -2,7 +2,7 @@ import React from 'react';
 import { BottomNavigationTab, Divider } from '@ui-kitten/components';
 import { SafeAreaLayout } from '../../components/safe-area-layout.component';
 import { BrandBottomNavigation } from '../../components/brand-bottom-navigation.component';
-import { BarChartIcon, BellIcon, EyeIcon, HealthIcon, HomeIcon } from '../../components/icons';
+import { TraxivityIcon, BellIcon, HealthIcon, HomeIcon, EmotivityIcon } from '../../components/icons';
 
 export const BaseBottomNavigation = (props): React.ReactElement => {
 
@@ -23,18 +23,18 @@ export const BaseBottomNavigation = (props): React.ReactElement => {
         />
         <BottomNavigationTab
           title='Emotivity'
-          icon={EyeIcon}
+          icon={EmotivityIcon}
         />
         <BottomNavigationTab
           title='Traxivity'
-          icon={BarChartIcon}
+          icon={TraxivityIcon}
         />
         <BottomNavigationTab
           title='Notifications'
           icon={BellIcon}
         />
         <BottomNavigationTab
-          title='Health'
+          title='Info'
           icon={HealthIcon}
         />
       </BrandBottomNavigation>
