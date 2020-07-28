@@ -1,6 +1,7 @@
 import GoogleFit, { Scopes } from 'react-native-google-fit'
 
 export function getSteps(options, i, callback) {
+  console.log('asd')
   GoogleFit.getDailyStepCountSamples(options)
     .then((res) => {
       var result = res.filter(obj => obj.source === "com.google.android.gms:estimated_steps")[0].steps
