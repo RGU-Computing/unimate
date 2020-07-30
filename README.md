@@ -19,7 +19,9 @@
   </p>
 
   <p align="center">
-    <img src="https://www3.rgu.ac.uk/css/images/logo.gif" height="80" style="margin-right:10px">
+    <img src="https://www3.rgu.ac.uk/css/images/logo.gif" height="80">
+  </p>
+  <p align="center">
     <img src="https://graduate.edu.lk/wp-content/uploads/2020/05/IIT-Logo.png" height="80">
   </p>
 
