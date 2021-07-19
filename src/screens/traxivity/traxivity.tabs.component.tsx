@@ -35,7 +35,7 @@ export const TraxivityTabs = ({ navigation, state }): React.ReactElement => {
     );
 
     const submit = () => {
-        const ref = firebase.firestore().collection('users').doc(AppStorage.getUser().uid);
+        const ref = firebase.firestore().collection('users').doc(AppStorage.getUser().id);
         firebase.firestore().runTransaction(async transaction => {
             const doc = await transaction.get(ref);
             console.log(selectedOption.text)
