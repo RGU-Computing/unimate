@@ -20,6 +20,22 @@ export const TraxivityAvatar = (props) => (
   />
 );
 
+export const ThanxAvatar = (props) => (
+  <Avatar
+    {...props}
+    style={[props.style, { tintColor: null }]}
+    source={require('../assets/images/thanks.jpg')}
+  />
+);
+
+export const GratitudeAvatar = (props) => (
+  <Avatar
+    {...props}
+    style={[props.style, { tintColor: null }]}
+    source={require('../assets/images/gratitude.jpg')}
+  />
+);
+
 export const ArrowHeadUpIcon = (style: ImageStyle): IconElement => (
   <Icon {...style} fill={'#712177'} name='arrowhead-up'/>
 );
