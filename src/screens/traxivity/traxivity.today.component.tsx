@@ -46,31 +46,32 @@ export class TraxivityTodayScreen extends React.Component {
   }
 
   componentDidMount() {
+    GoogleFit.isAvailable((err, res) => {
+      if(err || !res) {
+        Alert.alert('Download Google Fit', 'No data available for this account, please download Google Fit.', [
+          {text: 'OK', style: 'cancel'}
+        ]);
+        return;
+      }
+    });
+
     const options = {
       scopes: [
         Scopes.FITNESS_ACTIVITY_READ_WRITE
       ],
     }
     GoogleFit.authorize(options).then(res => {
-      console.log('res')
-      console.log(res)
       this._getData()
     }).catch(err => console.log(err));
 
     this.setState({goal: AppStorage.getTraxivityDetails().goal})
 
     FirebaseService.subscribeForTraxivity(this.onSuccess);
-
-    GoogleFit.isAvailable((err, res) => {
-      if(err || !res) {
-        Alert.alert('Download Google Fit', 'No data available for this account, please download Google Fit.', [
-          {text: 'OK', style: 'cancel'}
-        ])
-      }
-    })
   }
 
   onSuccess(documentSnapshot) {
+    console.log('traxdoc')
+    console.log(documentSnapshot.data().dailyStepGoal)
     this.setState({goal: documentSnapshot.data().dailyStepGoal})
   }
 
