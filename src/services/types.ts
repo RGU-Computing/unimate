@@ -1,25 +1,27 @@
+import { UtilService } from "./util.service";
+
 export const USERS = {
-    DATABASE: {
-      REF: 'users'
-    }
+  DATABASE: {
+    REF: 'users'
+  }
 }
 
 export const ACTION_CARDS = {
-    DATABASE: {
-        REF: 'action_cards',
-        FIELDS: {
-            DATE: 'date',
-            TITLE: 'title',
-            REACTS: {
-                TYPE: 'type',
-                USER: 'user'
-            }
-        }
-    },
-    REACTS: {
-        LIKE: 'like',
-        HEART: 'heart'
+  DATABASE: {
+    REF: 'action_cards',
+    FIELDS: {
+      DATE: 'date',
+      TITLE: 'title',
+      REACTS: {
+        TYPE: 'type',
+        USER: 'user'
+      }
     }
+  },
+  REACTS: {
+    LIKE: 'like',
+    HEART: 'heart'
+  }
 }
 
 export const EMOTIVITY = {
@@ -35,33 +37,67 @@ export const EMOTIVITY = {
             STRESS: 'stress',
             TIRED: 'tired'
         }
+    },
+    //TODO this section and Tired -> Tiredness
+    ANGER: {
+      LABEL: 'anger',
+      MIN: 'None',
+      MAX: 'Furious' 
+    },
+    HAPPINESS: {
+      LABEL: 'happiness',
+      MIN: 'None',
+      MAX: 'Happy' 
     }
 }
 
 export const DIARY = {
-    DATABASE: {
-        REF: 'diary_entries',
-        FIELDS: {
-            DATE: 'date',
-            CONVERSATIONS: 'conversations',
-            CONVERSATION: {
-                QUESTION: 'question',
-                ANSWER: 'answer'
-            },
-            STATUS: 'status',
-            USER: 'user',
-        },
-        QUESTIONS: {
-            Q1: 'What Happended?',
-            Q2: 'Location:',
-            Q3: 'Your thoughts at the time:',
-            Q4: 'What were your thoughts after reflecting and how did you feel after that? '
-        },
-        STATUS: {
-            COMPLETE: 'Complete',
-            INCOMPLETE: 'Incomplete'
-        }
+  DATABASE: {
+    REF: 'diary_entries',
+    FIELDS: {
+      DATE: 'date',
+      CONVERSATIONS: 'conversations',
+      CONVERSATION: {
+        QUESTION: 'question',
+        ANSWER: 'answer'
+      },
+      STATUS: 'status',
+      USER: 'user',
+    },
+    QUESTIONS: {
+      Q1: 'What went well for you this week?',
+      Q2: 'Where did this happen?',
+      Q3: 'Why did it go well?',
+      Q4: 'How did it make you feel?'
+    },
+    STATUS: {
+      COMPLETE: 'Complete',
+      INCOMPLETE: 'Incomplete'
     }
+  }
+}
+
+export const THANKS = {
+  DATABASE: {
+    REF: 'say_thanks',
+    FIELDS: {
+      DATE: 'date',
+      CONVERSATIONS: 'conversations',
+      CONVERSATION: {
+        QUESTION: 'question',
+        ANSWER: 'answer'
+      },
+      STATUS: 'status',
+      USER: 'user',
+    },
+    QUESTIONS: {
+      Q1: 'What are the things that you are thankful for today?'
+    },
+    STATUS: {
+      COMPLETE: 'Complete',
+      INCOMPLETE: 'Incomplete'
+    }
+  }
 }
 
 export const DATE = {
