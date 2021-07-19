@@ -1,13 +1,16 @@
 import { YellowBox } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Mapping, Theme } from './theme.service';
-import { EMOTIVITY } from './types';
+import { DATE, EMOTIVITY } from './types';
+import { UtilService } from './util.service';
 
 const MAPPING_KEY: string = 'mapping';
 const THEME_KEY: string = 'theme';
 let USER: Object = {};
 let TRAXIVITY_DETAILS = {goal: 0, steps: 0};
 let EMOTIVITY_DETAILS = {status: false, record: {anger: 0, anxiety: 0, happiness: 0, sadness: 0, stress: 0, tired: 0}};
+let DIARY_DETAILS = false;
+let THANKS_DETAILS = false;
 
 export class AppStorage {
 
@@ -24,15 +27,56 @@ export class AppStorage {
     AsyncStorage.setItem('hasLaunched', 'true');
   }
 
+  static setMessage = (value) => {
+    console.log(UtilService.getDateToday(DATE.FORMATS.DB).toString())
+    console.log(value)
+    AsyncStorage.setItem(UtilService.getDateToday(DATE.FORMATS.DB).toString(), value);
+  }
+
+  static getMessage = async () => {
+    try {
+      const message = await AsyncStorage.getItem(UtilService.getDateToday(DATE.FORMATS.DB).toString());
+      console.log('message')
+      console.log(message)
+      return message;
+    } catch (error) {
+      console.log('err')
+      return '';
+    }
+  };
+
   static getUser = () => {
    return USER
   };
 
+  static getStoredUser = async () => {
+    try {
+      const user = await AsyncStorage.getItem('user');
+      return JSON.parse(user);
+    } catch (error) {
+      return false;
+    }
+  };
+
+
   static setUser = (user: Object) => {
+    console.log('setUser')
+    console.log(user)
     USER = user;
   };
 
+  static saveUser = async (user) => {
+    await AsyncStorage.setItem('user', JSON.stringify(user)).then(() => {
+      console.log('saved');
+    }).catch(() => {
+      console.log('not saved');
+    })
+  };
+
   static setTraxivityDetails = (goal, steps) => {
+    console.log('setTrax')
+    console.log(goal)
+    console.log(steps)
     TRAXIVITY_DETAILS = {
       goal: goal,
       steps: steps
@@ -45,6 +89,22 @@ export class AppStorage {
 
   static getEmotivityDetails() {
     return EMOTIVITY_DETAILS;
+  }
+
+  static setDiaryDetails = (value) => {
+    DIARY_DETAILS = value;
+  }
+
+  static getDiaryDetails = () => {
+    return DIARY_DETAILS;
+  }
+
+  static setThanxDetails = (value) => {
+    THANKS_DETAILS = value;
+  }
+
+  static getThanxDetails = () => {
+    return THANKS_DETAILS;
   }
 
   static setEmotivityDetails(status: boolean, document = undefined) {
