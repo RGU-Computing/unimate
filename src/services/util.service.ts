@@ -49,24 +49,27 @@ export class UtilService {
     }
 
     static getUserGreeting = () => {
-        
-        const currentTime = moment();
-        //TODO
-        const user = AppStorage.getUser().displayName.substr(0,AppStorage.getUser().displayName.indexOf(' '));
+      const currentTime = moment();
+      //TODO
+      const user = AppStorage.getUser().displayName.substr(0,AppStorage.getUser().displayName.indexOf(' '));
 
-        if (!currentTime || !currentTime.isValid()) return '👋 Hello, ' + user
-      
-        const splitAfternoon = 12;
-        const splitEvening = 17;
-        const currentHour = parseFloat(currentTime.format('HH'));
-      
-        if (currentHour >= splitAfternoon && currentHour <= splitEvening) {
-          return '🌞 Good Afternoon, ' + user
-        } else if (currentHour >= splitEvening) {
-          return '✨ Good Evening, ' + user
-        }
-        return '🌅 Good Morning, ' + user
+      if (!currentTime || !currentTime.isValid()) return '👋 Hello, ' + user
+    
+      const splitAfternoon = 12;
+      const splitEvening = 17;
+      const currentHour = parseFloat(currentTime.format('HH'));
+    
+      if (currentHour >= splitAfternoon && currentHour <= splitEvening) {
+        return '🌞 Good Afternoon, '+ user +' !'
+      } else if (currentHour >= splitEvening) {
+        return '✨ Good Evening, '+ user +' !'
       }
+      return '🌅 Good Morning, '+ user +' !'
+    }
+
+    static getUser = () => {
+      return AppStorage.getUser().displayName.substr(0,AppStorage.getUser().displayName.indexOf(' '));
+    }
 
 }
 
