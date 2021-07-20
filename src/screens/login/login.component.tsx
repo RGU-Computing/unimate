@@ -3,6 +3,7 @@ import { View, StyleSheet, ActivityIndicator, Image, Dimensions, ImageBackground
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
 import { Text } from '@ui-kitten/components';
+import Copyright from '../../components/copyright.component';
 
 export default class LoginScreen extends Component {
 
@@ -99,8 +100,7 @@ export default class LoginScreen extends Component {
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
           onPress={() => this.onGoogleButtonPress()} />
-        <Text style={styles.copyright} appearance='hint'>© 2020 Robert Gordon University</Text>
-        <Text style={styles.copyright} appearance='hint'>Aberdeen, United Kingdom.</Text>
+        <Copyright/>
       </View>
     );
   }
