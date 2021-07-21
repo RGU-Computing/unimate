@@ -11,6 +11,7 @@ import { DIARY, MOOD_SLIDES, EMOTIVITY, DATE } from '../../services/types';
 import { FirebaseService } from '../../services/firebase.service';
 import { ArrowIosForwardIcon, ArrowIosBackIcon, CheckIcon } from '../../components/icons';
 import { AppStorage } from '../../services/app-storage.service';
+import ColorPickerModal from './emotivity.color-picker-modal.component';
 
 const vals = {
   [EMOTIVITY.DATABASE.FIELDS.ANGER]: 0,
@@ -424,9 +425,12 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
                 onDone={onMoodScoreSubmit}
             />
             <Button style={styles.changeColorBtn} onPress={() => setColorPromptVisible(true)}>Change Color</Button>
-            <Modal backdropStyle={styles.backdrop} visible={colorPromptVisible}>
-                {renderColorPickerModal(sliderColor)}
-            </Modal>
+            <ColorPickerModal 
+              activeColor={sliderColor} 
+              colorOptions={SLIDER_COLORS} 
+              visible={colorPromptVisible}
+              onClose={() => setColorPromptVisible(false)} 
+              onColorSelect={setSliderColor} /> 
         </Layout>
       )
     }
