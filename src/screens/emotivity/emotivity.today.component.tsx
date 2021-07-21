@@ -228,56 +228,6 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
         </Layout>
     );
 
-    const renderColorPickerModal = (sliderColor) => {
-
-      const colorOptions: SelectOptionType[] = Object.keys(SLIDER_COLORS).map((colorName) => ({ text: colorName }));
-
-      const defaultSelectedOption = colorOptions.find(({ text: colorName }) => SLIDER_COLORS[colorName] === sliderColor) || colorOptions[0];
-      const [selectedOption, setSelectedOption] = React.useState<SelectOptionType>(defaultSelectedOption);
-
-      const resetSelection = () => {
-        setSelectedOption(defaultSelectedOption);
-      }
-
-      return (
-        <Layout level='3' style={styles.modalContainer}>
-            <View style={{flexDirection: 'row'}}>
-                <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>
-                    Set Slider Color
-                </Text>
-            </View>
-            
-            {/* <Text style={{textAlign: 'justify', marginVertical: 8}}>
-                Select a new Daily Step Goal
-            </Text> */}
-
-            <Select
-                data={colorOptions}
-                selectedOption={selectedOption}
-                onSelect={(option) => setSelectedOption(option as SelectOptionType)}
-                style={{width: '100%'}}
-                onFocus={() => {}}
-                onBlur={() => {}}
-            />
-          
-          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Button style={[styles.buttonHalf]} status="primary" onPress={() => {
-              setSliderColor(SLIDER_COLORS[selectedOption.text]);
-              setColorPromptVisible(false)
-            }}>
-              Save
-            </Button>
-            <Button style={[styles.buttonHalf]} status="warning" onPress={() => {
-              resetSelection()
-              setColorPromptVisible(false)
-            }}>
-              Close
-            </Button>
-          </View>
-        </Layout>
-      )
-    }
-
     const proceedButton = () => {
         setPromptVisible(!prompt_visible);
         setQuestionsVisible(!questions_visible);
