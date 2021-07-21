@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { ProgressChart } from 'react-native-chart-kit';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import MotionSlider from 'react-native-motion-slider';
-import { Text, Divider, Modal, Layout, Input, Button } from '@ui-kitten/components';
+import { Text, Divider, Modal, Layout, Input, Button, Select, SelectOptionType } from '@ui-kitten/components';
 import { UtilService } from '../../services/util.service';
 import { DiaryEntry } from '../../components/diary-entry.component';
 import { DIARY, MOOD_SLIDES, EMOTIVITY, DATE } from '../../services/types';
@@ -19,6 +19,12 @@ const vals = {
   [EMOTIVITY.DATABASE.FIELDS.SADNESS]: 0,
   [EMOTIVITY.DATABASE.FIELDS.STRESS]: 0,
   [EMOTIVITY.DATABASE.FIELDS.TIRED]: 0,
+}
+
+const SLIDER_COLORS = {
+  RED: '#772121',
+  BLUE: '#213d77',
+  PURPLE: '#712177',
 }
 
 export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
@@ -41,6 +47,7 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
     const [questions_visible, setQuestionsVisible] = React.useState<boolean>(false);
     const [prompt_visible, setPromptVisible] = React.useState<boolean>(false);
     const [reflect_visible, setReflectVisible] = React.useState<boolean>(false);
+    const [colorPromptVisible, setColorPromptVisible] = React.useState<boolean>(false);
 
     const [q1, setQ1] = React.useState<string>('');
     const [q2, setQ2] = React.useState<string>('');
@@ -51,6 +58,7 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
     const [mood_string, setMoodString] = React.useState<string>('');
 
     const [diaryData, setDiaryData] = React.useState(undefined);
+    const [sliderColor, setSliderColor] = React.useState<string>(SLIDER_COLORS.PURPLE);
 
     useEffect(() => {
         FirebaseService.getTodayDiaryEntry(onSuccess);
@@ -219,6 +227,56 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
         </Layout>
     );
 
+    const renderColorPickerModal = (sliderColor) => {
+
+      const colorOptions: SelectOptionType[] = Object.keys(SLIDER_COLORS).map((colorName) => ({ text: colorName }));
+
+      const defaultSelectedOption = colorOptions.find(({ text: colorName }) => SLIDER_COLORS[colorName] === sliderColor) || colorOptions[0];
+      const [selectedOption, setSelectedOption] = React.useState<SelectOptionType>(defaultSelectedOption);
+
+      const resetSelection = () => {
+        setSelectedOption(defaultSelectedOption);
+      }
+
+      return (
+        <Layout level='3' style={styles.modalContainer}>
+            <View style={{flexDirection: 'row'}}>
+                <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>
+                    Set Slider Color
+                </Text>
+            </View>
+            
+            {/* <Text style={{textAlign: 'justify', marginVertical: 8}}>
+                Select a new Daily Step Goal
+            </Text> */}
+
+            <Select
+                data={colorOptions}
+                selectedOption={selectedOption}
+                onSelect={(option) => setSelectedOption(option as SelectOptionType)}
+                style={{width: '100%'}}
+                onFocus={() => {}}
+                onBlur={() => {}}
+            />
+          
+          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Button style={[styles.buttonHalf]} status="primary" onPress={() => {
+              setSliderColor(SLIDER_COLORS[selectedOption.text]);
+              setColorPromptVisible(false)
+            }}>
+              Save
+            </Button>
+            <Button style={[styles.buttonHalf]} status="warning" onPress={() => {
+              resetSelection()
+              setColorPromptVisible(false)
+            }}>
+              Close
+            </Button>
+          </View>
+        </Layout>
+      )
+    }
+
     const proceedButton = () => {
         setPromptVisible(!prompt_visible);
         setQuestionsVisible(!questions_visible);
@@ -300,9 +358,9 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
         setScores(vals);
     }
 
-    const emotivitySlide = ({ item }) => {
+    const EmotivitySlide = ({ item }) => {
         return (
-          <View style={styles.slide}>
+          <View style={{...styles.slide, backgroundColor: sliderColor}}>
             <Text style={styles.title}>{item.title}</Text>
             <Image style={[scores[item.key] == 0 ? {transform: [{ scale: 0.5 }]} : {transform: [{ scale: (parseInt(scores[item.key])*0.10)+0.5 }]}, styles.icon]} source={item.image}/>
             <Text style={styles.text}>{item.text}</Text>
@@ -356,7 +414,7 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
         <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <AppIntroSlider
                 slides={MOOD_SLIDES}
-                renderItem={emotivitySlide}
+                renderItem={EmotivitySlide}
                 showPrevButton={true}
                 scrollEnabled={false}
                 renderNextButton={_renderNextButton}
@@ -365,6 +423,10 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
                 //extraData={this.state}
                 onDone={onMoodScoreSubmit}
             />
+            <Button style={styles.changeColorBtn} onPress={() => setColorPromptVisible(true)}>Change Color</Button>
+            <Modal backdropStyle={styles.backdrop} visible={colorPromptVisible}>
+                {renderColorPickerModal(sliderColor)}
+            </Modal>
         </Layout>
       )
     }
@@ -494,7 +556,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#712177'
     },
     title: {
         fontSize: 24,
@@ -537,5 +598,11 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    changeColorBtn: { 
+        backgroundColor: 'red', 
+        top: 0, 
+        right: 0, 
+        position: 'absolute' 
     }
 });
