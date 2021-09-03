@@ -82,6 +82,9 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 
+rootProject.ext.set("fitnessVersion", "18.0.0")
+ //Related issue: https://github.com/StasDoskalenko/react-native-google-fit/issues/176
+ 
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
