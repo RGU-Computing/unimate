@@ -11,6 +11,8 @@ import { DIARY, MOOD_SLIDES, EMOTIVITY, DATE } from '../../services/types';
 import { FirebaseService } from '../../services/firebase.service';
 import { ArrowIosForwardIcon, ArrowIosBackIcon, CheckIcon } from '../../components/icons';
 import { AppStorage } from '../../services/app-storage.service';
+import * as Progress from 'react-native-progress';
+
 
 const vals = {
   [EMOTIVITY.DATABASE.FIELDS.ANGER]: 0,
@@ -39,6 +41,11 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
     const [isDone, setDone] = React.useState<boolean>(AppStorage.getEmotivityDetails().status);
 
     const [questions_visible, setQuestionsVisible] = React.useState<boolean>(false);
+    const [question_start_visible, setQuestionStartVisible] = React.useState<boolean>(false);
+    const [question_one_visible, setQuestionOneVisible] = React.useState<boolean>(false);
+    const [question_two_visible, setQuestionTwoVisible] = React.useState<boolean>(false);
+    const [question_three_visible, setQuestionThreeVisible] = React.useState<boolean>(false);
+
     const [prompt_visible, setPromptVisible] = React.useState<boolean>(false);
     const [reflect_visible, setReflectVisible] = React.useState<boolean>(false);
 
@@ -106,17 +113,54 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
 
     const reflectNowButton = () => {
         setReflectVisible(true);
+        setQuestionStartVisible(false);
         setQuestionsVisible(false);
+        setQuestionOneVisible(false);
+        setQuestionTwoVisible(false);
+        setQuestionThreeVisible(false);
     }
+
+    const goToQuestionOneButton = () => {
+      setQuestionStartVisible(false);
+      setQuestionOneVisible(true);
+  }
+
+  const goToQuestionTwoButton = () => {
+    setQuestionOneVisible(false);
+    setQuestionTwoVisible(true);
+}
+
+  const goToQuestionThreeButton = () => {
+    setQuestionTwoVisible(false);
+    setQuestionThreeVisible(true);
+}
+
+const backToQuestionOneButton = () => {
+  setQuestionOneVisible(true);
+  setQuestionTwoVisible(false);
+}
+
+const backToQuestionTwoButton = () => {
+  setQuestionTwoVisible(true);
+  setQuestionThreeVisible(false);
+}
 
     const reflectLaterButton = () => {
         _sendAddDiaryRequest();
         FirebaseService.getTodayDiaryEntry(onSuccess);
         setQuestionsVisible(false);
+        setQuestionStartVisible(false);
+        setQuestionOneVisible(false);
+        setQuestionTwoVisible(false);
+        setQuestionThreeVisible(false);
     }
 
     const diarySkipButton = () => {
         setQuestionsVisible(false);
+        setQuestionStartVisible(false);
+        setQuestionOneVisible(false);
+        setQuestionTwoVisible(false);
+        setQuestionThreeVisible(false);
     }
 
     const renderQuestionsModal = () => (
@@ -151,6 +195,97 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
         </Layout>
     );
 
+    const renderQuestionStartModal = () => (
+      <Layout level='3' style={styles.modalContainer}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>
+            📝 New Diary Entry
+          </Text>
+        </View>
+          
+        <Text style={{textAlign: 'justify', marginVertical: 8}}>
+          Fill at least one field to make an entry.
+        </Text>
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between',  marginBottom:'2%'}}>
+          <Button style={[styles.buttonFull]} status="primary" onPress={goToQuestionOneButton}>
+            Start
+          </Button>
+        </View>
+        {/* <Text style={{alignSelf:'flex-start', fontSize:12, marginVertical: 2}}>
+          Diary Entry Progress 0%
+        </Text>
+        <Progress.Bar progress={0} width={300} color='#712177' /> */}
+      </Layout>
+  );
+
+    const renderQuestionOneModal = () => (
+      <Layout level='3' style={styles.modalContainer}>          
+        <Input style={styles.input} textStyle={styles.inputText} labelStyle={styles.label} label={DIARY.DATABASE.QUESTIONS.Q1} placeholder='I felt very anxious' onChangeText={t => setQ1(t)} value={q1}/>
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom:'2%'}}>
+        <Button style={[styles.buttonHalf]} status="danger" onPress={diarySkipButton}>
+            Skip
+          </Button>
+          <Button style={[styles.buttonHalf]} status="primary" onPress={goToQuestionTwoButton} disabled={q1 || q2 || q3 ? false : true}>
+            Next
+          </Button>
+        </View>
+        <Text style={{alignSelf:'flex-start', fontSize:12, marginVertical: 2}}>
+          Diary Entry Progress 0%
+        </Text>
+        <Progress.Bar progress={0} width={300} color='#712177' />
+      </Layout>
+  );
+
+  const renderQuestionTwoModal = () => (
+    <Layout level='3' style={styles.modalContainer}>          
+      <Input style={styles.input} textStyle={styles.inputText} labelStyle={styles.label} label={DIARY.DATABASE.QUESTIONS.Q2} placeholder='At home' onChangeText={t => setQ2(t)} value={q2} />
+      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom:'2%'}}>
+      <Button style={[styles.buttonOneThird]} status="danger" onPress={diarySkipButton}>
+            Skip
+          </Button>
+      <Button style={[styles.buttonOneThird]} status="warning" onPress={backToQuestionOneButton}>
+            Back
+          </Button>
+        <Button style={[styles.buttonOneThird]} status="primary" onPress={goToQuestionThreeButton} disabled={q1 || q2 || q3 ? false : true}>
+          Next
+        </Button>
+      </View>
+      <Text style={{alignSelf:'flex-start', fontSize:12, marginVertical: 2}}>
+          Diary Entry Progress 33%
+        </Text>
+      <Progress.Bar progress={0.33} width={300} color='#712177' />
+    </Layout>
+);
+
+const renderQuestionThreeModal = () => (
+  <Layout level='3' style={styles.modalContainer}>
+    <Input style={styles.input} textStyle={styles.inputText} labelStyle={styles.label} label={DIARY.DATABASE.QUESTIONS.Q3} placeholder="My thesis submission is due next week and i don't think that i would be able to finish it on time." multiline={true} numberOfLines={3} onChangeText={t => setQ3(t)} value={q3}/>
+    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom:'2%'}}>
+    <Button style={[styles.buttonOneThird]} status="danger" onPress={diarySkipButton}>
+            Skip
+          </Button>
+    <Button style={[styles.buttonOneThird]} status="primary" onPress={reflectNowButton} disabled={q1 || q2 || q3 ? false : true}>
+        Reflect Now
+      </Button>
+      <Button style={[styles.buttonOneThird]} status="warning" onPress={reflectLaterButton} disabled={q1 || q2 || q3 ? false : true}>
+        Reflect Later
+      </Button>
+</View>
+<Text style={{alignSelf:'flex-start', fontSize:12, marginVertical: 2}}>
+          Diary Entry Progress 66%
+        </Text>
+<Progress.Bar progress={0.66} width={300}  color='#712177' />
+
+    {/* <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+    <Button style={[styles.buttonHalf]} status="danger" onPress={diarySkipButton}>
+            Skip
+          </Button>
+    <Button style={[styles.buttonHalf]} status="warning" onPress={backToQuestionTwoButton}>
+            Back
+          </Button>
+    </View> */}
+  </Layout>
+);
     const reflectSubmitButton = () => {
         const convos: Object[] = [];
         if (q1) {
@@ -188,7 +323,8 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
     
     const backButton = () => {
         setReflectVisible(false);
-        setQuestionsVisible(true);
+        // setQuestionsVisible(true);
+        setQuestionStartVisible(true);
     }
     
     const renderReflectModal = () => (
@@ -222,6 +358,10 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
     const proceedButton = () => {
         setPromptVisible(!prompt_visible);
         setQuestionsVisible(!questions_visible);
+        setQuestionStartVisible(!question_start_visible);
+        // setQuestionOneVisible(!question_one_visible);
+        // setQuestionTwoVisible(!question_two_visible);
+        // setQuestionThreeVisible(!question_three_visible);
     }
 
     const togglePromptModal = () => {
@@ -429,8 +569,20 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
             />
             <Divider style={styles.divider}/>
             <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 16, textAlign: 'center'}}>Diary Entry</Text>
-            <Modal backdropStyle={styles.backdrop} visible={questions_visible}>
+            {/* <Modal backdropStyle={styles.backdrop} visible={questions_visible}>
                 {renderQuestionsModal()}
+            </Modal> */}
+            <Modal backdropStyle={styles.backdrop} visible={question_start_visible}>
+                {renderQuestionStartModal()}
+            </Modal>
+            <Modal backdropStyle={styles.backdrop} visible={question_one_visible}>
+                {renderQuestionOneModal()}
+            </Modal>
+            <Modal backdropStyle={styles.backdrop} visible={question_two_visible}>
+                {renderQuestionTwoModal()}
+            </Modal>
+            <Modal backdropStyle={styles.backdrop} visible={question_three_visible}>
+                {renderQuestionThreeModal()}
             </Modal>
             <Modal backdropStyle={styles.backdrop} visible={prompt_visible}>
                 {renderPromptModal()}
@@ -442,7 +594,7 @@ export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
                 <DiaryEntry
                     entry={diaryData}
                 />
-                {(diaryData === 'empty') && <Button onPress={() => setQuestionsVisible(true)} style={{marginHorizontal: 20}}>Add Entry</Button>}
+                {(diaryData === 'empty') && <Button onPress={() => setQuestionStartVisible(true)} style={{marginHorizontal: 20}}>Add Entry</Button>}
             </View>
         </ScrollView>
         </Layout>
@@ -490,6 +642,11 @@ const styles = StyleSheet.create({
         marginTop: 16,
         marginHorizontal: 5
     },
+    buttonOneThird: {
+      width: '31%',
+      marginTop: 16,
+      marginHorizontal: 5
+  },
     slide: {
         flex: 1,
         alignItems: 'center',

@@ -3,9 +3,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Mapping, Theme } from './theme.service';
 import { DATE, EMOTIVITY } from './types';
 import { UtilService } from './util.service';
+import { TodoInput } from 'src/components/todo-input.component';
 
 const MAPPING_KEY: string = 'mapping';
 const THEME_KEY: string = 'theme';
+const TODO_KEY: string = 'todo_key'
+
 let USER: Object = {};
 let TRAXIVITY_DETAILS = {goal: 0, steps: 0};
 let EMOTIVITY_DETAILS = {status: false, record: {anger: 0, anxiety: 0, happiness: 0, sadness: 0, stress: 0, tired: 0}};
@@ -136,6 +139,32 @@ export class AppStorage {
     return AsyncStorage.setItem(MAPPING_KEY, mapping);
   };
   
+
+  // To Do List
+  static saveToDoList = async (toDoList) => {
+    await AsyncStorage.setItem(TODO_KEY, JSON.stringify(toDoList)).then(() => {
+      // console.log("todolist values: "+JSON.stringify(toDoList))
+      // console.log('ToDo List successfully saved');
+    }).catch(() => {
+      console.log('Failed to save the ToDo List to the storage');
+    })
+  };
+
+  static getToDoList = async () => {
+    try {
+      const toDoList = await AsyncStorage.getItem(TODO_KEY);
+      // console.log("fetching data from the sotrage todolist start")
+      // console.log(JSON.parse(toDoList))
+      // console.log("fetching data from the sotrage todolist end")
+      return (JSON.parse(toDoList));
+    } catch (error) {
+      console.log("Failed to fetch the ToDo List from the storage")
+      return false;
+    }
+  };
+
+
+
 }
 
 /**
