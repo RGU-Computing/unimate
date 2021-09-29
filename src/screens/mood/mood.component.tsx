@@ -219,45 +219,60 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
             🔒 Your data will be stored only in your device
           </Text>
         </SafeAreaView>
+        <View
+          style={{
+            // height: 150,
+            paddingVertical: 12,
+            marginHorizontal: 16,
+            justifyContent: 'space-between',
+            flex: 1,
+            borderRadius: 5,
+            borderColor: '#712177', //091C7A
+            borderWidth: 1,
 
-        <Text
-          style={{
-            textAlign: 'center',
-            fontWeight: 'bold',
-            marginBottom: 16,
-            marginTop: 12,
+            backgroundColor: '#712177', //FEF6FF//712177//status=control//primary//basic
           }}>
-          {' '}
-          Your Progress Today{' '}
-        </Text>
-        <ListItem
-          title="Emotivity: Mood Tracking"
-          //description='Mood Tracking & Diary'
-          icon={EmotivityAvatar}
-          accessory={statusE}
-          onPress={() => navigation.navigate('Emotivity')}
-          style={{
-            marginHorizontal: 16,
-            borderRadius: 5,
-            marginBottom: 6,
-            borderColor: '#DDD',
-            borderWidth: 1,
-          }}
-        />
-        <ListItem
-          title="Traxivity: Step Goal"
-          //description='A set of React Native components'
-          icon={TraxivityAvatar}
-          accessory={statusT}
-          onPress={() => navigation.navigate('Traxivity')}
-          style={{
-            marginHorizontal: 16,
-            borderRadius: 5,
-            marginBottom: 6,
-            borderColor: '#DDD',
-            borderWidth: 1,
-          }}
-        />
+          <Text
+            style={{
+              textAlign: 'center',
+              fontWeight: 'bold',
+              marginBottom: 16,
+              marginTop: 12,
+              fontSize: 16,
+            }}
+            status="control">
+            {' '}
+            Your Progress Today{' '}
+          </Text>
+          <ListItem
+            title="Emotivity: Mood Tracking"
+            //description='Mood Tracking & Diary'
+            icon={EmotivityAvatar}
+            accessory={statusE}
+            onPress={() => navigation.navigate('Emotivity')}
+            style={{
+              marginHorizontal: 16,
+              borderRadius: 5,
+              marginBottom: 6,
+              borderColor: '#DDD',
+              borderWidth: 1,
+            }}
+          />
+          <ListItem
+            title="Traxivity: Step Goal"
+            //description='A set of React Native components'
+            icon={TraxivityAvatar}
+            accessory={statusT}
+            onPress={() => navigation.navigate('Traxivity')}
+            style={{
+              marginHorizontal: 16,
+              borderRadius: 5,
+              marginBottom: 6,
+              borderColor: '#DDD',
+              borderWidth: 1,
+            }}
+          />
+        </View>
         <Divider style={styles.divider} />
         <ActionCard data={actionData} style={styles.actionCard} />
       </ScrollView>

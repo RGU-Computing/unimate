@@ -12,7 +12,8 @@ export interface ImageOverlayProps extends ImageBackgroundProps {
 
 // const DEFAULT_OVERLAY_COLOR = 'rgba(113, 33, 119, 1)'; 
 const colors = ['rgba(113, 33, 119, 1)', '#856c8b', '#a4c5c6', '#6886c5', '#e58a8a']
-const DEFAULT_OVERLAY_COLOR = colors[Math.floor(Math.random() * colors.length)];
+//const DEFAULT_OVERLAY_COLOR = colors[Math.floor(Math.random() * colors.length)];
+const DEFAULT_OVERLAY_COLOR = '#1c8eef'
 
 export const ImageOverlay = (props?: ImageOverlayProps): React.ReactElement<ImageBackgroundProps> => {
 
