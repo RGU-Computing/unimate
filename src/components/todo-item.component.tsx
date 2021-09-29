@@ -11,6 +11,12 @@ import {
 
 export const TodoItem = (props): React.ReactElement => {
   const [text, setText] = React.useState<string>('');
+  const [checked, setChecked] = React.useState(false);
+
+  const clickCheckBox = async _nextCheked => {
+    setChecked(_nextCheked);
+    props.completeFunction();
+  };
 
   return (
     <TouchableOpacity
@@ -28,9 +34,10 @@ export const TodoItem = (props): React.ReactElement => {
       <CheckBox
         style={styles.checkbox}
         status="primary"
-        checked={props.item.completed}>
-        {/* Primary */}
-      </CheckBox>
+        // checked={props.item.completed}>
+        checked={props.item.completed}
+        onChange={nextChecked => clickCheckBox(nextChecked)}
+      />
 
       <Text style={[{marginHorizontal: 16, fontSize: 14}]}>
         🔒 {props.item.text}

@@ -113,12 +113,26 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
     </Text>
   );
 
-  const addTodoItem = async _text => {
+  const addTodoItemBottom = async _text => {
     const temp = await AppStorage.getToDoList();
     if (temp != null) {
       temp.push({text: _text, completed: false});
       await AppStorage.saveToDoList(temp);
       setTodoItems(temp);
+    } else {
+      const tempIni = [{text: _text, completed: false}];
+      await AppStorage.saveToDoList(tempIni);
+      setTodoItems(tempIni);
+    }
+  };
+
+  const addTodoItemTop = async _text => {
+    const temp = await AppStorage.getToDoList();
+    if (temp != null && temp.length > 0) {
+      const userInput = [{text: _text, completed: false}];
+      const updatedArr = userInput.concat(temp);
+      await AppStorage.saveToDoList(updatedArr);
+      setTodoItems(updatedArr);
     } else {
       const tempIni = [{text: _text, completed: false}];
       await AppStorage.saveToDoList(tempIni);
@@ -137,9 +151,20 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
   const completeTodoItem = async _index => {
     const temp = await AppStorage.getToDoList();
     let tempArr = [...temp];
-    tempArr[_index].completed = !tempArr[_index].completed;
-    await AppStorage.saveToDoList(tempArr);
-    setTodoItems(tempArr);
+    if (tempArr[_index].completed) {
+      const task = tempArr[_index].text;
+      tempArr.splice(_index, 1);
+      const userInput = [{text: task, completed: false}];
+      const updatedArr = userInput.concat(tempArr);
+      await AppStorage.saveToDoList(updatedArr);
+      setTodoItems(updatedArr);
+    } else {
+      const task = tempArr[_index].text;
+      tempArr.splice(_index, 1);
+      tempArr.push({text: task, completed: true});
+      await AppStorage.saveToDoList(tempArr);
+      setTodoItems(tempArr);
+    }
   };
 
   return (
@@ -195,6 +220,11 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
                 justifyContent: 'space-between',
                 flex: 1,
               }}>
+              {(todoItems == null || todoItems.length == 0) && (
+                <Text appearance="hint" style={{textAlign: 'center'}}>
+                  Empty List! You have no documents at this moment
+                </Text>
+              )}
               <FlatList
                 data={todoItems}
                 // data={AppStorage.getToDoList()}
@@ -214,7 +244,7 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
         </View>
         <SafeAreaView
           style={{padding: 16, justifyContent: 'space-between', flex: 1}}>
-          <TodoInput onPress={addTodoItem} />
+          <TodoInput onPress={addTodoItemTop} />
           <Text style={[{marginHorizontal: 16, fontSize: 12}]}>
             🔒 Your data will be stored only in your device
           </Text>
@@ -227,10 +257,10 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
             justifyContent: 'space-between',
             flex: 1,
             borderRadius: 5,
-            borderColor: '#712177', //091C7A
+            borderColor: '#712177',
             borderWidth: 1,
 
-            backgroundColor: '#712177', //FEF6FF//712177//status=control//primary//basic
+            backgroundColor: '#712177',
           }}>
           <Text
             style={{
