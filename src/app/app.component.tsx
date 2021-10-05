@@ -29,76 +29,91 @@ const defaultConfig: { mapping: Mapping, theme: Theme } = {
 const screens = [
   {
     key: 1,
-    title: 'Welcome!',
-    text: 'Unimate is a research study, aimed at enhancing students’ educational experience and wellbeing.',
-    image: require('../assets/images/slides/1.png'),
-    backgroundColor: '#712177',
+    title: 'Unimate',
+    text: 'Unimate is a research study, aimed at \nenhancing students’ educational\n experience and wellbeing.',
+    image: require('../assets/images/slides/logo.png'),
+    backgroundColor: '#FFFFFF', //#712177
   },
   {
     key: 2,
     title: 'What Unimate Does',
-    text: 'Unimate can help you to be aware and take control of your mental and physical health.',
-    image: require('../assets/images/slides/2.png'),
-    backgroundColor: '#712177',
+    text: 'Unimate can help you to be aware and \ntake control of your mental \nand physical health.',
+    image: require('../assets/images/slides/happiness.png'),
+    backgroundColor: '#FFFFFF',
   },
   {
     key: 3,
-    title: 'Your Privacy',
-    text: 'Don\'t worry! All your details are anonymised. Even we, won\'t be able to trace them back to you!',
-    image: require('../assets/images/slides/privacy.png'),
-    backgroundColor: '#712177',
+    title: 'Your Privacy Matters',
+    text: 'Don\'t worry! All your details are \nanonymised. Even we, won\'t be able to \ntrace them back to you!',
+    image: require('../assets/images/slides/privacy-shield.png'),
+    backgroundColor: '#FFFFFF',
   },
   {
     key: 4,
-    title: 'Self-Regulation',
-    text: 'We want to help you take control of your health by monitoring and changing your emotional and physical reactions.',
-    image: require('../assets/images/slides/3.png'),
-    backgroundColor: '#712177',
+    title: 'Emotivity',
+    text: 'We want to help you take control of\n your health by monitoring and \nchanging your emotional and physical\n reactions.',
+    image: require('../assets/images/slides/reaction.png'),
+    backgroundColor: '#FFFFFF',
   },
   {
     key: 5,
     title: 'Daily Tasks',
-    text: 'Keep up with your daily tasks and they will definitely help you when it comes to enhancing your mental health.',
-    image: require('../assets/images/slides/4.png'),
-    backgroundColor: '#712177',
+    text: 'Keep up with your daily tasks and they \nwill definitely help you when it comes \nto enhancing your mental health.',
+    image: require('../assets/images/slides/todo.png'),
+    backgroundColor: '#FFFFFF',
   },
   {
     key: 6,
-    title: 'Mood Tracking',
-    text: 'Keep track of the daily variations of all \nyour positive and negative moods.',
-    image: require('../assets/images/slides/5.png'),
-    backgroundColor: '#712177',
+    title: 'SayThanx &\n ShowGratitude',
+    text: 'We can help you to be happier by \nletting you be thankful, everyday! \nYou can also keep track of what you are \ngrateful to and reflect on them at your own pace!',
+    image: require('../assets/images/slides/thanks.png'),
+    backgroundColor: '#FFFFFF',
   },
   {
     key: 7,
-    title: 'SayThanx',
-    text: 'We can help you to be happier by letting you be thankful, everyday!',
-    image: require('../assets/images/slides/6.png'),
-    backgroundColor: '#712177',
+    title: 'Traxivity',
+    text: 'Lift up your mood by keeping up with \nyour workout goals.',
+    image: require('../assets/images/slides/steps.png'),
+    backgroundColor: '#FFFFFF',
   },
   {
     key: 8,
-    title: 'ShowGratitude',
-    text: 'You can also keep track of what you are grateful to and reflect on them at your own pace!',
-    image: require('../assets/images/slides/7.png'),
-    backgroundColor: '#712177',
-  },
-  {
-    key: 9,
-    title: 'Step Goals',
-    text: 'Lift up your mood by \nkeeping up with your workout goals.',
-    image: require('../assets/images//slides/8.png'),
-    backgroundColor: '#712177',
+    title: 'Start!',
+    text: 'Let’s Start!',
+    image: require('../assets/images/slides/start.png'),
+    backgroundColor: '#FFFFFF',
   }
 ];
 
 const _renderItem = ({ item }) => {
   return (
     <View style={{backgroundColor: item.backgroundColor, alignItems: 'center',justifyContent: 'center', height: '100%'}}>
-      <Text style={styles.title}>{item.title}</Text>
       <Image source={item.image} style={styles.image} />
+      <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.text}>{item.text}</Text>
       <View style={styles.margin}></View>
+    </View>
+  );
+}
+
+const _renderNextButton = () => {
+  return (
+    <View style={styles.buttonNext}>
+      <Text style={styles.buttonNextText}>Next</Text>
+    </View>
+  );
+};
+const _renderDoneButton = () => {
+  return (
+    <View style={styles.buttonDone}>
+      <Text style={styles.buttonDoneText}>Done</Text>
+    </View>
+  );
+};
+const _renderPrevButton = () => {
+  return (
+    <View style={styles.buttonPrev}>
+      <Text  style={styles.buttonPrevText}>Back</Text>
     </View>
   );
 }
@@ -268,13 +283,19 @@ const App = ({ mapping, theme }): React.ReactElement => {
       </View>
     )
   }
+  
 
   if (isFirst) {
     return (
       <AppIntroSlider
         slides={screens}
         renderItem={_renderItem}
+        renderDoneButton={_renderDoneButton}
+        renderNextButton={_renderNextButton}
+        renderPrevButton={_renderPrevButton}
         showPrevButton={true}
+        activeDotStyle={{backgroundColor: '#712177'}	}
+        // dotStyle={{backgroundColor: '#F8D4EE'}}
         onDone={_onDone}
       />
     )
@@ -364,22 +385,24 @@ const styles = StyleSheet.create({
   },
   image: {
     //width: '88%',
-    height: '60%',
+    height: '35%',
     marginVertical: '6%',
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    // padding: '30%'
   },
   text: {
-    color: 'rgba(255, 255, 255, 1)',
+    color: '#7D7C7C',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 18,
     //fontWeight: 'bold',
+    paddingTop: 30,
     marginBottom: '24%',
     marginHorizontal: 20,
   },
   title: {
     paddingTop: 24,
-    fontSize: 22,
-    color: 'white',
+    fontSize: 30,
+    color: 'black',
     textAlign: 'center',
   },
   margin: {
@@ -393,5 +416,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 10
+  },
+  buttonNextText:{
+    color: '#712177'
+  },
+  buttonNext:{
+    marginRight: '8%',
+  },
+  buttonDoneText:{
+    color: '#712177',
+  },
+  buttonDone:{
+    marginRight: '8%',
+  },
+  buttonPrev:{
+    marginLeft: '25%',
+  },
+  buttonPrevText:{
+    color: '#7F8283'
   }
 });
