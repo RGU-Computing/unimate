@@ -643,7 +643,7 @@ export class EmotivityScreen extends React.Component {
                     marginLeft: -20,
                   }}
                 />
-                <Divider style={styles.divider}/>
+                {/* <Divider style={styles.divider}/>
                 <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 16, textAlign: 'center'}}>Diary Entry</Text>
                 <Modal backdropStyle={styles.backdrop} visible={this.state.questions_visible}>
                   {this.renderQuestionsModal()}
@@ -658,7 +658,7 @@ export class EmotivityScreen extends React.Component {
                   <DiaryEntry
                     entry={this.state.diaryData}
                   />
-                </View>
+                </View> */}
                 {/*<List
                   style={{marginBottom: screenHeight/3.5}}
                   data={['I felt anxious because my thesis submission is on next week and i don\'t think that i would be able to finish it on time.']}
