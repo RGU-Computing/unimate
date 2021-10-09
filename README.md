@@ -19,7 +19,7 @@
   </p>
 
   <p align="center">
-    <img src="https://www3.rgu.ac.uk/css/images/logo.gif" height="80">
+    <img src="https://unimate.app/assets/img/team-members/RGU.png" height="80">
   </p>
   <p align="center">
     <img src="https://graduate.edu.lk/wp-content/uploads/2020/05/IIT-Logo.png" height="80">
@@ -49,7 +49,7 @@
 
   <p align="center">
     <br/>
-    <img src="https://www.ukri.org/ukri/assets/Image/Content/GCRF_Full_colour%20(1).png" height="100">
+    <img src="https://cdn-assets-cloud.frontify.com/s3/frontify-cloud-files-us/eyJwYXRoIjoiZnJvbnRpZnlcL2FjY291bnRzXC9iZlwvMTc5OTMxXC9wcm9qZWN0c1wvMjY4ODgwXC9hc3NldHNcL2FjXC80Nzk4ODk1XC80NjI0Mzc3NjljYjdmZjAxZDAyMjMzODU0ZTY5ZTk2NS0xNjAyOTI0NjE0LnBuZyJ9:frontify:h2P--Rs025l0dJv5hqcijDmfwPIVb1j_HkkB2UfUvtM" height="100">
     <br/>
     <br/>
     Unimate is funded by the <a href="https://www.ukri.org/research/global-challenges-research-fund/">Global Challenges Research Fund (GCRF)</a>.
