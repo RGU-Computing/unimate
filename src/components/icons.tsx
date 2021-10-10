@@ -80,6 +80,14 @@ export const ColorPaletteIcon = (style: ImageStyle): IconElement => (
   <Icon {...style} name='color-palette-outline'/>
 );
 
+export const PrivacyLockIcon = (style: ImageStyle): IconElement => (
+  <Icon {...style} name='lock'/>
+);
+
+export const AddToDoIcon = (style: ImageStyle): IconElement => (
+  <Icon {...style} name='plus-circle'/>
+);
+
 export const CloseIcon = (style: ImageStyle): IconElement => (
   <Icon {...style} name='close'/>
 );

@@ -44,11 +44,12 @@
     "react-native-google-fit": "^0.10.0",
     "react-native-motion-slider": "^1.0.3",
     "react-native-picker-select": "^8.0.4",
-    "react-native-progress": "^4.0.3",
+    "react-native-progress": "^4.1.2",
     "react-native-reanimated": "^1.7.0",
     "react-native-safari-view": "^2.1.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.0.0-beta.6",
+    "react-native-step-indicator": "^0.0.11",
     "react-native-svg": "^9.13.3",
     "react-native-tab-view": "^2.14.4"
   },
