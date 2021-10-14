@@ -23,7 +23,7 @@ export default class LoginScreen extends Component {
         //"https://www.googleapis.com/auth/fitness.activity.read",
         //"https://www.googleapis.com/auth/fitness.body.read"
       ],
-      webClientId: '391105893913-r1ol9fkvnbvgfcpoqgsdqdtvctq46do9.apps.googleusercontent.com'
+      webClientId: '[Web Client ID]'
     })
     try {
       const { idToken } = await GoogleSignin.signIn()
