@@ -156,7 +156,7 @@ export const EmotivityCustomScreen = ({ navigation }): React.ReactElement => {
                     marginLeft: -20,
                 }}
             />
-            <Divider style={styles.divider}/>
+            {/* <Divider style={styles.divider}/>
             <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 16, textAlign: 'center'}}>Diary Entries</Text>
             {weeklyDiaryData.length === 0 && <View style={[styles.container, styles.horizontal]}><ActivityIndicator size="large" color="#712177" /></View>}
             {weeklyDiaryData === 'empty' && <Text style={{textAlign: 'center', marginHorizontal: 20}}>No entries found from "{UtilService.getDateFromDatabaseDateFormat(range.startDate)}" to "{UtilService.getDateFromDatabaseDateFormat(range.endDate)}" 😕</Text>}
@@ -166,7 +166,7 @@ export const EmotivityCustomScreen = ({ navigation }): React.ReactElement => {
                         entry={entry}
                     />
                 ))}
-            </View>
+            </View> */}
         </>
         }
     </ScrollView>

@@ -17,6 +17,7 @@ let EMOTIVITY_DETAILS = {
 };
 let DIARY_DETAILS = false;
 let THANKS_DETAILS = false;
+const SAYTHANKS_KEY: string = 'saythanks_key'
 
 export class AppStorage {
   static hasLaunched = async () => {
@@ -145,6 +146,30 @@ export class AppStorage {
     return AsyncStorage.setItem(MAPPING_KEY, mapping);
   };
 
+
+   // To Do List
+   static saveSayThanksList = async (sayThanksList) => {
+    await AsyncStorage.setItem(SAYTHANKS_KEY, JSON.stringify(sayThanksList)).then(() => {
+      // console.log("todolist values: "+JSON.stringify(toDoList))
+      // console.log('ToDo List successfully saved');
+    }).catch(() => {
+      console.log('Failed to save the ToDo List to the storage');
+    })
+  };
+
+  static getSayThanksList = async () => {
+    try {
+      const sayThanksList = await AsyncStorage.getItem(SAYTHANKS_KEY);
+      // console.log("fetching data from the sotrage todolist start")
+      // console.log(JSON.parse(toDoList))
+      // console.log("fetching data from the sotrage todolist end")
+      return (JSON.parse(sayThanksList));
+    } catch (error) {
+      console.log("Failed to fetch the ToDo List from the storage")
+      return false;
+    }
+  };
+  
   // To Do List
   static saveToDoList = async toDoList => {
     await AsyncStorage.setItem(TODO_KEY, JSON.stringify(toDoList))

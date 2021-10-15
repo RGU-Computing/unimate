@@ -133,7 +133,7 @@ export const EmotivityWeekScreen = ({ navigation }): React.ReactElement => {
                     marginLeft: -20,
                 }}
             />
-            <Divider style={styles.divider}/>
+            {/* <Divider style={styles.divider}/>
             <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 16, textAlign: 'center'}}>Diary Entries</Text>
             <View style={{marginBottom: 16}}>
                 {weeklyDiaryData.length === 0 && <Text style={{textAlign: 'center', marginHorizontal: 16}}>No diary entries found from the past week! 😕</Text>}
@@ -142,7 +142,7 @@ export const EmotivityWeekScreen = ({ navigation }): React.ReactElement => {
                         entry={entry}
                     />
                 ))}
-            </View>
+            </View> */}
         </ScrollView>
     );
 };
