@@ -78,7 +78,7 @@ export class TraxivityScreen extends React.Component {
 
     GoogleFit.isAvailable((err, res) => {
       if(err || !res) {
-        Alert.alert('Download Google Fit', 'No data available for this account, please download Google Fit', [
+        Alert.alert('Download Google Fit', 'No data available for this account, please download Google Fit.\n\nKeep in mind that the account you use for Unimate and the account you use for Google Fit should be the same.', [
           {text: 'OK', style: 'cancel'}
         ])
       }
