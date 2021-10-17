@@ -30,49 +30,49 @@ const screens = [
   {
     key: 1,
     title: 'Unimate',
-    text: 'Unimate is a research study, aimed at \nenhancing students’ educational\n experience and wellbeing.',
+    text: 'Unimate is a research study, aimed at enhancing students’ educational experience and wellbeing.',
     image: require('../assets/images/slides/logo.png'),
     backgroundColor: '#FFFFFF', //#712177
   },
   {
     key: 2,
     title: 'What Unimate Does',
-    text: 'Unimate can help you to be aware and \ntake control of your mental \nand physical health.',
+    text: 'Unimate can help you to be aware and take control of your mental and physical health.',
     image: require('../assets/images/slides/happiness.png'),
     backgroundColor: '#FFFFFF',
   },
   {
     key: 3,
     title: 'Your Privacy Matters',
-    text: 'Don\'t worry! All your details are \nanonymised. Even we, won\'t be able to \ntrace them back to you!',
+    text: 'Don\'t worry! All your details are anonymised. Even we, won\'t be able to trace them back to you!',
     image: require('../assets/images/slides/privacy-shield.png'),
     backgroundColor: '#FFFFFF',
   },
   {
     key: 4,
     title: 'Emotivity',
-    text: 'We want to help you take control of\n your health by monitoring and \nchanging your emotional and physical\n reactions.',
+    text: 'We want to help you take control of your health by monitoring and changing your emotional and physical reactions.',
     image: require('../assets/images/slides/reaction.png'),
     backgroundColor: '#FFFFFF',
   },
   {
     key: 5,
     title: 'Daily Tasks',
-    text: 'Keep up with your daily tasks and they \nwill definitely help you when it comes \nto enhancing your mental health.',
+    text: 'Keep up with your daily tasks and they will definitely help you when it comes to enhancing your mental health.',
     image: require('../assets/images/slides/todo.png'),
     backgroundColor: '#FFFFFF',
   },
   {
     key: 6,
     title: 'SayThanx &\n ShowGratitude',
-    text: 'We can help you to be happier by \nletting you be thankful, everyday! \nYou can also keep track of what you are \ngrateful to and reflect on them at your own pace!',
+    text: 'We can help you to be happier by letting you be thankful, everyday! \nYou can also keep track of what you are grateful to and reflect on them at your own pace!',
     image: require('../assets/images/slides/thanks.png'),
     backgroundColor: '#FFFFFF',
   },
   {
     key: 7,
     title: 'Traxivity',
-    text: 'Lift up your mood by keeping up with \nyour workout goals.',
+    text: 'Lift up your mood by keeping up with your workout goals.',
     image: require('../assets/images/slides/steps.png'),
     backgroundColor: '#FFFFFF',
   },
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
   },
   image: {
     //width: '88%',
-    height: '35%',
+    height: '25%',
     marginVertical: '6%',
     resizeMode: 'contain',
     // padding: '30%'
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#7D7C7C',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 16,
     //fontWeight: 'bold',
     paddingTop: 30,
     marginBottom: '24%',
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingTop: 24,
-    fontSize: 30,
+    fontSize: 22,
     color: 'black',
     textAlign: 'center',
   },
