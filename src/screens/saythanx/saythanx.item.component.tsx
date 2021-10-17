@@ -1,17 +1,11 @@
 import {Text, ListItem, CheckBox} from '@ui-kitten/components';
 import React, {useState} from 'react';
-import {
-  TouchableOpacity,
-  View,
-  TextInput,
-  StyleSheet,
-} from 'react-native';
+import {TouchableOpacity, View, TextInput, StyleSheet} from 'react-native';
+import {UtilService} from '../../services/util.service';
 // import { Text } from '@ui-kitten/components';
 
 export const SaythanxItem = (props): React.ReactElement => {
   const [text, setText] = React.useState<string>('');
-
-
 
   return (
     <TouchableOpacity
@@ -25,12 +19,14 @@ export const SaythanxItem = (props): React.ReactElement => {
         borderColor: '#DDD',
         borderWidth: 1,
       }}>
-    <Text style={[{marginHorizontal: 16, marginVertical:4}]} status='info'>{props.item.date}</Text>
-
-      <Text style={[{marginHorizontal: 16, fontSize: 14, marginVertical:2}]}>
-    {props.item.text}
+      {props.item.date != UtilService.getDateToday() && (
+        <Text style={[{marginHorizontal: 16, marginVertical: 4}]} status="info">
+          {props.item.date}
+        </Text>
+      )}
+      <Text style={[{marginHorizontal: 16, fontSize: 14, marginVertical: 2}]}>
+        {props.item.text}
       </Text>
-     
     </TouchableOpacity>
   );
 };

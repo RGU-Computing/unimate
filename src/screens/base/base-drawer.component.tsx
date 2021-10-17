@@ -72,7 +72,7 @@ export const BaseDrawer = ({ navigation }): DrawerElement => {
       <Divider/>
       <DrawerHeaderFooter
         disabled={true}
-        description={'Copyright © 2020 Robert Gordon University'}
+        description={'Copyright © 2020-2021 Robert Gordon University'}
       />
     </React.Fragment>
   );

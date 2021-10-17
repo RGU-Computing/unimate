@@ -99,8 +99,9 @@ export default class LoginScreen extends Component {
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
           onPress={() => this.onGoogleButtonPress()} />
-        <Text style={styles.copyright} appearance='hint'>© 2020 Robert Gordon University</Text>
+        <Text style={styles.copyright} appearance='hint'>© 2020-2021 Robert Gordon University</Text>
         <Text style={styles.copyright} appearance='hint'>Aberdeen, United Kingdom.</Text>
+        <Text style={styles.copyright} appearance='hint'>www.unimate.app</Text>
       </View>
     );
   }
