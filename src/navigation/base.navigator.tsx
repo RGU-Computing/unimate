@@ -8,6 +8,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MoodNavigator } from './mood.navigator';
 import { TraxivityNavigator } from './traxivity.navigator';
 import { EmotivityNavigator } from './emotivity.navigator';
+import { SaythanxNavigator } from './saythanx.navigator';
 import { NotificationsNavigator } from './notifications.navigator';
 import { HealthNavigator } from './health.navigator';
 import { BaseBottomNavigation } from '../screens/base/base-bottom-navigation.component';
@@ -27,7 +28,7 @@ const initialTabRoute: string = __DEV__ ? 'Home' : 'Home';
 /*
  * Can we access it from `BaseNavigator`?
  */
-const ROOT_ROUTES: string[] = ['Base', 'Home', 'Traxivity', 'Emotivity', 'Notifications', 'Health', 'About'];
+const ROOT_ROUTES: string[] = ['Base', 'Home', 'Traxivity', 'Emotivity', 'SayThanx', 'Notifications', 'Health', 'About'];
 
 const isOneOfRootRoutes = (currentRoute: RouteProp<any, any>): boolean => {
   return ROOT_ROUTES.find(route => currentRoute.name === route) !== undefined;
@@ -45,6 +46,7 @@ const BaseTabsNavigator = (): React.ReactElement => (
     tabBar={props => <BaseBottomNavigation {...props} />}>
     <BottomTab.Screen name='Home' component={MoodNavigator}/>
     <BottomTab.Screen name='Emotivity' component={EmotivityNavigator}/>
+    <BottomTab.Screen name='SayThanx' component={SaythanxNavigator}/>
     <BottomTab.Screen name='Traxivity' component={TraxivityNavigator}/>
     <BottomTab.Screen name='Notifications' component={NotificationsNavigator}/>
     <BottomTab.Screen name='Health' component={HealthNavigator}/>

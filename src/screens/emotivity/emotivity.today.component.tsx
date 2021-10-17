@@ -868,7 +868,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
             marginLeft: -20,
           }}
         />
-        <Divider style={styles.divider} />
+      {/* <Divider style={styles.divider} />
         <Text
           style={{
             fontWeight: 'bold',
@@ -877,11 +877,11 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
             textAlign: 'center',
           }}>
           Diary Entry
-        </Text>
+        </Text> */}
         {/* <Modal backdropStyle={styles.backdrop} visible={questions_visible}>
                 {renderQuestionsModal()}
             </Modal> */}
-        <Modal backdropStyle={styles.backdrop} visible={question_start_visible}>
+        {/* <Modal backdropStyle={styles.backdrop} visible={question_start_visible}>
           {renderQuestionStartModal()}
         </Modal>
         <Modal backdropStyle={styles.backdrop} visible={question_one_visible}>
@@ -908,7 +908,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
               Add Entry
             </Button>
           )}
-        </View>
+        </View> */}
       </ScrollView>
     </Layout>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import { ImageStyle } from 'react-native';
 import { Avatar, Icon, IconElement, useTheme } from '@ui-kitten/components';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBell, faHome, faNewspaper, faSmile, faWalking, faTrophy, faGlobeEurope, faGlobeAsia, faGlobe, faGlobeAmericas, faFirstAid } from '@fortawesome/free-solid-svg-icons'
+import { faHandHoldingHeart, faBell, faHome, faNewspaper, faSmile, faWalking, faTrophy, faGlobeEurope, faGlobeAsia, faGlobe, faGlobeAmericas, faFirstAid } from '@fortawesome/free-solid-svg-icons'
 
 export const EmotivityAvatar = (props) => (
   <Avatar
@@ -94,6 +94,10 @@ export const CloseIcon = (style: ImageStyle): IconElement => (
 
 export const EmotivityIcon = (style: ImageStyle): IconElement => (
   <FontAwesomeIcon size={24} color={style.tintColor} icon={faSmile} style={{marginVertical: 2}}/>
+);
+
+export const SaythanxIcon = (style: ImageStyle): IconElement => (
+  <FontAwesomeIcon size={24} color={style.tintColor} icon={faHandHoldingHeart} style={{marginVertical: 2}}/>
 );
 
 export const DoneAllIcon = (style: ImageStyle): IconElement => {

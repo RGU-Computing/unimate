@@ -48,7 +48,7 @@ export class TraxivityTodayScreen extends React.Component {
   componentDidMount() {
     GoogleFit.isAvailable((err, res) => {
       if(err || !res) {
-        Alert.alert('Download Google Fit', 'No data available for this account, please download Google Fit.', [
+        Alert.alert('Download Google Fit', 'No data available for this account, please download Google Fit.\n\nKeep in mind that the account you use for Unimate and the account you use for Google Fit should be the same.', [
           {text: 'OK', style: 'cancel'}
         ]);
         return;
@@ -148,6 +148,7 @@ export class TraxivityTodayScreen extends React.Component {
                 <View style={{height: screenHeight/1.5, marginBottom: 0}}>
                     <TraxivityDataTab data={BoxData}/>
                     <BarChart tabStep={this.tab} formatter={formatter} granularity={4}/>
+                    <Text style={{textAlign:'center'}}>👣 Data shown in the Traxivity are captured from Google Fit.</Text>
                 </View>
             </ScrollView>
         </Layout>
