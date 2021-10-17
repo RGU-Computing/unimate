@@ -36,6 +36,8 @@ export const SaythanxTodayScreen = ({ navigation }): React.ReactElement => {
           await AppStorage.saveSayThanksList(tempIni);
         }
         setThanksInput("")
+        //Mark emotivity Completed for today
+        AppStorage.markSayThanxTodayCompleted({date: UtilService.getDateToday(), action: 'Completed'})
       };
 
     //   useEffect(() => {
