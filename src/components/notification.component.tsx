@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { Avatar, ListItem, ListItemProps, Text } from '@ui-kitten/components';
 import { MailIcon } from './icons';
 import { Notification } from '../models/notification';
 import moment from 'moment';
+import { AppStorage } from '../services/app-storage.service';
 
 export type MessageItemProps = ListItemProps & {
     notification: Notification
@@ -25,14 +26,26 @@ export const NotificationItem = (props: MessageItemProps): React.ReactElement =>
     </View>
   );
 
+ 
+  const deleteNotification = async _index => {
+    console.log("inside delete notification")
+    const temp = await AppStorage.getNotificationsList();
+    let tempArr = [...temp];
+    tempArr.splice(_index, 1);
+    await AppStorage.saveNotificationsList(tempArr);
+    // setTodoItems(tempArr);
+  };
+
   const renderProfileAvatar = (): React.ReactElement => (
     <Avatar
       style={styles.avatar}
-      source={notification.type === 'Traxivity' ? require('../assets/images/traxivity.png') : require('../assets/images/emotivity.png')}
+      source={notification.type == 'Traxivity' ? require('../assets/images/traxivity.png') : notification.type == 'Emotivity' ? require('../assets/images/emotivity.png') : require('../assets/images/gratitude.jpg')}
     />
   );
 
   return (
+    // <TouchableOpacity
+    // onPress={() => console.log("KKKKKKKK")}>
     <ListItem
       {...listItemProps}
       title={notification.title}
@@ -40,6 +53,7 @@ export const NotificationItem = (props: MessageItemProps): React.ReactElement =>
       icon={renderProfileAvatar}
       accessory={renderMessageDate}
     />
+    //  </TouchableOpacity>
   );
 };
 
