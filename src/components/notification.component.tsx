@@ -44,8 +44,6 @@ export const NotificationItem = (props: MessageItemProps): React.ReactElement =>
   );
 
   return (
-    // <TouchableOpacity
-    // onPress={() => console.log("KKKKKKKK")}>
     <ListItem
       {...listItemProps}
       title={notification.title}
@@ -53,7 +51,6 @@ export const NotificationItem = (props: MessageItemProps): React.ReactElement =>
       icon={renderProfileAvatar}
       accessory={renderMessageDate}
     />
-    //  </TouchableOpacity>
   );
 };
 

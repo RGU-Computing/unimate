@@ -61,7 +61,6 @@ export class PushNotifications {
       console.log('[BackgroundFetch] task: ', taskId);
       // Do your background work...
       //await this.addEvent(taskId);
-      console.log('THIS IS MY BACKGROUND TASK');
       // IMPORTANT:  You must signal to the OS that your task is complete.
       BackgroundFetch.finish(taskId);
     };
@@ -94,7 +93,6 @@ export class PushNotifications {
   emotivityCompletionNotification = async () => {
     let tempNotificatinoList = await AppStorage.getNotificationsList();
     // let tempNotificatinoList1;
-    console.log('insede 444444');
 
     console.log(new Date(Date.now()).getHours());
     if (new Date(Date.now()).getHours() == 20) {
@@ -117,9 +115,6 @@ export class PushNotifications {
           '🕙 How is your day today? 😀',
           'Emotivity',
         );
-        console.log('insede 55555');
-        console.log(tempNotificatinoList);
-        //  console.log(tempNotificatinoList1)
       }
       //vihangaaw
       console.log('INSIDE SAY THANKX');
@@ -143,9 +138,6 @@ export class PushNotifications {
           '🕙 Say thanks to someone 🙏',
           'SayThanx',
         );
-        console.log('insede 6666666');
-        console.log(tempNotificatinoList);
-        // console.log(tempNotificatinoList1)
       }
 
       console.log('INSIDE TRAXIVITY');
@@ -195,9 +187,6 @@ export class PushNotifications {
             '🕙 Traxivity',
             'Traxivity',
           );
-          console.log('7777777');
-          console.log(tempNotificatinoList);
-          // console.log(tempNotificatinoList1)
         } else {
           PushNotification.localNotificationSchedule({
             channelId: 'reminders',
@@ -207,7 +196,6 @@ export class PushNotifications {
             date: new Date(Date.now()),
             allowWhileIdle: true,
           });
-          console.log('insede 333333333');
 
           tempNotificatinoList = this.addNotification(
             tempNotificatinoList,
@@ -220,13 +208,8 @@ export class PushNotifications {
         }
       });
 
-      //vihangaaw
-      console.log('insede 22222222');
-      // console.log(tempNotificatinoList1)
-      console.log(tempNotificatinoList);
 
       if (tempNotificatinoList.length > 0) {
-        console.log('insede 11111111111');
         AppStorage.saveNotificationsList(tempNotificatinoList);
       }
     }
@@ -240,10 +223,6 @@ export class PushNotifications {
     title,
     type,
   ) => {
-    console.log('INSIDE METHOD ARRAY START');
-    console.log(currentArr);
-    // console.log(currentArr.length);
-    console.log('INSIDE METHOD ARRAY END');
     if (currentArr != null && currentArr.length > 0) {
       const userInput = [
         {
@@ -257,8 +236,6 @@ export class PushNotifications {
       const updatedArr = userInput.concat(currentArr);
       // await AppStorage.saveNotificationsList(updatedArr);
       // setTodoItems(updatedArr);
-      console.log('updateAttr');
-      console.log(updatedArr);
 
       return updatedArr;
     } else {
@@ -273,9 +250,6 @@ export class PushNotifications {
       ];
       // await AppStorage.saveNotificationsList(tempIni);
       // setTodoItems(tempIni);
-      console.log('tempIni');
-      console.log(tempIni);
-
       return tempIni;
     }
   };

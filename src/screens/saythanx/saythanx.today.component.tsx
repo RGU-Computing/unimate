@@ -59,7 +59,6 @@ export const SaythanxTodayScreen = ({navigation}): React.ReactElement => {
     setSayThanksListFromLocalStorage();
     const unsubscribe = navigation.addListener('focus', () => {
       // The screen is focused
-      console.log('Inside Today Tab');
       setSayThanksListFromLocalStorage();
     });
 
@@ -69,9 +68,6 @@ export const SaythanxTodayScreen = ({navigation}): React.ReactElement => {
 
   const setSayThanksListFromLocalStorage = async () => {
     const initialSayThanksList = await AppStorage.getSayThanksList();
-    console.log('Intial say thanks start');
-    console.log(initialSayThanksList);
-    console.log('initial say thanks list end');
     if (initialSayThanksList != null) {
       setSayThanksList(initialSayThanksList);
     }
@@ -152,8 +148,6 @@ export const SaythanxTodayScreen = ({navigation}): React.ReactElement => {
             // data={AppStorage.getToDoList()}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => {
-              console.log('Vihangaaaaax');
-              console.log(item);
               if (item.date == UtilService.getDateToday()) {
                 return <SaythanxItem item={item} />;
               }

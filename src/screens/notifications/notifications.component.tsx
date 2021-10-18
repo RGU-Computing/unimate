@@ -53,14 +53,6 @@ export class NotificationsScreen extends React.Component {
     // FirebaseService.subscribeForNotifications(this.onSuccess);
   }
 
-  // onSuccess = (querySnapshot) => {
-  //   // this.setState({notifications: querySnapshot.data().notifications.reverse(), loading: false});
-
-  //   // console.log("AAAAAAAAAAAAAAAAAAAAAA")
-  //   // console.log(this.state.notifications)
-
-  // }
-
   setInitialNotificationsList = async () => {
     const initialNotificationsList = await AppStorage.getNotificationsList();
     if (initialNotificationsList != null) {
@@ -93,9 +85,6 @@ export class NotificationsScreen extends React.Component {
   );
 
   renderItem(info: ListRenderItemInfo<Notification>) {
-    console.log('INNNNFFOOOOO');
-    console.log(info.item);
-    console.log(new Date(info.item.timestamp).getHours());
     return (
       <View>
         <NotificationItem
