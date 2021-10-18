@@ -88,7 +88,13 @@ export const AboutScreen = ({ navigation }): React.ReactElement => {
                 <Text style={{fontWeight: 'bold'}}>Mood Tracking Reminders</Text>
               </Text>
               <Text style={styles.contentLabel}>
-                We will remind you at about 8PM to track your mood. You can also use the mood diary to keep track of the events that took place and reflect on how they affected your mood.
+              We will remind you at about 8PM to track your mood.
+              </Text>
+              <Text style={styles.contentLabel}>
+                <Text style={{fontWeight: 'bold'}}>SayThanx Reminders</Text>
+              </Text>
+              <Text style={styles.contentLabel}>
+              You can use the SayThanx to show your gratitude towards something or someone. We will remind you at about 8PM to say thanks.
               </Text>
               <Text style={styles.contentLabel}>
                 <Text style={{fontWeight: 'bold'}}>Step Goal Reminders</Text>
