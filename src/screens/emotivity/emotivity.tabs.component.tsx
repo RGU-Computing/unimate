@@ -33,7 +33,7 @@ export const EmotivityTabs = ({ navigation, state }): React.ReactElement => {
     return (
       <>
         <TopNavigation
-            title='Emotivity'
+            title='eMotivity'
             leftControl={renderDrawerAction()}
             rightControls={[renderSOS()]}
         />
