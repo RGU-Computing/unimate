@@ -104,7 +104,7 @@ export class PushNotifications {
     // let tempNotificatinoList1;
 
     console.log(new Date(Date.now()).getHours());
-    // if (new Date(Date.now()).getHours() == 20) {
+    if (new Date(Date.now()).getHours() == 20) {
     console.log('INSIDE EMOTIVITY');
     const emotivityDataCompleted = await AppStorage.checkEmotivityTodayCompleted();
     // Check whether the user has filled eMotivity data. If there is no data it will give a notification
@@ -363,7 +363,7 @@ export class PushNotifications {
     if (tempNotificatinoList.length > 0) {
       AppStorage.saveNotificationsList(tempNotificatinoList);
     }
-    // }
+    }
   };
 
   addNotification = (
