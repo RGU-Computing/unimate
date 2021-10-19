@@ -195,6 +195,7 @@ const ActionCardStyles = StyleService.create({
     marginBottom: 8
   },
   title: {
+    marginBottom:8,
   },
   date: {
     position: 'absolute',
