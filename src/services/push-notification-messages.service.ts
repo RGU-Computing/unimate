@@ -1,14 +1,3 @@
-import {RecyclerViewBackedScrollViewComponent, YellowBox} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import {Mapping, Theme} from './theme.service';
-import {DATE, EMOTIVITY} from './types';
-import {UtilService} from './util.service';
-import PushNotification from 'react-native-push-notification';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {AppStorage} from './app-storage.service';
-import BackgroundFetch from 'react-native-background-fetch';
-import {getSteps, getCals, getDists} from '../api/googleFitApi';
-import TraxivityDataTab from '../components/traxivity-data.component';
 
 export class PushNotificationMessages {
   constructor() {}
@@ -140,11 +129,3 @@ export class PushNotificationMessages {
     return randomlySelectedText;
   };
 }
-
-/**
- * In a Bare React Native project you should use
- * https://github.com/react-native-community/async-storage
- *
- * However, Expo runs AsyncStorage exported from react-native.
- * Just to save application bundle size, we still using this one.
- */
