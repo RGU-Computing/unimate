@@ -572,7 +572,7 @@ export class EmotivityScreen extends React.Component {
           style={styles.safeArea}
           insets='top'>
           <TopNavigation
-            title='Emotivity'
+            title='eMotivity'
             leftControl={this.renderDrawerAction()}
           />
           <Divider/>
@@ -755,7 +755,7 @@ export class EmotivityScreen extends React.Component {
           style={styles.safeArea}
           insets='top'>
           <TopNavigation
-            title='Emotivity'
+            title='eMotivity'
             leftControl={this.renderDrawerAction()}
           />
           <Divider/>

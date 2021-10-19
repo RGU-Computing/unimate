@@ -8,6 +8,9 @@ import {TodoInput} from 'src/components/todo-input.component';
 const MAPPING_KEY: string = 'mapping';
 const THEME_KEY: string = 'theme';
 const TODO_KEY: string = 'todo_key';
+const EMOTIVITY_TODAY_FILLED: string = 'emotivity_today_filled';
+const SAYTHANX_TODAY_FILLED: string = 'saythanx_today_filled';
+const NOTIFICATIONS_KEY: string = 'notifications_key'
 
 let USER: Object = {};
 let TRAXIVITY_DETAILS = {goal: 0, steps: 0};
@@ -188,6 +191,63 @@ export class AppStorage {
       return false;
     }
   };
+
+  static markEmotivityTodayCompleted = async(emotivityValue) => {
+    await AsyncStorage.setItem(EMOTIVITY_TODAY_FILLED, JSON.stringify(emotivityValue))
+      .then(() => {})
+      .catch(() => {
+        console.log('Failed to save the emotivityValue to the storage');
+      });
+  };
+
+  static checkEmotivityTodayCompleted = async () => {
+    try {
+      const emotivityValue = await AsyncStorage.getItem(EMOTIVITY_TODAY_FILLED);
+      return JSON.parse(emotivityValue);
+    } catch (error) {
+      console.log('Failed to fetch the emotivityValue from the storage');
+      return false;
+    }
+  };
+
+  static markSayThanxTodayCompleted = async(emotivityValue) => {
+    await AsyncStorage.setItem(SAYTHANX_TODAY_FILLED, JSON.stringify(emotivityValue))
+      .then(() => {})
+      .catch(() => {
+        console.log('Failed to save the SayThanx to the storage');
+      });
+  };
+
+  static checkSayThanxTodayCompleted = async () => {
+    try {
+      const sayThanx = await AsyncStorage.getItem(SAYTHANX_TODAY_FILLED);
+      return JSON.parse(sayThanx);
+    } catch (error) {
+      console.log('Failed to fetch the SayThanx from the storage');
+      return false;
+    }
+  };
+
+
+// Notifications
+static saveNotificationsList = async notificationsList => {
+  await AsyncStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(notificationsList))
+    .then(() => {})
+    .catch(() => {
+      console.log('Failed to save the Notifications List to the storage');
+    });
+};
+
+static getNotificationsList = async () => {
+  try {
+    const notificationsList = await AsyncStorage.getItem(NOTIFICATIONS_KEY);
+    return JSON.parse(notificationsList);
+  } catch (error) {
+    console.log('Failed to save the Notifications List to the storage');
+    return false;
+  }
+};
+
 }
 
 /**
