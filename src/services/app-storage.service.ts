@@ -10,7 +10,8 @@ const THEME_KEY: string = 'theme';
 const TODO_KEY: string = 'todo_key';
 const EMOTIVITY_TODAY_FILLED: string = 'emotivity_today_filled';
 const SAYTHANX_TODAY_FILLED: string = 'saythanx_today_filled';
-const NOTIFICATIONS_KEY: string = 'notifications_key'
+const NOTIFICATIONS_KEY: string = 'notifications_key';
+const DAILY_STEPS_GOAL: string = 'daily_steps_goal';
 
 let USER: Object = {};
 let TRAXIVITY_DETAILS = {goal: 0, steps: 0};
@@ -20,7 +21,7 @@ let EMOTIVITY_DETAILS = {
 };
 let DIARY_DETAILS = false;
 let THANKS_DETAILS = false;
-const SAYTHANKS_KEY: string = 'saythanks_key'
+const SAYTHANKS_KEY: string = 'saythanks_key';
 
 export class AppStorage {
   static hasLaunched = async () => {
@@ -92,6 +93,8 @@ export class AppStorage {
     console.log('setTrax');
     console.log(goal);
     console.log(steps);
+    //Save Daily Steps goal locally. This data will be used in push notifications
+    AppStorage.setDailyStepsGoal({goal: goal});
     TRAXIVITY_DETAILS = {
       goal: goal,
       steps: steps,
@@ -149,15 +152,16 @@ export class AppStorage {
     return AsyncStorage.setItem(MAPPING_KEY, mapping);
   };
 
-
-   // To Do List
-   static saveSayThanksList = async (sayThanksList) => {
-    await AsyncStorage.setItem(SAYTHANKS_KEY, JSON.stringify(sayThanksList)).then(() => {
-      // console.log("todolist values: "+JSON.stringify(toDoList))
-      // console.log('ToDo List successfully saved');
-    }).catch(() => {
-      console.log('Failed to save the ToDo List to the storage');
-    })
+  // To Do List
+  static saveSayThanksList = async sayThanksList => {
+    await AsyncStorage.setItem(SAYTHANKS_KEY, JSON.stringify(sayThanksList))
+      .then(() => {
+        // console.log("todolist values: "+JSON.stringify(toDoList))
+        // console.log('ToDo List successfully saved');
+      })
+      .catch(() => {
+        console.log('Failed to save the ToDo List to the storage');
+      });
   };
 
   static getSayThanksList = async () => {
@@ -166,13 +170,13 @@ export class AppStorage {
       // console.log("fetching data from the sotrage todolist start")
       // console.log(JSON.parse(toDoList))
       // console.log("fetching data from the sotrage todolist end")
-      return (JSON.parse(sayThanksList));
+      return JSON.parse(sayThanksList);
     } catch (error) {
-      console.log("Failed to fetch the ToDo List from the storage")
+      console.log('Failed to fetch the ToDo List from the storage');
       return false;
     }
   };
-  
+
   // To Do List
   static saveToDoList = async toDoList => {
     await AsyncStorage.setItem(TODO_KEY, JSON.stringify(toDoList))
@@ -192,8 +196,11 @@ export class AppStorage {
     }
   };
 
-  static markEmotivityTodayCompleted = async(emotivityValue) => {
-    await AsyncStorage.setItem(EMOTIVITY_TODAY_FILLED, JSON.stringify(emotivityValue))
+  static markEmotivityTodayCompleted = async emotivityValue => {
+    await AsyncStorage.setItem(
+      EMOTIVITY_TODAY_FILLED,
+      JSON.stringify(emotivityValue),
+    )
       .then(() => {})
       .catch(() => {
         console.log('Failed to save the emotivityValue to the storage');
@@ -210,8 +217,11 @@ export class AppStorage {
     }
   };
 
-  static markSayThanxTodayCompleted = async(emotivityValue) => {
-    await AsyncStorage.setItem(SAYTHANX_TODAY_FILLED, JSON.stringify(emotivityValue))
+  static markSayThanxTodayCompleted = async emotivityValue => {
+    await AsyncStorage.setItem(
+      SAYTHANX_TODAY_FILLED,
+      JSON.stringify(emotivityValue),
+    )
       .then(() => {})
       .catch(() => {
         console.log('Failed to save the SayThanx to the storage');
@@ -228,26 +238,51 @@ export class AppStorage {
     }
   };
 
+  // Notifications
+  static saveNotificationsList = async notificationsList => {
+    await AsyncStorage.setItem(
+      NOTIFICATIONS_KEY,
+      JSON.stringify(notificationsList),
+    )
+      .then(() => {})
+      .catch(() => {
+        console.log('Failed to save the Notifications List to the storage');
+      });
+  };
 
-// Notifications
-static saveNotificationsList = async notificationsList => {
-  await AsyncStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(notificationsList))
-    .then(() => {})
-    .catch(() => {
+  static getNotificationsList = async () => {
+    try {
+      const notificationsList = await AsyncStorage.getItem(NOTIFICATIONS_KEY);
+      return JSON.parse(notificationsList);
+    } catch (error) {
       console.log('Failed to save the Notifications List to the storage');
-    });
-};
+      return false;
+    }
+  };
 
-static getNotificationsList = async () => {
-  try {
-    const notificationsList = await AsyncStorage.getItem(NOTIFICATIONS_KEY);
-    return JSON.parse(notificationsList);
-  } catch (error) {
-    console.log('Failed to save the Notifications List to the storage');
-    return false;
-  }
-};
+  //set daily goal
+  static setDailyStepsGoal = async goal => {
+    await AsyncStorage.setItem(DAILY_STEPS_GOAL, JSON.stringify(goal))
+      .then(() => {})
+      .catch(() => {
+        console.log('Failed to save the daily step goal to the storage');
+      });
+  };
 
+  static getDailyStepsGoal = async () => {
+    try {
+      const goal = await AsyncStorage.getItem(DAILY_STEPS_GOAL);
+      console.log(goal);
+      if (Number(goal) == 0) {
+        return {goal: 5000};
+      } else {
+        return JSON.parse(goal);
+      }
+    } catch (error) {
+      console.log('Failed to fetch the daily step goal from the storage');
+      return false;
+    }
+  };
 }
 
 /**

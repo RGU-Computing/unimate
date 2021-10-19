@@ -7,8 +7,17 @@ import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {AppStorage} from './app-storage.service';
 import BackgroundFetch from 'react-native-background-fetch';
-import {getSteps, getCals, getDists} from '../api/googleFitApi';
+import {
+  getSteps,
+  getCals,
+  getDists,
+  getStepsAsync,
+  getSteps1,
+} from '../api/googleFitApi';
 import TraxivityDataTab from '../components/traxivity-data.component';
+import {PushNotificationMessages} from './push-notification-messages.service';
+import GoogleFit, {Scopes} from 'react-native-google-fit';
+import {FirebaseService} from './firebase.service';
 
 export class PushNotifications {
   constructor() {
@@ -95,124 +104,266 @@ export class PushNotifications {
     // let tempNotificatinoList1;
 
     console.log(new Date(Date.now()).getHours());
-    if (new Date(Date.now()).getHours() == 20) {
-      console.log('INSIDE EMOTIVITY');
-      const temp = await AppStorage.checkEmotivityTodayCompleted();
-      if (temp == null || !(temp.date == UtilService.getDateToday())) {
+    // if (new Date(Date.now()).getHours() == 20) {
+    console.log('INSIDE EMOTIVITY');
+    const emotivityDataCompleted = await AppStorage.checkEmotivityTodayCompleted();
+    // Check whether the user has filled eMotivity data. If there is no data it will give a notification
+    if (
+      emotivityDataCompleted == null ||
+      !(
+        Number(emotivityDataCompleted.date) ==
+        Number(UtilService.getDateTodayNoFormat())
+      )
+    ) {
+      if (emotivityDataCompleted != null) {
+        // Check how many days eMotivity not tracked
+        let timeDifferenceLastEntry =
+          (Number(UtilService.getDateTodayNoFormat()) -
+            Number(emotivityDataCompleted.date)) /
+          86400000;
+        if (Math.round(timeDifferenceLastEntry) >= 3) {
+          // If the eMotivity hasnt tracked 3 days or more than 3 days
+          let notificationText = PushNotificationMessages.getEmotivityNotTrackedText();
+          PushNotification.localNotificationSchedule({
+            channelId: 'reminders',
+            title: '🕙 eMotivity 😀',
+            message: notificationText,
+            date: new Date(Date.now()),
+            allowWhileIdle: true,
+          });
+          tempNotificatinoList = this.addNotification(
+            tempNotificatinoList,
+            true,
+            notificationText,
+            new Date(Date.now()),
+            '🕙 eMotivity 😀',
+            'Emotivity',
+          );
+        } else {
+          // If the eMotivity hasnt tracked less than 3 days
+          let notificationText = PushNotificationMessages.getEmotivityDailyReminderText();
+          PushNotification.localNotificationSchedule({
+            channelId: 'reminders',
+            title: '🕙 eMotivity 😀',
+            message: notificationText,
+            date: new Date(Date.now()),
+            allowWhileIdle: true,
+          });
+          tempNotificatinoList = this.addNotification(
+            tempNotificatinoList,
+            true,
+            notificationText,
+            new Date(Date.now()),
+            '🕙 eMotivity 😀',
+            'Emotivity',
+          );
+        }
+      } else {
+        // If the eMotivity hasnt tracked yet. May be due to local data deletion, application newly installed
+        let notificationText = PushNotificationMessages.getEmotivityDailyReminderText();
         PushNotification.localNotificationSchedule({
           channelId: 'reminders',
-          title: '🕙 How is your day today? 😀',
-          message:
-            "You haven't told us about your day yet. Log into the Unimate app to say about your day",
+          title: '🕙 eMotivity 😀',
+          message: notificationText,
           date: new Date(Date.now()),
           allowWhileIdle: true,
         });
         tempNotificatinoList = this.addNotification(
           tempNotificatinoList,
           true,
-          "You haven't told us about your day yet. Log into the Unimate app to say about your day",
+          notificationText,
           new Date(Date.now()),
-          '🕙 How is your day today? 😀',
+          '🕙 eMotivity 😀',
           'Emotivity',
         );
       }
-      //vihangaaw
-      console.log('INSIDE SAY THANKX');
-      //SayThanx related notifications
-      //Every day @8PM checks whther the user completed the meotivity questions
-      //If he doenst send a notification
-      const temp1 = await AppStorage.checkSayThanxTodayCompleted();
-      if (temp1 == null || !(temp1.date == UtilService.getDateToday())) {
+    }
+
+    console.log('INSIDE SAY THANKX');
+    //SayThanx related notifications
+    //Every day @8PM checks whther the user completed the meotivity questions
+    //If he doenst send a notification
+    const sayThanxDataCompleted = await AppStorage.checkSayThanxTodayCompleted();
+    // Check whether the user has filled sayThanx data. If there is no data it will give a notification
+    if (
+      sayThanxDataCompleted == null ||
+      !(
+        Number(sayThanxDataCompleted.date) ==
+        Number(UtilService.getDateTodayNoFormat())
+      )
+    ) {
+      if (sayThanxDataCompleted != null) {
+        // Check how many days sayThanx not tracked
+        let timeDifferenceLastEntry =
+          (Number(UtilService.getDateTodayNoFormat()) -
+            Number(sayThanxDataCompleted.date)) /
+          86400000;
+        if (Math.round(timeDifferenceLastEntry) >= 3) {
+          // If the sayThanx hasnt tracked 3 days or more than 3 days
+          let notificationText = PushNotificationMessages.getSayThanxNotTrackedText();
+          PushNotification.localNotificationSchedule({
+            channelId: 'reminders',
+            title: '🕙 SayThanx 🙏',
+            message: notificationText,
+            date: new Date(Date.now()),
+            allowWhileIdle: true,
+          });
+          tempNotificatinoList = this.addNotification(
+            tempNotificatinoList,
+            true,
+            notificationText,
+            new Date(Date.now()),
+            '🕙 SayThanx 🙏',
+            'SayThanx',
+          );
+        } else {
+          // If the sayThanx hasnt tracked less than 3 days
+          let notificationText = PushNotificationMessages.getSayThanxDailyReminderText();
+          PushNotification.localNotificationSchedule({
+            channelId: 'reminders',
+            title: '🕙 SayThanx 🙏',
+            message: notificationText,
+            date: new Date(Date.now()),
+            allowWhileIdle: true,
+          });
+          tempNotificatinoList = this.addNotification(
+            tempNotificatinoList,
+            true,
+            notificationText,
+            new Date(Date.now()),
+            '🕙 SayThanx 🙏',
+            'SayThanx',
+          );
+        }
+      } else {
+        // If the sayThanx hasnt tracked yet. May be due to local data deletion, application newly installed
+        let notificationText = PushNotificationMessages.getSayThanxDailyReminderText();
         PushNotification.localNotificationSchedule({
           channelId: 'reminders',
-          title: '🕙 Say thanks to someone 🙏',
-          message: 'Log into the Unimate app to say thanks to someone',
+          title: '🕙 SayThanx 🙏',
+          message: notificationText,
           date: new Date(Date.now()),
           allowWhileIdle: true,
         });
         tempNotificatinoList = this.addNotification(
           tempNotificatinoList,
           true,
-          'Log into the Unimate app to say thanks to someone',
+          notificationText,
           new Date(Date.now()),
-          '🕙 Say thanks to someone 🙏',
+          '🕙 SayThanx 🙏',
           'SayThanx',
         );
       }
-
-      console.log('INSIDE TRAXIVITY');
-      //Traxivity related notifications
-      //Weekly check whether the average
-      var start = new Date();
-      var end = new Date();
-      var nbDays = start.getDay();
-      if (nbDays == 0) nbDays = 7;
-      start.setDate(start.getDate() - (nbDays - 1));
-      start.setHours(0, 0, 0, 0);
-      end.setHours(23, 59, 59, 999);
-
-      const options = {
-        startDate: start,
-        endDate: end,
-      };
-
-      getSteps(options, null, res => {
-        const reducer = (accumulator, currentValue) =>
-          accumulator + currentValue;
-
-        var tabStep = res.map(x => x.value);
-
-        var stepSum = 0;
-        var StepAvg = 0;
-
-        if (tabStep.length > 0) {
-          stepSum = tabStep.reduce(reducer);
-          StepAvg = stepSum / tabStep.length;
-        }
-
-        if (StepAvg < AppStorage.getTraxivityDetails().goal) {
-          PushNotification.localNotificationSchedule({
-            channelId: 'reminders',
-            title: '🕙 Traxivity 🏃',
-            message:
-              'Seems like you were unable to reach the goal past week. You can change the goal to a lower value',
-            date: new Date(Date.now()),
-            allowWhileIdle: true,
-          });
-          tempNotificatinoList = this.addNotification(
-            tempNotificatinoList,
-            true,
-            'Seems like you were unable to reach the goal past week. You can change the goal to a lower value',
-            new Date(Date.now()),
-            '🕙 Traxivity',
-            'Traxivity',
-          );
-        } else {
-          PushNotification.localNotificationSchedule({
-            channelId: 'reminders',
-            title: '🕙 Traxivity 🏃',
-            message:
-              'Seems like you were able to reach the goal past week. You can change the goal to a higher value',
-            date: new Date(Date.now()),
-            allowWhileIdle: true,
-          });
-
-          tempNotificatinoList = this.addNotification(
-            tempNotificatinoList,
-            true,
-            'Seems like you were able to reach the goal past week. You can change the goal to a higher value',
-            new Date(Date.now()),
-            '🕙 Traxivity',
-            'Traxivity',
-          );
-        }
-      });
-
-
-      if (tempNotificatinoList.length > 0) {
-        AppStorage.saveNotificationsList(tempNotificatinoList);
-      }
     }
+
+    console.log('INSIDE TRAXIVITY');
+    //Traxivity related notifications
+    //Weekly check whether the average
+
+    let stepsCountFromGoogleFit: number = 0;
+    try {
+      const options = {
+        scopes: [Scopes.FITNESS_ACTIVITY_READ_WRITE],
+      };
+      await GoogleFit.authorize(options)
+        .then(async res => {
+          stepsCountFromGoogleFit = await this._getData();
+          console.log(stepsCountFromGoogleFit);
+        })
+        .catch(err => console.log(err));
+
+      const traxivityGoal = await AppStorage.getDailyStepsGoal();
+
+      if (stepsCountFromGoogleFit >= traxivityGoal.goal) {
+        //Full Achievement daily step goal (100% of goal)
+        let notificationText = PushNotificationMessages.getTraxivityFullAchivementText();
+        PushNotification.localNotificationSchedule({
+          channelId: 'reminders',
+          title: '🕙 Traxivity 🏃',
+          message: notificationText,
+          date: new Date(Date.now()),
+          allowWhileIdle: true,
+        });
+        tempNotificatinoList = this.addNotification(
+          tempNotificatinoList,
+          true,
+          notificationText,
+          new Date(Date.now()),
+          '🕙 Traxivity 🏃',
+          'Traxivity',
+        );
+      } else if (
+        Math.round((stepsCountFromGoogleFit / traxivityGoal.goal) * 100) / 100 >
+        0.75
+      ) {
+        //High Achievement daily step goal (>75% of Goal)
+
+        let notificationText = PushNotificationMessages.getTraxivityHighAchivementText();
+        PushNotification.localNotificationSchedule({
+          channelId: 'reminders',
+          title: '🕙 Traxivity 🏃',
+          message: notificationText,
+          date: new Date(Date.now()),
+          allowWhileIdle: true,
+        });
+        tempNotificatinoList = this.addNotification(
+          notificationText,
+          true,
+          notificationText,
+          new Date(Date.now()),
+          '🕙 Traxivity 🏃',
+          'Traxivity',
+        );
+      } else if (
+        Math.round((stepsCountFromGoogleFit / traxivityGoal.goal) * 100) / 100 >
+        0.5
+      ) {
+        //Medium Achievement daily step goal (> 50% of goal)
+
+        let notificationText = PushNotificationMessages.getTraxivityMediumAchivementText();
+        PushNotification.localNotificationSchedule({
+          channelId: 'reminders',
+          title: '🕙 Traxivity 🏃',
+          message: notificationText,
+          date: new Date(Date.now()),
+          allowWhileIdle: true,
+        });
+        tempNotificatinoList = this.addNotification(
+          tempNotificatinoList,
+          true,
+          notificationText,
+          new Date(Date.now()),
+          '🕙 Traxivity 🏃',
+          'Traxivity',
+        );
+      } else {
+        //Low Achievement daily step goal (< 50% of goal)
+
+        let notificationText = PushNotificationMessages.getTraxivityLowAchivementText();
+        PushNotification.localNotificationSchedule({
+          channelId: 'reminders',
+          title: '🕙 Traxivity 🏃',
+          message: notificationText,
+          date: new Date(Date.now()),
+          allowWhileIdle: true,
+        });
+        tempNotificatinoList = this.addNotification(
+          tempNotificatinoList,
+          true,
+          notificationText,
+          new Date(Date.now()),
+          '🕙 Traxivity 🏃',
+          'Traxivity',
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    if (tempNotificatinoList.length > 0) {
+      AppStorage.saveNotificationsList(tempNotificatinoList);
+    }
+    // }
   };
 
   addNotification = (
@@ -253,6 +404,27 @@ export class PushNotifications {
       return tempIni;
     }
   };
+
+  async _getData() {
+    var start = new Date();
+    var end = new Date();
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+
+    const options = {
+      startDate: start,
+      endDate: end,
+    };
+
+    var stepsCount: number = 0;
+    var resResult;
+    try {
+      stepsCount = await getStepsAsync(options, resResult);
+      return stepsCount;
+    } catch (error) {
+      return stepsCount;
+    }
+  }
 }
 
 /**
