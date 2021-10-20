@@ -48,7 +48,7 @@ export const SaythanxTodayScreen = ({navigation}): React.ReactElement => {
     setThanksInput('');
     setSayThanksListFromLocalStorage()
     //Mark emotivity Completed for today
-    AppStorage.markSayThanxTodayCompleted({date: UtilService.getDateToday(), action: 'Completed'})
+    AppStorage.markSayThanxTodayCompleted({date: UtilService.getDateTodayNoFormat(), action: 'Completed'})
   };
 
   //   useEffect(() => {

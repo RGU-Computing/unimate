@@ -664,7 +664,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
         scores[EMOTIVITY.DATABASE.FIELDS.TIRED],
     });
      //Mark emotivity Completed for today
-     AppStorage.markEmotivityTodayCompleted({date: UtilService.getDateToday(), action: 'Completed'})
+     AppStorage.markEmotivityTodayCompleted({date: UtilService.getDateTodayNoFormat(), action: 'Completed'})
   };
 
   const onChange = (key, value) => {

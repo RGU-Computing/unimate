@@ -40,6 +40,8 @@ export const TraxivityTabs = ({ navigation, state }): React.ReactElement => {
             const doc = await transaction.get(ref);
             console.log(selectedOption.text)
             transaction.update(ref, {dailyStepGoal: parseInt(selectedOption.text)})
+            //Save Daily Steps goal locally. This data will be used in push notifications
+            AppStorage.setDailyStepsGoal(parseInt(selectedOption.text))
         }).then(() => {
             Alert.alert('Thank you', 'Your goal have been saved', [
                 {text: 'OK'}

@@ -44,6 +44,11 @@ export const AboutScreen = ({ navigation }): React.ReactElement => {
                 style={styles.image}
                 source={require('../../assets/images/cover.png')}
             />
+             <Text
+                  style={styles.versionLabel}
+                  appearance='hint'>
+                  Version 2.1.0
+              </Text>
               <Text
                   style={styles.descriptionLabel}
                   category='s1'>
@@ -140,6 +145,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 18
+  },
+  versionLabel: {
+    marginHorizontal: 24,
+    marginTop: 10,
+    marginBottom: 10,
+    textAlign: 'center',
   },
   image: {
     marginTop:12,
