@@ -28,21 +28,21 @@
   <h2 align="center">Screenshots</h2>
 
   <p align="center">
-    <img src="https://unimate.app/assets/img/screenshots/1.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/2.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/3.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/4.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/5.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/6.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/7.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/8.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/9.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/10.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/11.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/12.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/13.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/14.jpg" height="300">
-    <img src="https://unimate.app/assets/img/screenshots/15.jpg" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/1.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/2.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/3.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/4.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/5.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/6.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/7.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/8.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/9.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/10.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/11.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/12.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/13.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/14.png" height="300">
+    <img src="https://unimate.app/assets/img/screenshots/15.png" height="300">
   </p>
 
   <h2 align="center">Funding</h2>
