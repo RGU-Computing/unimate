@@ -29,9 +29,11 @@ export const AboutScreen = ({ navigation }): React.ReactElement => {
         title='About Unimate'
         leftControl={renderBackAction()}
         rightControls={[renderSOS()]}
+        titleStyle={{color: 'white'}}
+        style={{backgroundColor: '#712177'}}
       />
-        <Divider/>
-        <ScrollView>
+        {/* <Divider/> */}
+        <ScrollView >
         <Layout
         style={styles.header}
         level='1'>
@@ -47,7 +49,7 @@ export const AboutScreen = ({ navigation }): React.ReactElement => {
              <Text
                   style={styles.versionLabel}
                   appearance='hint'>
-                  Version 2.1.0
+                  Version 2.2.0
               </Text>
               <Text
                   style={styles.descriptionLabel}
@@ -129,9 +131,13 @@ export const AboutScreen = ({ navigation }): React.ReactElement => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#712177',
   },
   header: {
     marginBottom: 8,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30
   },
   titleLabel: {
     marginHorizontal: 24,

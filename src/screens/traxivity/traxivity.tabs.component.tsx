@@ -94,17 +94,19 @@ export const TraxivityTabs = ({ navigation, state }): React.ReactElement => {
             title='Traxivity'
             leftControl={renderDrawerAction()}
             rightControls={[renderBookmarkAction()]}
+            titleStyle={{color:'white'}}
+            style={{backgroundColor:'#712177'}}
         />
-        <Divider/>
+        {/* <Divider/> */}
         <TabBar
             style={styles.bar}
             /*tabBarStyle={styles.bar}*/
             indicatorStyle={styles.indicator}
             selectedIndex={state.index}
             onSelect={onTabSelect}>
-            <Tab titleStyle={styles.title} title='Today'/>
-            <Tab titleStyle={styles.title} title='Week'/>
-            <Tab titleStyle={styles.title} title='Month'/>
+            <Tab style={styles.tabToday} titleStyle={styles.title} title='Today'/>
+            <Tab style={styles.tabWeek} titleStyle={styles.title} title='Week'/>
+            <Tab style={styles.tabMonth} titleStyle={styles.title} title='Month'/>
         </TabBar>
         <Modal backdropStyle={styles.backdrop} visible={goal_visible}>
             {renderModal()}
@@ -122,6 +124,9 @@ const styles = StyleSheet.create({
     },
     bar: {
         height: 50,
+        backgroundColor:'#712177',
+        paddingBottom:0,
+        paddingTop:0
     },
     title: {
         fontWeight: 'bold'
@@ -142,4 +147,15 @@ const styles = StyleSheet.create({
         marginTop: 16,
         marginHorizontal: 5
     },
+    tabToday: {
+        backgroundColor:'#FFFFFF',
+        borderTopLeftRadius:30,
+    },
+    tabWeek: {
+        backgroundColor:'#FFFFFF',
+    },
+    tabMonth: {
+        backgroundColor:'#FFFFFF',
+        borderTopRightRadius:30,
+    }
 });
