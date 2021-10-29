@@ -155,7 +155,7 @@ export const ActionCard = (props: ActionCardProps): CardElement => {
             {ACTION.title}
           </Text>
           <View style={styles.itemFooter}>
-            <TouchableOpacity style={[styles.mr, isLiked ? styles.active : styles.inactive]} onPress={onLike}>
+            <TouchableOpacity style={[styles.mr, isLiked ? styles.activeLike : styles.inactive]} onPress={onLike}>
               <Button
                 style={styles.iconButton}
                 appearance='ghost'
@@ -164,7 +164,7 @@ export const ActionCard = (props: ActionCardProps): CardElement => {
                 {likes.toString()}
               </Button>
             </TouchableOpacity>
-            <TouchableOpacity style={isHearted ? styles.active : styles.inactive} onPress={onHeart}>
+            <TouchableOpacity style={isHearted ? styles.activeHeart : styles.inactive} onPress={onHeart}>
               <Button
                 style={styles.iconButton}
                 appearance='ghost'
@@ -213,9 +213,13 @@ const ActionCardStyles = StyleService.create({
   iconButton: {
     paddingHorizontal: 0
   },
-  active: {
-    backgroundColor: 'rgba(255,255,255, 0.25)',
-    borderRadius: 10
+  activeHeart: {
+    backgroundColor: 'rgba(231, 76, 60, 0.9)',
+    borderRadius: 10,
+  },
+  activeLike: {
+    backgroundColor: 'rgba(36, 113, 163, 0.9)',
+    borderRadius: 10,
   },
   inactive: {
 

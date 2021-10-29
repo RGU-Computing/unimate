@@ -234,6 +234,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     marginHorizontal: 16,
+    flexShrink: 1,
   },
   container: {
     minHeight: 192,
