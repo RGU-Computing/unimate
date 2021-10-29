@@ -67,7 +67,7 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
 
   const setCurrentProgressInformation = async () => {
     try {
-      const traxivityPercentage = await AppStorage.getTraxivityStepsPercentage();
+      const traxivityPercentage = await AppStorage.stepPercentage();
       setTraxivityPercentage(traxivityPercentage);
 
       const sayThanxDataCompleted = await AppStorage.checkSayThanxTodayCompleted();

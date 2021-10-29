@@ -105,7 +105,7 @@ export class AppStorage {
     return TRAXIVITY_DETAILS;
   };
 
-  static getTraxivityStepsPercentage = () => {
+  static stepPercentage = () => {
     var temp = 0;
     if (TRAXIVITY_DETAILS.steps > 0 && TRAXIVITY_DETAILS.goal > 0) {
       temp = Number(TRAXIVITY_DETAILS.steps) / Number(TRAXIVITY_DETAILS.goal);
