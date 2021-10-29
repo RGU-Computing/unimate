@@ -253,6 +253,9 @@ const ActionCardStyles = StyleService.create({
   activeLike: {
     borderRadius: 10,
   },
+  activeLike: {
+    borderRadius: 10,
+  },
   activeHeartText: {
     color: '#712177',
   },
