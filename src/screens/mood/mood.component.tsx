@@ -80,6 +80,9 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
       ) {
         setSayThanxCompleted(1);
       }
+      else{
+        setSayThanxCompleted(0);   
+      }
 
       const emotivityDataCompleted = await AppStorage.checkEmotivityTodayCompleted();
       if (
@@ -90,6 +93,9 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
         )
       ) {
         setEmotivityCompleted(1);
+      }
+      else{
+        setEmotivityCompleted(0);
       }
 
     } catch (error) {}
