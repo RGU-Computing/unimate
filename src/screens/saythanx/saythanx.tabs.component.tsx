@@ -32,21 +32,25 @@ export const SaythanxTabs = ({ navigation, state }): React.ReactElement => {
   
     return (
       <>
+      <View >
         <TopNavigation
             title='SayThanx'
             leftControl={renderDrawerAction()}
             rightControls={[renderSOS()]}
+            titleStyle={{color:'white'}}
+            style={{backgroundColor:'#712177'}}
         />
-        <Divider/>
+        {/* <Divider/> */}
         <TabBar
             style={styles.bar}
             /*tabBarStyle={styles.bar}*/
             indicatorStyle={styles.indicator}
             selectedIndex={state.index}
             onSelect={onTabSelect}>
-            <Tab style={styles.tab} titleStyle={styles.title} title='Today'/>
-            <Tab style={styles.tab} titleStyle={styles.title} title='History'/>
+            <Tab style={styles.tabToday} titleStyle={styles.title} title='Today'/>
+            <Tab style={styles.tabHistory} titleStyle={styles.title} title='History'/>
         </TabBar>
+        </View>
       </>
     );
 };
@@ -56,14 +60,25 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     indicator: {
-        borderRadius: 0
+        borderRadius: 0,
     },
     bar: {
         height: 50,
+        // borderTopLeftRadius:30,
+        // borderTopRightRadius:30,
+        backgroundColor:'#712177',
+        paddingBottom:0,
+        paddingTop:0
     },
     title: {
         fontWeight: 'bold'
     },
-    tab: {
+    tabToday: {
+        backgroundColor:'#FFFFFF',
+        borderTopLeftRadius:30,
+    },
+    tabHistory: {
+        backgroundColor:'#FFFFFF',
+        borderTopRightRadius:30,
     }
 });

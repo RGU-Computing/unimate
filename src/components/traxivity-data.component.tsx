@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, View} from 'react-native';
 import {Icon} from '@ui-kitten/components';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faWalking, faShoePrints, faBullseye, faBurn } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faWalking,
+  faShoePrints,
+  faBullseye,
+  faBurn,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default class TraxivityDataTab extends Component {
   numberWithCommas(x) {
@@ -18,15 +23,15 @@ export default class TraxivityDataTab extends Component {
         <View style={{flex: 1, flexDirection: 'row'}}>
           <View style={styles.container}>
             {/* <Icon style={styles.icon} fill="#712177" name="shield-outline" /> */}
-            <FontAwesomeIcon size={30} color={'#712177'} icon={faBullseye}/>
+            <FontAwesomeIcon size={30} color={'#712177'} icon={faBullseye} />
             <Text style={styles.littleText}>{this.props.data.textBox1}</Text>
             <Text style={styles.bigtext}>
               {this.numberWithCommas(Math.round(this.props.data.numBox1))}
             </Text>
           </View>
           <View style={styles.container}>
-          <FontAwesomeIcon size={30} color={'#712177'} icon={faShoePrints}/>
-          <Text style={styles.littleText}>{this.props.data.textBox2}</Text>
+            <FontAwesomeIcon size={30} color={'#712177'} icon={faShoePrints} />
+            <Text style={styles.littleText}>{this.props.data.textBox2}</Text>
             <Text style={styles.bigtext}>
               {this.numberWithCommas(Math.round(this.props.data.numBox2))}
             </Text>
@@ -35,15 +40,15 @@ export default class TraxivityDataTab extends Component {
 
         <View style={{flex: 1, flexDirection: 'row'}}>
           <View style={styles.container}>
-          <FontAwesomeIcon size={30} color={'#712177'} icon={faBurn}/>
-          <Text style={styles.littleText}>{this.props.data.textBox3}</Text>
+            <FontAwesomeIcon size={30} color={'#712177'} icon={faBurn} />
+            <Text style={styles.littleText}>{this.props.data.textBox3}</Text>
             <Text style={styles.bigtext}>
               {this.numberWithCommas(Math.round(this.props.data.numBox3))}
             </Text>
           </View>
           <View style={styles.container}>
-          <FontAwesomeIcon size={30} color={'#712177'} icon={faWalking}/>
-          <Text style={styles.littleText}>{this.props.data.textBox4}</Text>
+            <FontAwesomeIcon size={30} color={'#712177'} icon={faWalking} />
+            <Text style={styles.littleText}>{this.props.data.textBox4}</Text>
             <Text style={styles.bigtext}>
               {this.numberWithCommas(Math.round(this.props.data.numBox4))}
             </Text>
@@ -62,7 +67,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     // borderColor: 'rgba(0, 0, 0, 0.1)',
     borderColor: '#712177',
-
   },
   bigtext: {
     fontSize: 35,

@@ -118,32 +118,17 @@ export class NotificationsScreen extends React.Component {
   );
 
   render() {
-    if (this.state.loading) {
-      return (
-        <SafeAreaLayout style={styles.safeArea} insets="top">
-          <TopNavigation
-            title="Notifications"
-            leftControl={this.renderDrawerAction()}
-            rightControls={[this.renderSOS()]}
-          />
-          <Divider />
-          <Layout>
-            <View style={styles.loading}>
-              <ActivityIndicator size="large" color="#712177" />
-            </View>
-          </Layout>
-        </SafeAreaLayout>
-      );
-    }
     return (
       <SafeAreaLayout style={styles.safeArea} insets="top">
         <TopNavigation
           title="Notifications"
           leftControl={this.renderDrawerAction()}
           rightControls={[this.renderSOS()]}
+          titleStyle={{color:'white'}}
+            style={{backgroundColor:'#712177'}}
         />
-        <Divider />
-        <Layout>
+        {/* <Divider /> */}
+        <Layout style={{backgroundColor:'#712177'}}>
           <ScrollView style={styles.container}>
             {this.state.notifications.length > 0 && (
               <List
@@ -199,6 +184,7 @@ const styles = StyleSheet.create({
   container: {
     //height: (Dimensions.get('window').height/3)-10,
     height: '100%',
+    backgroundColor: 'white', borderTopLeftRadius:30, borderTopRightRadius:30
   },
   list: {
     flex: 1,

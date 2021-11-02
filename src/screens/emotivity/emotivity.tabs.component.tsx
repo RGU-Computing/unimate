@@ -36,17 +36,19 @@ export const EmotivityTabs = ({ navigation, state }): React.ReactElement => {
             title='eMotivity'
             leftControl={renderDrawerAction()}
             rightControls={[renderSOS()]}
+            titleStyle={{color:'white'}}
+            style={{backgroundColor:'#7b187b'}}
         />
-        <Divider/>
+        {/* <Divider/> */}
         <TabBar
             style={styles.bar}
             /*tabBarStyle={styles.bar}*/
             indicatorStyle={styles.indicator}
             selectedIndex={state.index}
             onSelect={onTabSelect}>
-            <Tab style={styles.tab} titleStyle={styles.title} title='Today'/>
-            <Tab style={styles.tab} titleStyle={styles.title} title='Week'/>
-            <Tab style={styles.tab} titleStyle={styles.title} title='Custom'/>
+            <Tab style={styles.tabToday} titleStyle={styles.title} title='Today'/>
+            <Tab style={styles.tabWeek} titleStyle={styles.title} title='Week'/>
+            <Tab style={styles.tabCustom} titleStyle={styles.title} title='Custom'/>
         </TabBar>
       </>
     );
@@ -61,10 +63,24 @@ const styles = StyleSheet.create({
     },
     bar: {
         height: 50,
+        backgroundColor:'#712177',
+        paddingBottom:0,
+        paddingTop:0
     },
     title: {
         fontWeight: 'bold'
     },
     tab: {
+    },
+    tabToday: {
+        backgroundColor:'#FFFFFF',
+        borderTopLeftRadius:30,
+    },
+    tabWeek: {
+        backgroundColor:'#FFFFFF',
+    },
+    tabCustom: {
+        backgroundColor:'#FFFFFF',
+        borderTopRightRadius:30,
     }
 });

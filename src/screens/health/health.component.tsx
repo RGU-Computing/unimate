@@ -54,15 +54,17 @@ export class HealthScreen extends React.Component {
           title='Information'
           leftControl={this.renderDrawerAction()}
           rightControls={[this.renderSOS()]}
+          titleStyle={{color:'white'}}
+          style={{backgroundColor:'#712177'}}
         />
-        <Divider/>
+        {/* <Divider/> */}
         <TabView
             style={styles.tabView}
             tabBarStyle={styles.bar}
             indicatorStyle={styles.tabViewIndicator}
             selectedIndex={this.state.selectedIndex}
             onSelect={this.setSelectedIndex}>
-              <Tab titleStyle={this.state.selectedIndex === 0 ? styles.active_title : styles.inactive_title} title='Contacts'>
+              <Tab style={styles.tabContacts} titleStyle={this.state.selectedIndex === 0 ? styles.active_title : styles.inactive_title} title='Contacts'>
               <ScrollView style={{backgroundColor: 'white'}}>
               <Layout style={styles.container}>
                 <Text style={{fontSize: 18, marginBottom: 14, fontWeight: 'bold', textAlign: 'left'}}>
@@ -71,64 +73,64 @@ export class HealthScreen extends React.Component {
                 <Text>
                   <Text>We have identified some services that you can contact if you need help regarding your mental health. Feel free to contact them because they are more than happy to help you in everyway they can!</Text>
                 </Text>
-                <Layout style={styles.item}>
-                  <Text style={styles.tit}>1. The Semicolon Effect</Text>
+                <Layout style={[styles.item, {backgroundColor:'#712177'}]}>
+                  <Text style={styles.title}>The Semicolon Effect</Text>
                   <Text style={styles.desc}>The Semicolon Effect is a mental health support group for those struggling with any mental health issues. A confidential and safe space to vent without been judged and aims at creating collaborative healthy coping mechanisms.</Text>
-                  <Text>Tel: <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                  <Text style={{color:'#FFFFFF'}}>☎️ <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('tel:+94766745006')}>
-                       (+94)766745006
+                       +94 76 674 5006
                     </Text>
                   </Text>
-                  <Text>Mail: <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                  <Text style={{color:'#FFFFFF'}}>✉️ <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('mailto:thesemicoloneffect@outlook.com')}>
                       thesemicoloneffect@outlook.com
                     </Text>
                   </Text>
-                  <Text>Web: <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                  <Text style={{color:'#FFFFFF'}}>🌐 <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('https://www.facebook.com/thesemicoloneffect/')}>
                       https://www.facebook.com/thesemicoloneffect/
                     </Text>
                   </Text>
                 </Layout>
-                <Layout style={styles.item}>
-                  <Text style={styles.tit}>2. Sumithrayo</Text>
+                <Layout style={[styles.item, {backgroundColor:'#1c8eef'}]}>
+                  <Text style={styles.title}>Sumithrayo</Text>
                   <Text style={styles.desc}>Sumithrayo, a Government approved charity was founded by the Late Mrs. Joan De Mel in 1974. From its humble beginnings at Deans Road, Colombo 10, on premises loaned by the Ceylon Social Services League, Sumithrayo is now housed at no 60B Horton Place, Colombo 07, which was gifted by it’s beloved founder – Joan de Mel. The organization was incorporated by an Act of Parliament No.10 of 1986.</Text>
-                  <Text>Tel: <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                  <Text style={{color:'#FFFFFF'}}>☎️ <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('tel:+94112692909')}>
-                       (+94)112692909
-                    </Text>, <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                       +94 11 269 2909
+                    </Text>, <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('tel:+94112696666')}>
-                       (+94)112696666
-                    </Text>, <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                       +94 11 269 6666
+                    </Text>, <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('tel:+94112683555')}>
-                       (+94)112683555
+                       +94 11 268 3555
                     </Text>
                   </Text>
-                  <Text>Mail: <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                  <Text style={{color:'#FFFFFF'}}>✉️ <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('mailto:sumithra@sumithrayo.org')}>
                       sumithra@sumithrayo.org
                     </Text>
                   </Text>
-                  <Text>Web: <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                  <Text style={{color:'#FFFFFF'}}>🌐 <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('http://sumithrayo.org/')}>
                       http://sumithrayo.org/
                     </Text>
                   </Text>
                 </Layout>
-                <Layout style={styles.item}>
-                  <Text style={styles.tit}>3. Shanthi Maargam</Text>
+                <Layout style={[styles.item, {backgroundColor:'#17202A'}]}>
+                  <Text style={styles.title}>Shanthi Maargam</Text>
                   <Text style={styles.desc}>Shanthi Maargam aims to provide safe spaces to enhance young people’s emotional well being and create opportunities for learning and growth.</Text>
-                  <Text>Tel: <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                  <Text style={{color:'#FFFFFF'}}>☎️ <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('tel:+94717639898')}>
-                       (+94)717639898
+                       +94 71 763 9898
                     </Text>
                   </Text>
-                  <Text>Mail: <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                  <Text style={{color:'#FFFFFF'}}>✉️ <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('mailto:shanthimaargam@gmail.com')}>
                       shanthimaargam@gmail.com
                     </Text>
                   </Text>
-                  <Text>Web: <Text style={{color: '#712177', textDecorationLine: 'underline'}}
+                  <Text style={{color:'#FFFFFF'}}>🌐 <Text style={{color: '#FFFFFF', textDecorationLine: 'underline'}}
                       onPress={() => Linking.openURL('https://www.facebook.com/pg/ShanthiMaargamSL/')}>
                       https://www.facebook.com/pg/ShanthiMaargamSL/
                     </Text>
@@ -137,7 +139,7 @@ export class HealthScreen extends React.Component {
               </Layout>
               </ScrollView>
             </Tab>
-            <Tab titleStyle={this.state.selectedIndex === 1 ? styles.active_title : styles.inactive_title} title='Articles'>
+            <Tab style={styles.tabArticles} titleStyle={this.state.selectedIndex === 1 ? styles.active_title : styles.inactive_title} title='Articles'>
               <ScrollView>
                 <Layout style={[styles.container, {paddingHorizontal: 0, paddingTop: 0}]}>
                   <Articles navigation={this.props.navigation}/>
@@ -169,7 +171,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   bar: {
-    height: 40
+    height: 50,
+    backgroundColor:'#712177',
+    paddingBottom:0,
+    paddingTop:0
   },
   tabView: {
     
@@ -188,12 +193,25 @@ const styles = StyleSheet.create({
     marginBottom: screenHeight/3.8
   },
   item: {
-    marginTop: 15
+    marginTop: 15,
+    padding:'5%',
+    borderRadius:10,
   },
-  tit: {
-    fontWeight: 'bold'
+  title: {
+    fontWeight: 'bold',
+    color:'#FFFFFF',
+    fontSize:18,
   },
   desc: {
-    marginBottom: 10
-  }
+    marginBottom: 10,
+    color:'#FFFFFF'
+  },
+  tabContacts: {
+    backgroundColor:'#FFFFFF',
+    borderTopLeftRadius:30,
+},
+tabArticles: {
+    backgroundColor:'#FFFFFF',
+    borderTopRightRadius:30,
+}
 });

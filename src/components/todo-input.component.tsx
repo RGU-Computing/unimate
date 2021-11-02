@@ -12,7 +12,7 @@ export const TodoInput = (props): React.ReactElement => {
         style={{flex: 1, height: 40, fontSize: 14}}
         onChangeText={text => setText(text)}
         value={text}
-        placeholder="Write a task..."
+        placeholder="Add a new task ..."
       />
       <TouchableOpacity
         style={{

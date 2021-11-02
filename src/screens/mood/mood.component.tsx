@@ -17,6 +17,7 @@ import {
   Text,
   Input,
   ListItem,
+  Avatar,
 } from '@ui-kitten/components';
 import {ActionCard} from '../../components/action-card.component';
 import {SafeAreaLayout} from '../../components/safe-area-layout.component';
@@ -26,6 +27,7 @@ import {
   PrivacyLockIcon,
   TraxivityAvatar,
   EmotivityAvatar,
+  CompletedAvatar,
 } from '../../components/icons';
 import {FirebaseService} from '../../services/firebase.service';
 import {UtilService} from '../../services/util.service';
@@ -34,9 +36,21 @@ import {TodoInput} from '../../components/todo-input.component';
 import {TodoItem} from '../../components/todo-item.component';
 import AsyncStorage from '@react-native-community/async-storage';
 import {text} from '@fortawesome/fontawesome-svg-core';
+import * as Progress from 'react-native-progress';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faBullseye,
+  faHandHoldingHeart,
+  faSmile,
+  faWalking,
+} from '@fortawesome/free-solid-svg-icons';
+
 export const MoodScreen = ({navigation}): React.ReactElement => {
   const [actionData, setActionData] = React.useState<Object>();
   const [todoItems, setTodoItems] = React.useState([]);
+  const [emotivityCompleted, setEmotivityCompleted] = React.useState(0);
+  const [sayThanxCompleted, setSayThanxCompleted] = React.useState(0);
+  const [traxivityPercentage, setTraxivityPercentage] = React.useState(0);
 
   const userGreeting = UtilService.getUserGreeting();
 
@@ -45,7 +59,48 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
   useEffect(() => {
     FirebaseService.getTodayActionCard(onSuccess);
     setInitialToDoList();
+    const unsubscribe = navigation.addListener('focus', async () => {
+      // The screen is focused
+      await setCurrentProgressInformation();
+    });
   }, []);
+
+  const setCurrentProgressInformation = async () => {
+    try {
+      const traxivityPercentage = await AppStorage.stepPercentage();
+      setTraxivityPercentage(traxivityPercentage);
+
+      const sayThanxDataCompleted = await AppStorage.checkSayThanxTodayCompleted();
+      if (
+        sayThanxDataCompleted != null &&
+        (
+          Number(sayThanxDataCompleted.date) ==
+          Number(UtilService.getDateTodayNoFormat())
+        )
+      ) {
+        setSayThanxCompleted(1);
+      }
+      else{
+        setSayThanxCompleted(0);   
+      }
+
+      const emotivityDataCompleted = await AppStorage.checkEmotivityTodayCompleted();
+      if (
+        emotivityDataCompleted != null &&
+        (
+          Number(emotivityDataCompleted.date) ==
+          Number(UtilService.getDateTodayNoFormat())
+        )
+      ) {
+        setEmotivityCompleted(1);
+      }
+      else{
+        setEmotivityCompleted(0);
+      }
+
+    } catch (error) {}
+  };
+
 
   const setInitialToDoList = async () => {
     const initialToDoList = await AppStorage.getToDoList();
@@ -96,7 +151,7 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
   const statusE = props => (
     <Text
       status={AppStorage.getEmotivityDetails().status ? 'success' : 'danger'}>
-      {AppStorage.getEmotivityDetails().status ? 'Tracked' : 'Not Tracked'}
+      {AppStorage.getEmotivityDetails().status ? 'Completed' : 'Not Completed'}
     </Text>
   );
 
@@ -173,13 +228,20 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
         title="Unimate"
         leftControl={renderDrawerAction()}
         rightControls={[renderSOS()]}
+        titleStyle={{color: 'white'}}
+        style={{backgroundColor: '#712177'}}
       />
-      <Divider />
+      {/* <Divider /> */}
       {/*<ImageBackground
             style={styles.image}
             source={require('../../assets/images/cover.png')}
       />*/}
-      <ScrollView style={{backgroundColor: 'white'}}>
+      <ScrollView
+        style={{
+          backgroundColor: 'white',
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
+        }}>
         <Text
           style={{
             textAlign: 'center',
@@ -190,7 +252,7 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
           category={'h5'}>
           {userGreeting}
         </Text>
-        <Text
+        {/* <Text
           style={{
             textAlign: 'center',
             marginTop: 8,
@@ -198,13 +260,13 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
             fontWeight: 'bold',
           }}>
           {' '}
-          Today, in My Tasks
-        </Text>
+          To Do Today
+        </Text> */}
 
         <StatusBar barStyle={'light-content'} backgroundColor={'#212121'} />
         <View
           style={{
-            height: 150,
+            height: 170,
             marginHorizontal: 16,
             justifyContent: 'space-between',
             flex: 1,
@@ -222,7 +284,8 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
               }}>
               {(todoItems == null || todoItems.length == 0) && (
                 <Text appearance="hint" style={{textAlign: 'center'}}>
-                  Empty List! You have no documents at this moment
+                  Empty List! You have no pending tasks or completed tasks at
+                  this moment
                 </Text>
               )}
               <FlatList
@@ -252,58 +315,112 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
         <View
           style={{
             // height: 150,
-            paddingVertical: 12,
+            paddingTop: '5%',
+            paddingBottom: '5%',
             marginHorizontal: 16,
             justifyContent: 'space-between',
             flex: 1,
             borderRadius: 5,
-            borderColor: '#712177',
-            borderWidth: 1,
-
+            borderColor: '#17202A',
+            // borderWidth: 1,
+            marginBottom: '2%',
             backgroundColor: '#712177',
           }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-              marginBottom: 16,
-              marginTop: 12,
-              fontSize: 16,
-            }}
-            status="control">
-            {' '}
-            Your Progress Today{' '}
-          </Text>
-          <ListItem
-            title="Emotivity: Mood Tracking"
-            //description='Mood Tracking & Diary'
-            icon={EmotivityAvatar}
-            accessory={statusE}
-            onPress={() => navigation.navigate('Emotivity')}
-            style={{
-              marginHorizontal: 16,
-              borderRadius: 5,
-              marginBottom: 6,
-              borderColor: '#DDD',
-              borderWidth: 1,
-            }}
-          />
-          <ListItem
-            title="Traxivity: Step Goal"
-            //description='A set of React Native components'
-            icon={TraxivityAvatar}
-            accessory={statusT}
-            onPress={() => navigation.navigate('Traxivity')}
-            style={{
-              marginHorizontal: 16,
-              borderRadius: 5,
-              marginBottom: 6,
-              borderColor: '#DDD',
-              borderWidth: 1,
-            }}
-          />
+          <View style={{flex: 1}}>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={styles.progressTraxivity}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#FFFFFF',
+                    fontWeight: 'bold',
+                    marginBottom: '2%',
+                  }}>
+                  Traxivity
+                </Text>
+                <Progress.Circle
+                  style={{alignSelf: 'center'}}
+                  size={60}
+                  // progress = {1}
+                  progress={traxivityPercentage}
+                  strokeCap={'round'}
+                  showsText={true}
+                  thickness={8}
+                  color={'#1c8eef'}
+                  unfilledColor={'#FFFFFF'}
+                  borderColor={'#712177'}
+                  textStyle={{fontSize: 15, color: '#FFFFFF'}}
+                  formatText={() => {
+                    return (
+                      <FontAwesomeIcon icon={faWalking} color={'#FFFFFF'} />
+                    );
+                  }}
+                />
+              </View>
+              <View style={styles.progressTraxivity}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#FFFFFF',
+                    fontWeight: 'bold',
+                    marginBottom: '2%',
+                  }}>
+                  eMotivity
+                </Text>
+                <Progress.Circle
+                  style={{alignSelf: 'center'}}
+                  size={60}
+                  progress={
+                    emotivityCompleted
+                  }
+                  strokeCap={'round'}
+                  showsText={true}
+                  thickness={8}
+                  color={'#1c8eef'}
+                  unfilledColor={'#FFFFFF'}
+                  borderColor={'#712177'}
+                  textStyle={{fontSize: 15, color: '#FFFFFF'}}
+                  formatText={() => {
+                    return <FontAwesomeIcon icon={faSmile} color={'#FFFFFF'} />;
+                  }}
+                />
+              </View>
+              <View style={styles.progressTraxivity}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#FFFFFF',
+                    fontWeight: 'bold',
+                    marginBottom: '2%',
+                  }}>
+                  SayThanx
+                </Text>
+                <Progress.Circle
+                  style={{alignSelf: 'center'}}
+                  size={60}
+                  progress={
+                    sayThanxCompleted
+                  }
+                  strokeCap={'round'}
+                  showsText={true}
+                  thickness={8}
+                  color={'#1c8eef'}
+                  unfilledColor={'#FFFFFF'}
+                  borderColor={'#712177'}
+                  textStyle={{fontSize: 15, color: '#FFFFFF'}}
+                  formatText={() => {
+                    return (
+                      <FontAwesomeIcon
+                        icon={faHandHoldingHeart}
+                        color={'#FFFFFF'}
+                      />
+                    );
+                  }}
+                />
+              </View>
+            </View>
+          </View>
         </View>
-        <Divider style={styles.divider} />
         <ActionCard data={actionData} style={styles.actionCard} />
       </ScrollView>
       {/*<Button style={styles.button} status='danger'>SOS</Button>*/}
@@ -314,10 +431,38 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    backgroundColor: '#712177',
   },
   actionCard: {
     marginHorizontal: 16,
     marginTop: 2,
+  },
+  progressContainer: {
+    flex: 1,
+    // justifyContent: 'flex-start',
+    // alignItems: 'flex-start',
+    // marginTop:'2%',
+    paddingLeft: '5%',
+  },
+  progressTraxivity: {
+    flex: 1,
+    // marginTop:'2%',
+    // padding:'2%',
+    // color:'#FFFFFF',
+    // borderRadius:5,
+    // borderWidth:2,
+  },
+  progressEmotivity: {
+    flex: 1,
+    marginTop: '2%',
+    paddingLeft: '5%',
+    backgroundColor: '#0091f7',
+  },
+  progressSayThanx: {
+    flex: 1,
+    marginTop: '2%',
+    paddingLeft: '5%',
+    backgroundColor: '#1C2833',
   },
   slider: {
     marginHorizontal: 20,

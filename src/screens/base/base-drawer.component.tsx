@@ -227,6 +227,7 @@ const styles = StyleSheet.create({
     height: 128,
     paddingHorizontal: 16,
     justifyContent: 'center',
+    backgroundColor:'#712177',
   },
   profileContainer: {
     flexDirection: 'row',
@@ -234,6 +235,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     marginHorizontal: 16,
+    color:'#FFFFFF',
     flexShrink: 1,
   },
   container: {

@@ -45,7 +45,7 @@ export const ArrowHeadDownIcon = (style: ImageStyle): IconElement => (
 );
 
 export const ArrowIosBackIcon = (style: ImageStyle): IconElement => (
-  <Icon {...style} name='arrow-ios-back' width={24} height={24}/>
+  <Icon {...style} fill={'#FFFFFF'} name='arrow-ios-back' width={24} height={24}/>
 );
 
 export const ArrowIosForwardIcon = (style: ImageStyle): IconElement => (
@@ -108,7 +108,7 @@ export const DoneAllIcon = (style: ImageStyle): IconElement => {
 };
 
 export const InfoIcon = (style: ImageStyle): IconElement => (
-  <FontAwesomeIcon color={'#A3223C'} icon={faFirstAid} size={24} />
+  <FontAwesomeIcon color={'#FFFFFF'} icon={faFirstAid} size={24} />
 );
 
 export const MailIcon = (style: ImageStyle): IconElement => {
@@ -135,7 +135,7 @@ export const HealthIcon = (style:ImageStyle): IconElement => (
 );
 
 export const GoalIcon = (style:ImageStyle): IconElement => (
-  <FontAwesomeIcon size={22} color={style.tintColor} icon={faTrophy} style={{marginVertical: 2}}/>
+  <FontAwesomeIcon size={22} color={'#FFFFFF'} icon={faTrophy} style={{marginVertical: 2}}/>
 );
 
 export const GlobeIcon = (style:ImageStyle): IconElement => (
@@ -159,7 +159,7 @@ export const ListIcon = (style: ImageStyle): IconElement => (
 );
 
 export const MenuIcon = (style: ImageStyle): IconElement => (
-  <Icon {...style} name='menu'/>
+  <Icon {...style} fill={'#FFFFFF'} name='menu'/>
 );
 
 export const MoreVerticalIcon = (style: ImageStyle): IconElement => (
