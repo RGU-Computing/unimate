@@ -16,6 +16,8 @@
     <br/>
     <a href="https://unimate.app"><strong>Website (https://unimate.app)</strong></a>
     <br/>
+    <a href="/resources/Unimate_Project_Guide.pdf" target="_blank"><strong>Project Setup Guide</strong></a>
+    <br/>
   </p>
 
   <p align="center">
