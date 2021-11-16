@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button, List, Text } from '@ui-kitten/components';
-import { ImageOverlay } from './image-overlay.component';
-import { HeartIcon, MessageCircleIcon } from './icons';
-import { Article } from '../models/article';
-import { WebBrowserService } from '../services/web-browser.service';
+import {Button, List, Text} from '@ui-kitten/components';
+import {ImageOverlay} from './image-overlay.component';
+import {HeartIcon, MessageCircleIcon} from './icons';
+import {Article} from '../models/article';
+import {WebBrowserService} from '../services/web-browser.service';
 
 const data: Article[] = [
   Article.one(),
@@ -22,8 +22,7 @@ const data: Article[] = [
 
 const [headingArticle, ...listArticles] = data;
 
-export default ({ navigation }): React.ReactElement => {
-
+export default ({navigation}): React.ReactElement => {
   const isItemReverse = (index: number): boolean => {
     return index % 2 === 1;
   };
@@ -37,41 +36,35 @@ export default ({ navigation }): React.ReactElement => {
     <ImageOverlay
       style={styles.headingArticleContainer}
       source={headingArticle.image}>
-      <Text
-        style={styles.headingArticleTitle}
-        status='control'
-        category='h3'>
+      <Text style={styles.headingArticleTitle} status="control" category="h3">
         {headingArticle.title}
       </Text>
       <Text
         style={styles.headingArticleDescription}
-        category='h6'
-        status='control'>
+        category="h6"
+        status="control">
         {headingArticle.description}
       </Text>
       <Button
         style={styles.readButton}
-        status='control'
+        status="control"
         onPress={() => onItemPress(0)}>
         READ
       </Button>
     </ImageOverlay>
   );
 
-  const renderArticleItem = (info: ListRenderItemInfo<Article>): React.ReactElement => (
+  const renderArticleItem = (
+    info: ListRenderItemInfo<Article>,
+  ): React.ReactElement => (
     <TouchableOpacity
       style={[styles.item, isItemReverse(info.index) && styles.itemReverse]}
       activeOpacity={0.95}
       //onPress={() => onItemPress(info.index + 1)}>
       onPress={() => WebBrowserService.openBrowserAsync(info.item.website)}>
-      <ImageBackground
-        style={styles.itemSection}
-        source={info.item.image}
-      />
+      <ImageBackground style={styles.itemSection} source={info.item.image} />
       <View style={styles.itemSection}>
-        <Text
-          style={styles.itemTitle}
-          category='h6'>
+        <Text style={styles.itemTitle} category="h6">
           {info.item.title}
         </Text>
         <View style={styles.footer}>
@@ -89,11 +82,13 @@ export default ({ navigation }): React.ReactElement => {
             icon={HeartIcon}>
             {`${info.item.likes.length}`}
           </Button>*/}
-            <Button
-                style={styles.readButtonFull}
-                onPress={() => WebBrowserService.openBrowserAsync(info.item.website)}>
-                Read More
-            </Button>
+          <Button
+            style={styles.readButtonFull}
+            onPress={() =>
+              WebBrowserService.openBrowserAsync(info.item.website)
+            }>
+            Read More
+          </Button>
         </View>
       </View>
     </TouchableOpacity>

@@ -1,29 +1,10 @@
+import {Button, Divider, Input, Layout, Text} from '@ui-kitten/components';
 import React, {useEffect} from 'react';
-import {StyleSheet, Dimensions, View, Image, FlatList} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {ProgressChart} from 'react-native-chart-kit';
-import AppIntroSlider from 'react-native-app-intro-slider';
-import MotionSlider from 'react-native-motion-slider';
-import {
-  Text,
-  Divider,
-  Modal,
-  Layout,
-  Input,
-  Button,
-} from '@ui-kitten/components';
-import {UtilService} from '../../services/util.service';
-import {DiaryEntry} from '../../components/diary-entry.component';
-import {DIARY, MOOD_SLIDES, EMOTIVITY, DATE} from '../../services/types';
-import {FirebaseService} from '../../services/firebase.service';
-import {
-  ArrowIosForwardIcon,
-  ArrowIosBackIcon,
-  CheckIcon,
-} from '../../components/icons';
 import {AppStorage} from '../../services/app-storage.service';
+import {UtilService} from '../../services/util.service';
 import {SaythanxItem} from './saythanx.item.component';
-import {color} from 'react-native-reanimated';
 
 // const useInputState = (initialValue = '') => {
 //     const [value, setValue] = React.useState(initialValue);
@@ -46,9 +27,12 @@ export const SaythanxTodayScreen = ({navigation}): React.ReactElement => {
       await AppStorage.saveSayThanksList(tempIni);
     }
     setThanksInput('');
-    setSayThanksListFromLocalStorage()
+    setSayThanksListFromLocalStorage();
     //Mark emotivity Completed for today
-    AppStorage.markSayThanxTodayCompleted({date: UtilService.getDateTodayNoFormat(), action: 'Completed'})
+    AppStorage.markSayThanxTodayCompleted({
+      date: UtilService.getDateTodayNoFormat(),
+      action: 'Completed',
+    });
   };
 
   //   useEffect(() => {
@@ -126,11 +110,11 @@ export const SaythanxTodayScreen = ({navigation}): React.ReactElement => {
           // icon={PaperPlaneIcon}
           // disabled={!sendButtonEnabled()}
           onPress={addSayThanks}
-          disabled={thanksInput.length==0}>
+          disabled={thanksInput.length == 0}>
           Say Thank You
         </Button>
-        { (sayThanksList.filter(e => e.date === UtilService.getDateToday()).length > 0)
-         && (
+        {sayThanksList.filter(e => e.date === UtilService.getDateToday())
+          .length > 0 && (
           <Text
             style={{
               marginTop: '10%',
@@ -141,7 +125,8 @@ export const SaythanxTodayScreen = ({navigation}): React.ReactElement => {
             Today
           </Text>
         )}
-        {(sayThanksList.filter(e => e.date === UtilService.getDateToday()).length > 0) && (
+        {sayThanksList.filter(e => e.date === UtilService.getDateToday())
+          .length > 0 && (
           <FlatList
             data={sayThanksList}
             style={{marginTop: '5%'}}
@@ -154,17 +139,18 @@ export const SaythanxTodayScreen = ({navigation}): React.ReactElement => {
             }}
           />
         )}
-        { (sayThanksList.filter(e => e.date === UtilService.getDateToday()).length == 0) &&
-         <Text
-         style={{
-           marginTop: '10%',
-           textAlign: 'center'
-         }}
-         appearance='hint'>
-         🎉 You haven't say about {"\n"}
-         how you are grateful today! ✨
-       </Text>
-        }
+        {sayThanksList.filter(e => e.date === UtilService.getDateToday())
+          .length == 0 && (
+          <Text
+            style={{
+              marginTop: '10%',
+              textAlign: 'center',
+            }}
+            appearance="hint">
+            🎉 You haven't say about {'\n'}
+            how you are grateful today! ✨
+          </Text>
+        )}
       </ScrollView>
     </Layout>
   );

@@ -1,34 +1,34 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { Avatar, ListItem, ListItemProps, Text } from '@ui-kitten/components';
-import { MailIcon } from './icons';
-import { Notification } from '../models/notification';
+import {Avatar, ListItem, ListItemProps, Text} from '@ui-kitten/components';
 import moment from 'moment';
-import { AppStorage } from '../services/app-storage.service';
+import React from 'react';
+import {StyleSheet, View, ViewStyle} from 'react-native';
+import {Notification} from '../models/notification';
+import {AppStorage} from '../services/app-storage.service';
+import {MailIcon} from './icons';
 
 export type MessageItemProps = ListItemProps & {
-    notification: Notification
+  notification: Notification;
 };
 
-export const NotificationItem = (props: MessageItemProps): React.ReactElement => {
+export const NotificationItem = (
+  props: MessageItemProps,
+): React.ReactElement => {
+  const {notification, ...listItemProps} = props;
 
-  const { notification, ...listItemProps } = props;
-
-  const renderMessageDate = (style: ViewStyle, index: number): React.ReactElement => (
+  const renderMessageDate = (
+    _style: ViewStyle,
+    _index: number,
+  ): React.ReactElement => (
     <View style={styles.dateContainer}>
-      {notification.isImportant && <MailIcon/>}
-      <Text
-        style={styles.dateText}
-        appearance='hint'
-        category='c1'>
+      {notification.isImportant && <MailIcon />}
+      <Text style={styles.dateText} appearance="hint" category="c1">
         {moment(notification.timestamp).fromNow()}
       </Text>
     </View>
   );
 
- 
   const deleteNotification = async _index => {
-    console.log("inside delete notification")
+    console.log('inside delete notification');
     const temp = await AppStorage.getNotificationsList();
     let tempArr = [...temp];
     tempArr.splice(_index, 1);
@@ -39,7 +39,13 @@ export const NotificationItem = (props: MessageItemProps): React.ReactElement =>
   const renderProfileAvatar = (): React.ReactElement => (
     <Avatar
       style={styles.avatar}
-      source={notification.type == 'Traxivity' ? require('../assets/images/traxivity.png') : notification.type == 'Emotivity' ? require('../assets/images/emotivity.png') : require('../assets/images/gratitude.jpg')}
+      source={
+        notification.type == 'Traxivity'
+          ? require('../assets/images/traxivity.png')
+          : notification.type == 'Emotivity'
+          ? require('../assets/images/emotivity.png')
+          : require('../assets/images/gratitude.jpg')
+      }
     />
   );
 

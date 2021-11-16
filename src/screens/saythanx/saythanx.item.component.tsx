@@ -1,6 +1,6 @@
-import {Text, ListItem, CheckBox} from '@ui-kitten/components';
-import React, {useState} from 'react';
-import {TouchableOpacity, View, TextInput, StyleSheet} from 'react-native';
+import {Text} from '@ui-kitten/components';
+import React from 'react';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {UtilService} from '../../services/util.service';
 // import { Text } from '@ui-kitten/components';
 

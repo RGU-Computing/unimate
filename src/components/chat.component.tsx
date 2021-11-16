@@ -1,11 +1,11 @@
 import React from 'react';
-import { ListRenderItemInfo, StyleSheet } from 'react-native';
-import { List, ListProps, StyleType } from '@ui-kitten/components';
-import { ChatMessageContent } from './chat-message-content.component';
-import { ChatMessageGroup } from './chat-message-group.component';
-import { ChatMessage } from './chat-message.component';
-import { ChatService } from './chat.service';
-import { Message } from '../models/message';
+import {ListRenderItemInfo, StyleSheet} from 'react-native';
+import {List, ListProps, StyleType} from '@ui-kitten/components';
+import {ChatMessageContent} from './chat-message-content.component';
+import {ChatMessageGroup} from './chat-message-group.component';
+import {ChatMessage} from './chat-message.component';
+import {ChatService} from './chat.service';
+import {Message} from '../models/message';
 
 export interface ChatProps extends Omit<ListProps, 'renderItem'> {
   data: Message[];
@@ -15,18 +15,17 @@ export interface ChatProps extends Omit<ListProps, 'renderItem'> {
 const chatService: ChatService = new ChatService();
 
 export const Chat = (props: ChatProps): React.ReactElement => {
-
   const listRef: React.RefObject<any> = React.useRef();
   let contentHeight: number = 0;
 
-  const { followEnd, contentContainerStyle, data, ...listProps } = props;
+  const {followEnd, contentContainerStyle, data, ...listProps} = props;
 
   const shouldShowMessageIndicator = (message: Message): boolean => {
     return message.text && message.text.length > 0;
   };
 
   const scrollToEnd = (params): void => {
-    scrollToOffset({ offset: contentHeight, ...params });
+    scrollToOffset({offset: contentHeight, ...params});
   };
 
   const scrollToIndex = (params): void => {
@@ -42,13 +41,15 @@ export const Chat = (props: ChatProps): React.ReactElement => {
 
     props.followEnd && setTimeout(scrollToEnd, 0);
 
-    listProps.onContentSizeChange && listProps.onContentSizeChange(width, height);
+    listProps.onContentSizeChange &&
+      listProps.onContentSizeChange(width, height);
   };
 
-  const renderMessageContent = (message: Message, style: StyleType): React.ReactElement => (
-    <ChatMessageContent style={style.container}>
-      {message}
-    </ChatMessageContent>
+  const renderMessageContent = (
+    message: Message,
+    style: StyleType,
+  ): React.ReactElement => (
+    <ChatMessageContent style={style.container}>{message}</ChatMessageContent>
   );
 
   const renderMessage = (message: Message): React.ReactElement => (
@@ -60,7 +61,9 @@ export const Chat = (props: ChatProps): React.ReactElement => {
     </ChatMessage>
   );
 
-  const renderMessageGroup = (info: ListRenderItemInfo<Message[]>): React.ReactElement => (
+  const renderMessageGroup = (
+    info: ListRenderItemInfo<Message[]>,
+  ): React.ReactElement => (
     <ChatMessageGroup
       style={styles.group}
       data={info.item}

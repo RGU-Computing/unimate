@@ -72,7 +72,9 @@ export class UtilService {
       AppStorage.getUser().displayName.indexOf(' '),
     );
 
-    if (!currentTime || !currentTime.isValid()) return '👋 Hello, ' + user;
+    if (!currentTime || !currentTime.isValid()) {
+      return '👋 Hello, ' + user;
+    }
 
     const splitAfternoon = 12;
     const splitEvening = 17;
