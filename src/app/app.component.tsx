@@ -141,8 +141,8 @@ const _renderPrevButton = () => {
 const App = ({mapping, theme}): React.ReactElement => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-  const [isEmotivityDone, setEmotivityDone] = useState<boolean>(false);
-  const [isTraxivityDone, setTraxivityDone] = useState<boolean>(false);
+  const [, setEmotivityDone] = useState<boolean>(false);
+  const [, setTraxivityDone] = useState<boolean>(false);
   const [isFirst, setIsFirst] = useState(null);
 
   const [mappingContext, currentMapping] = Theming.useMapping(

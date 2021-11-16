@@ -1,21 +1,18 @@
-import React from 'react';
-import {ImageStyle} from 'react-native';
-import {Avatar, Icon, IconElement, useTheme} from '@ui-kitten/components';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
-  faHandHoldingHeart,
   faBell,
+  faFirstAid,
+  faGlobeAmericas,
+  faHandHoldingHeart,
   faHome,
   faNewspaper,
   faSmile,
-  faWalking,
   faTrophy,
-  faGlobeEurope,
-  faGlobeAsia,
-  faGlobe,
-  faGlobeAmericas,
-  faFirstAid,
+  faWalking,
 } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {Avatar, Icon, IconElement, useTheme} from '@ui-kitten/components';
+import React from 'react';
+import {ImageStyle} from 'react-native';
 
 export const EmotivityAvatar = props => (
   <Avatar

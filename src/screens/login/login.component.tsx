@@ -1,13 +1,3 @@
-import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  Image,
-  Dimensions,
-  ImageBackground,
-  Alert,
-} from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -15,6 +5,8 @@ import {
 } from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
 import {Text} from '@ui-kitten/components';
+import React, {Component} from 'react';
+import {ActivityIndicator, Alert, Image, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
 
 export default class LoginScreen extends Component {

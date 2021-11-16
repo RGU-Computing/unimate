@@ -1,44 +1,34 @@
-import React from 'react';
+import {faInfoCircle} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
-  StyleSheet,
-  Image,
-  View,
-  Dimensions,
-  Platform,
-  KeyboardAvoidingView,
-} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {
+  Button,
   Divider,
+  Input,
+  Layout,
+  Tab,
+  TabView,
+  Text,
   TopNavigation,
   TopNavigationAction,
-  Text,
-  Layout,
-  TabView,
-  Tab,
-  Modal,
-  Button,
-  Input,
 } from '@ui-kitten/components';
-import {SafeAreaLayout} from '../../components/safe-area-layout.component';
-import {
-  MenuIcon,
-  ArrowIosForwardIcon,
-  ArrowIosBackIcon,
-  CheckIcon,
-} from '../../components/icons';
-import {MoodSelector} from '../../components/mood-selector';
-import AppIntroSlider from 'react-native-app-intro-slider';
-import icons from '../../components/helpers/icons';
-import MotionSlider from 'react-native-motion-slider';
-import {ProgressChart} from 'react-native-chart-kit';
 import moment from 'moment';
+import React from 'react';
+import {Dimensions, Image, StyleSheet, View} from 'react-native';
+import AppIntroSlider from 'react-native-app-intro-slider';
+import {ProgressChart} from 'react-native-chart-kit';
+import {ScrollView} from 'react-native-gesture-handler';
+import MotionSlider from 'react-native-motion-slider';
 import {DiaryEntry} from '../../components/diary-entry.component';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faInfoCircle} from '@fortawesome/free-solid-svg-icons';
-import {FirebaseService} from '../../services/firebase.service';
+import {
+  ArrowIosBackIcon,
+  ArrowIosForwardIcon,
+  CheckIcon,
+  MenuIcon,
+} from '../../components/icons';
+import {SafeAreaLayout} from '../../components/safe-area-layout.component';
 import {AppStorage} from '../../services/app-storage.service';
-import {EMOTIVITY, DIARY, DATE} from '../../services/types';
+import {FirebaseService} from '../../services/firebase.service';
+import {DATE, DIARY, EMOTIVITY} from '../../services/types';
 import {UtilService} from '../../services/util.service';
 
 const screenWidth = Dimensions.get('window').width;

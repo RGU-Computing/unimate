@@ -1,14 +1,12 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
 import {
   Tab,
+  TabBar,
   TopNavigation,
   TopNavigationAction,
-  Divider,
-  TabBar,
 } from '@ui-kitten/components';
-import {SafeAreaLayout} from '../../components/safe-area-layout.component';
-import {MenuIcon, InfoIcon} from '../../components/icons';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {InfoIcon, MenuIcon} from '../../components/icons';
 
 export const EmotivityTabs = ({navigation, state}): React.ReactElement => {
   const useForceUpdate = () => React.useState()[1];

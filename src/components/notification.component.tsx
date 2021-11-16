@@ -16,8 +16,8 @@ export const NotificationItem = (
   const {notification, ...listItemProps} = props;
 
   const renderMessageDate = (
-    style: ViewStyle,
-    index: number,
+    _style: ViewStyle,
+    _index: number,
   ): React.ReactElement => (
     <View style={styles.dateContainer}>
       {notification.isImportant && <MailIcon />}

@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {TouchableOpacity, View, TextInput, StyleSheet} from 'react-native';
 // import { Text } from '@ui-kitten/components';
-import {Icon, Text, Input, ListItem} from '@ui-kitten/components';
+import {Input, Text} from '@ui-kitten/components';
+import React from 'react';
+import {TouchableOpacity, View} from 'react-native';
 
 export const TodoInput = (props): React.ReactElement => {
   const [text, setText] = React.useState<string>('');

@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
-import {Icon} from '@ui-kitten/components';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
-  faWalking,
-  faShoePrints,
   faBullseye,
   faBurn,
+  faShoePrints,
+  faWalking,
 } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 export default class TraxivityDataTab extends Component {
   numberWithCommas(x) {

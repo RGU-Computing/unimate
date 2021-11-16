@@ -52,15 +52,16 @@ export const TraxivityTabs = ({navigation, state}): React.ReactElement => {
     firebase
       .firestore()
       .runTransaction(async transaction => {
-        const doc = await transaction.get(ref);
         console.log(selectedOption.text);
-        transaction.update(ref, {dailyStepGoal: parseInt(selectedOption.text)});
+        transaction.update(ref, {
+          dailyStepGoal: parseInt(selectedOption.text, 10),
+        });
         //Save Daily Steps goal locally. This data will be used in push notifications
-        AppStorage.setDailyStepsGoal(parseInt(selectedOption.text));
+        AppStorage.setDailyStepsGoal(parseInt(selectedOption.text, 10));
       })
       .then(() => {
         Alert.alert('Thank you', 'Your goal have been saved', [{text: 'OK'}]);
-      });
+      })
       .catch(err => {
         Alert.alert('Oops! An error has occurred.', err + '', [{text: 'OK'}]);
       });
