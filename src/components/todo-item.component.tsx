@@ -1,20 +1,15 @@
-import {ListItem, CheckBox} from '@ui-kitten/components';
-import React, {useState} from 'react';
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-} from 'react-native';
+import {CheckBox} from '@ui-kitten/components';
+import React from 'react';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 // import { Text } from '@ui-kitten/components';
 
 export const TodoItem = (props): React.ReactElement => {
-  const [text, setText] = React.useState<string>('');
+  const [] = React.useState<string>('');
   const [checked, setChecked] = React.useState(false);
 
   const clickCheckBox = async _nextCheked => {
     setChecked(_nextCheked);
+    console.log(checked);
     props.completeFunction();
   };
 

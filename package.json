@@ -8,7 +8,9 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "postinstall": "react-native link"
+    "postinstall": "react-native link",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "npm run lint -- --fix"
   },
   "dependencies": {
     "@eva-design/eva": "^1.4.0",
@@ -64,7 +66,16 @@
     "@types/jest": "^24.0.18",
     "@types/react-native": "^0.60.22",
     "@types/react-test-renderer": "16.9.0",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "babel-jest": "^24.9.0",
+    "eslint": "^8.2.0",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-react-native": "^3.11.0",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "react-devtools": "^4.16.0",

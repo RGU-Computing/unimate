@@ -6,11 +6,13 @@ export type Task = () => Promise<TaskResult | null>;
 export interface ApplicationLoaderProps {
   tasks?: Task[];
   initialConfig?: Record<string, any>;
-  placeholder?: (props: { loading: boolean }) => React.ReactElement;
+  placeholder?: (props: {loading: boolean}) => React.ReactElement;
   children: (config: any) => React.ReactElement;
 }
 
-export const LoadFontsTask = (fonts: { [key: string]: number }): Promise<TaskResult> => {
+export const LoadFontsTask = (fonts: {
+  [key: string]: number;
+}): Promise<TaskResult> => {
   const message: string = [
     'There is no need to use this task in Bare RN Project.',
     'Use `react-native.config.js',
@@ -48,8 +50,9 @@ export const LoadAssetsTask = (assets: number[]): Promise<TaskResult> => {
  *
  * @property {(result: any) => React.ReactElement} children - Should return Application component
  */
-export const AppLoading = (props: ApplicationLoaderProps): React.ReactElement => {
-
+export const AppLoading = (
+  props: ApplicationLoaderProps,
+): React.ReactElement => {
   const [loading, setLoading] = React.useState<boolean>(true);
   const loadingResult = props.initialConfig || {};
 
@@ -83,7 +86,7 @@ export const AppLoading = (props: ApplicationLoaderProps): React.ReactElement =>
   return (
     <React.Fragment>
       {!loading && props.children(loadingResult)}
-      {props.placeholder && props.placeholder({ loading })}
+      {props.placeholder && props.placeholder({loading})}
     </React.Fragment>
   );
 };

@@ -1,6 +1,6 @@
 import * as eva from '@eva-design/eva';
-import { default as customEva } from './app-mapping-eva.json';
-import { default as appTheme } from './app-theme.json';
+import {default as customEva} from './app-mapping-eva.json';
+import {default as appTheme} from './app-theme.json';
 
 export const appMappings = {
   eva: {

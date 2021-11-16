@@ -1,14 +1,13 @@
-import React from 'react'
-import { Layout, Text } from '@ui-kitten/components'
-import { TouchableOpacity, StyleSheet, Image } from 'react-native'
+import React from 'react';
+import {Layout, Text} from '@ui-kitten/components';
+import {TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 export class MoodSelectorEmoji extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      isActive: this.props.isActive ? this.props.isActive : false
-    }
+      isActive: this.props.isActive ? this.props.isActive : false,
+    };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -18,21 +17,28 @@ export class MoodSelectorEmoji extends React.Component {
 
   render() {
     return (
-      <Layout style={ styles.wrap }>
-        <TouchableOpacity onPress={ this.handleChange }>
-          <Image style={ styles.icon } source={{uri: this.props.icon}}></Image>
-          <Text style={[ styles.label, this.props.isActive ? styles.active : styles.inactive ]} 
-          numberOfLines={2} ellipsizeMode='head'>{ this.props.label }</Text>
+      <Layout style={styles.wrap}>
+        <TouchableOpacity onPress={this.handleChange}>
+          <Image style={styles.icon} source={{uri: this.props.icon}} />
+          <Text
+            style={[
+              styles.label,
+              this.props.isActive ? styles.active : styles.inactive,
+            ]}
+            numberOfLines={2}
+            ellipsizeMode="head">
+            {this.props.label}
+          </Text>
         </TouchableOpacity>
       </Layout>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   wrap: {
     padding: 5,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   icon: {
     paddingBottom: '100%',
@@ -50,14 +56,14 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     overflow: 'hidden',
-    marginTop: 5
+    marginTop: 5,
   },
   active: {
     backgroundColor: 'rgba(113, 33, 119, 0.8)',
   },
   inactive: {
     backgroundColor: 'rgba(0,0,0,.8)',
-  }
-})
+  },
+});
 
-export default MoodSelectorEmoji
+export default MoodSelectorEmoji;

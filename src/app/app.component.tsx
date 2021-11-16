@@ -1,27 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { View, Image, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
-import { AppearanceProvider } from 'react-native-appearance';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import AppIntroSlider from 'react-native-app-intro-slider';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { AppLoading, LoadFontsTask, Task } from './app-loading.component';
-import { appMappings, appThemes } from './app-theming';
-import { AppIconsPack } from './app-icons-pack';
-import { StatusBar } from '../components/status-bar.component';
-import { SplashImage } from '../components/splash-image.component';
-import { AppNavigator } from '../navigation/app.navigator';
-import { AppStorage } from '../services/app-storage.service';
-import { Mapping, Theme, Theming } from '../services/theme.service';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import AppIntroSlider from 'react-native-app-intro-slider';
+import {AppearanceProvider} from 'react-native-appearance';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {User} from 'src/models/auth/user';
+import {SplashImage} from '../components/splash-image.component';
+import {StatusBar} from '../components/status-bar.component';
+import {AppNavigator} from '../navigation/app.navigator';
 import LoginScreen from '../screens/login/login.component';
-import { FirebaseService } from '../services/firebase.service';
-import { default as appTheme } from './app-theme.json';
+import {AppStorage} from '../services/app-storage.service';
+import {FirebaseService} from '../services/firebase.service';
+import {Mapping, Theme, Theming} from '../services/theme.service';
+import {AppIconsPack} from './app-icons-pack';
+import {AppLoading, Task} from './app-loading.component';
+import {default as appTheme} from './app-theme.json';
+import {appMappings, appThemes} from './app-theming';
 
 const loadingTasks: Task[] = [];
 
-const defaultConfig: { mapping: Mapping, theme: Theme } = {
+const defaultConfig: {mapping: Mapping; theme: Theme} = {
   mapping: 'eva',
   theme: 'light',
 };
@@ -30,42 +38,48 @@ const screens = [
   {
     key: 1,
     title: 'Unimate',
-    text: 'Unimate is a research study, aimed at enhancing students’ educational experience and wellbeing.',
+    text:
+      'Unimate is a research study, aimed at enhancing students’ educational experience and wellbeing.',
     image: require('../assets/images/slides/logo.png'),
     backgroundColor: '#FFFFFF', //#712177
   },
   {
     key: 2,
     title: 'What Unimate Does',
-    text: 'Unimate can help you to be aware and take control of your mental and physical health.',
+    text:
+      'Unimate can help you to be aware and take control of your mental and physical health.',
     image: require('../assets/images/slides/happiness.png'),
     backgroundColor: '#FFFFFF',
   },
   {
     key: 3,
     title: 'Your Privacy Matters',
-    text: 'Don\'t worry! All your details are anonymised. Even we, won\'t be able to trace them back to you!',
+    text:
+      "Don't worry! All your details are anonymised. Even we, won't be able to trace them back to you!",
     image: require('../assets/images/slides/privacy-shield.png'),
     backgroundColor: '#FFFFFF',
   },
   {
     key: 4,
     title: 'Emotivity',
-    text: 'We want to help you take control of your health by monitoring and changing your emotional and physical reactions.',
+    text:
+      'We want to help you take control of your health by monitoring and changing your emotional and physical reactions.',
     image: require('../assets/images/slides/reaction.png'),
     backgroundColor: '#FFFFFF',
   },
   {
     key: 5,
     title: 'Daily Tasks',
-    text: 'Keep up with your daily tasks and they will definitely help you when it comes to enhancing your mental health.',
+    text:
+      'Keep up with your daily tasks and they will definitely help you when it comes to enhancing your mental health.',
     image: require('../assets/images/slides/todo.png'),
     backgroundColor: '#FFFFFF',
   },
   {
     key: 6,
     title: 'SayThanx &\n ShowGratitude',
-    text: 'We can help you to be happier by letting you be thankful, everyday! \nYou can also keep track of what you are grateful to and reflect on them at your own pace!',
+    text:
+      'We can help you to be happier by letting you be thankful, everyday! \nYou can also keep track of what you are grateful to and reflect on them at your own pace!',
     image: require('../assets/images/slides/thanks.png'),
     backgroundColor: '#FFFFFF',
   },
@@ -82,19 +96,25 @@ const screens = [
     text: 'Let’s Start!',
     image: require('../assets/images/slides/start.png'),
     backgroundColor: '#FFFFFF',
-  }
+  },
 ];
 
-const _renderItem = ({ item }) => {
+const _renderItem = ({item}) => {
   return (
-    <View style={{backgroundColor: item.backgroundColor, alignItems: 'center',justifyContent: 'center', height: '100%'}}>
+    <View
+      style={{
+        backgroundColor: item.backgroundColor,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+      }}>
       <Image source={item.image} style={styles.image} />
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.text}>{item.text}</Text>
-      <View style={styles.margin}></View>
+      <View style={styles.margin} />
     </View>
   );
-}
+};
 
 const _renderNextButton = () => {
   return (
@@ -113,33 +133,39 @@ const _renderDoneButton = () => {
 const _renderPrevButton = () => {
   return (
     <View style={styles.buttonPrev}>
-      <Text  style={styles.buttonPrevText}>Back</Text>
+      <Text style={styles.buttonPrevText}>Back</Text>
     </View>
   );
-}
+};
 
-const App = ({ mapping, theme }): React.ReactElement => {
-
+const App = ({mapping, theme}): React.ReactElement => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
   const [isEmotivityDone, setEmotivityDone] = useState<boolean>(false);
   const [isTraxivityDone, setTraxivityDone] = useState<boolean>(false);
   const [isFirst, setIsFirst] = useState(null);
 
-  const [mappingContext, currentMapping] = Theming.useMapping(appMappings, mapping);
-  const [themeContext, currentTheme] = Theming.useTheming(appThemes, mapping, theme);
+  const [mappingContext, currentMapping] = Theming.useMapping(
+    appMappings,
+    mapping,
+  );
+  const [themeContext, currentTheme] = Theming.useTheming(
+    appThemes,
+    mapping,
+    theme,
+  );
 
-  const finalTheme = { ...currentTheme, ...appTheme }
+  const finalTheme = {...currentTheme, ...appTheme};
 
   const _onDone = () => {
     AppStorage.setLaunched();
     setIsFirst(false);
-  }
+  };
 
-  const hasLaunchedBefore = async () =>  {
+  const hasLaunchedBefore = async () => {
     const temp = await AppStorage.hasLaunched();
     setIsFirst(!temp);
-  }
+  };
 
   const checkPushPermissions = async () => {
     const enabled = await messaging().hasPermission();
@@ -148,12 +174,12 @@ const App = ({ mapping, theme }): React.ReactElement => {
     } else {
       requestPermission();
     }
-  }
+  };
 
   const getToken = async () => {
-    const token = await messaging().getToken()
+    const token = await messaging().getToken();
     FirebaseService.setPushToken(token);
-  }
+  };
 
   const requestPermission = async () => {
     try {
@@ -162,72 +188,80 @@ const App = ({ mapping, theme }): React.ReactElement => {
     } catch (error) {
       console.log('Rejected');
     }
-  }
+  };
 
-  const createNotificationListeners = async() => {
-    
+  const createNotificationListeners = async () => {
     // If your app is in Foreground
-    notificationListener = firebase.notifications().onNotification((notification) => {
+    notificationListener = firebase
+      .notifications()
+      .onNotification(notification => {
         const localNotification = new firebase.notifications.Notification({
           show_in_foreground: true,
         })
-        .setNotificationId(notification.notificationId)
-        .setTitle(notification.title)
-        .setBody(notification.body)
+          .setNotificationId(notification.notificationId)
+          .setTitle(notification.title)
+          .setBody(notification.body);
 
-        firebase.notifications()
+        firebase
+          .notifications()
           .displayNotification(localNotification)
           .catch(err => console.error(err));
-    });
-
+      });
 
     //If your app is in background
-    notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-      const { title, body } = notificationOpen.notification;
-      console.log('onNotificationOpened:');
-      Alert.alert(title, body)
-    });
-
+    notificationOpenedListener = firebase
+      .notifications()
+      .onNotificationOpened(notificationOpen => {
+        const {title, body} = notificationOpen.notification;
+        console.log('onNotificationOpened:');
+        Alert.alert(title, body);
+      });
 
     // If your app is closed
 
-    const notificationOpen = await firebase.notifications().getInitialNotification();
+    const notificationOpen = await firebase
+      .notifications()
+      .getInitialNotification();
     if (notificationOpen) {
       console.log('getInitialNotification:');
     }
 
     // For data only payload in foreground
 
-    messaging().onMessage((message) => {
+    messaging().onMessage(message => {
       //process data message
-      console.log("Message", JSON.stringify(message));
+      console.log('Message', JSON.stringify(message));
     });
-  }
+  };
 
   useEffect(() => {
     hasLaunchedBefore();
-    let subscriberEmotivity
-    let subscriberTraxivity
+    let subscriberEmotivity;
+    let subscriberTraxivity;
 
     createNotificationListeners();
 
     const subscriberAuth = auth().onAuthStateChanged(user => {
       if (user) {
-        const user_data = {
+        const user_data: User = {
           uid: user.uid,
           displayName: user.displayName,
           email: user.email,
-          photoURL: user.photoURL
-        }
+          photoURL: user.photoURL,
+        };
         FirebaseService.setUser(user_data);
         AppStorage.setUser(user_data);
         setUser(user_data);
         checkPushPermissions();
-        if (initializing) setInitializing(false);
+        if (initializing) {
+          setInitializing(false);
+        }
         //FirebaseService.getIsEmotivityDoneToday(onSuccess);
         //FirebaseService.getTraxivitySummaryToday();
         subscriberEmotivity = FirebaseService.subscribeForEmotivity(onSuccess);
-        subscriberTraxivity = FirebaseService.subscribeForTraxivity(onSuccessTrax);
+        subscriberTraxivity = FirebaseService.subscribeForTraxivity(
+          onSuccessTrax,
+        );
       }
     });
 
@@ -241,13 +275,13 @@ const App = ({ mapping, theme }): React.ReactElement => {
 
     return async () => {
       subscriberAuth();
-      await subscriberEmotivity && subscriberEmotivity();
-      await subscriberTraxivity && subscriberTraxivity();
+      (await subscriberEmotivity) && subscriberEmotivity();
+      (await subscriberTraxivity) && subscriberTraxivity();
       await foreground;
-    }
+    };
   }, []);
-  
-  const onSuccess = (querySnapshot) => {
+
+  const onSuccess = querySnapshot => {
     if (querySnapshot.size === 0) {
       console.warn('Found 0 emotivity records for today.');
       AppStorage.setEmotivityDetails(false);
@@ -265,25 +299,25 @@ const App = ({ mapping, theme }): React.ReactElement => {
         setEmotivityDone(true);
       });
     }
-  }
+  };
 
-  const onSuccessTrax = (documentSnapshot) => {
+  const onSuccessTrax = documentSnapshot => {
     if (documentSnapshot.data()) {
-      FirebaseService.getStepsToday(documentSnapshot.data().dailyStepGoal, () =>  setTraxivityDone(true));
+      FirebaseService.getStepsToday(documentSnapshot.data().dailyStepGoal, () =>
+        setTraxivityDone(true),
+      );
     } else {
-      FirebaseService.getStepsToday(5000, () =>  setTraxivityDone(true));
+      FirebaseService.getStepsToday(5000, () => setTraxivityDone(true));
     }
-    
-  }
+  };
 
   if (isFirst === null) {
     return (
       <View style={[styles.container, styles.horizontal]}>
         <ActivityIndicator size="large" color="#712177" />
       </View>
-    )
+    );
   }
-  
 
   if (isFirst) {
     return (
@@ -294,70 +328,68 @@ const App = ({ mapping, theme }): React.ReactElement => {
         renderNextButton={_renderNextButton}
         renderPrevButton={_renderPrevButton}
         showPrevButton={true}
-        activeDotStyle={{backgroundColor: '#712177'}	}
+        activeDotStyle={{backgroundColor: '#712177'}}
         // dotStyle={{backgroundColor: '#F8D4EE'}}
         onDone={_onDone}
       />
-    )
+    );
   }
-  
+
   if (!user) {
     return (
       <React.Fragment>
-        <IconRegistry icons={[EvaIconsPack, AppIconsPack]}/>
+        <IconRegistry icons={[EvaIconsPack, AppIconsPack]} />
         {/*initializing &&
         <View style={[styles.container, styles.horizontal]}>
           <ActivityIndicator size="large" color="#712177" />
         </View>
         */}
-        
+
         <AppearanceProvider>
           <ApplicationProvider {...currentMapping} theme={finalTheme}>
             <Theming.MappingContext.Provider value={mappingContext}>
               <Theming.ThemeContext.Provider value={themeContext}>
                 <SafeAreaProvider>
-                  <StatusBar/>
+                  <StatusBar />
                   <View>
-                    <LoginScreen/>
+                    <LoginScreen />
                   </View>
                 </SafeAreaProvider>
               </Theming.ThemeContext.Provider>
             </Theming.MappingContext.Provider>
           </ApplicationProvider>
         </AppearanceProvider>
-        
       </React.Fragment>
     );
   }
 
   return (
     <React.Fragment>
-      <IconRegistry icons={[EvaIconsPack, AppIconsPack]}/>
-      {initializing &&
-      <View style={[styles.container, styles.horizontal]}>
-        <ActivityIndicator size="large" color="#712177" />
-      </View>
-      }
-      {!initializing &&
-      <AppearanceProvider>
-        <ApplicationProvider {...currentMapping} theme={finalTheme}>
-          <Theming.MappingContext.Provider value={mappingContext}>
-            <Theming.ThemeContext.Provider value={themeContext}>
-              <SafeAreaProvider>
-                <StatusBar/>
-                <AppNavigator/>
-              </SafeAreaProvider>
-            </Theming.ThemeContext.Provider>
-          </Theming.MappingContext.Provider>
-        </ApplicationProvider>
-      </AppearanceProvider>
-      }
+      <IconRegistry icons={[EvaIconsPack, AppIconsPack]} />
+      {initializing && (
+        <View style={[styles.container, styles.horizontal]}>
+          <ActivityIndicator size="large" color="#712177" />
+        </View>
+      )}
+      {!initializing && (
+        <AppearanceProvider>
+          <ApplicationProvider {...currentMapping} theme={finalTheme}>
+            <Theming.MappingContext.Provider value={mappingContext}>
+              <Theming.ThemeContext.Provider value={themeContext}>
+                <SafeAreaProvider>
+                  <StatusBar />
+                  <AppNavigator />
+                </SafeAreaProvider>
+              </Theming.ThemeContext.Provider>
+            </Theming.MappingContext.Provider>
+          </ApplicationProvider>
+        </AppearanceProvider>
+      )}
     </React.Fragment>
   );
-
 };
 
-const Splash = ({ loading }): React.ReactElement => (
+const Splash = ({loading}): React.ReactElement => (
   <SplashImage
     loading={loading}
     source={require('../assets/images/image-splash.png')}
@@ -369,7 +401,7 @@ export default (): React.ReactElement => (
     tasks={loadingTasks}
     initialConfig={defaultConfig}
     placeholder={Splash}>
-    {props => <App {...props}/>}
+    {props => <App {...props} />}
   </AppLoading>
 );
 
@@ -410,29 +442,29 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   horizontal: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    padding: 10
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
-  buttonNextText:{
-    color: '#712177'
-  },
-  buttonNext:{
-    marginRight: '8%',
-  },
-  buttonDoneText:{
+  buttonNextText: {
     color: '#712177',
   },
-  buttonDone:{
+  buttonNext: {
     marginRight: '8%',
   },
-  buttonPrev:{
+  buttonDoneText: {
+    color: '#712177',
+  },
+  buttonDone: {
+    marginRight: '8%',
+  },
+  buttonPrev: {
     marginLeft: '25%',
   },
-  buttonPrevText:{
-    color: '#7F8283'
-  }
+  buttonPrevText: {
+    color: '#7F8283',
+  },
 });

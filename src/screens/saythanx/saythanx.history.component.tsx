@@ -1,28 +1,9 @@
+import {Avatar, Layout, Text} from '@ui-kitten/components';
 import React, {useEffect} from 'react';
-import {
-  Text,
-  Divider,
-  RangeCalendar,
-  Button,
-  Layout,
-  Avatar,
-} from '@ui-kitten/components';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {
-  StyleSheet,
-  Dimensions,
-  View,
-  ActivityIndicator,
-  FlatList,
-  Image,
-} from 'react-native';
-import {UtilService} from '../../services/util.service';
-import {FirebaseService} from '../../services/firebase.service';
-import {DATE, EMOTIVITY} from '../../services/types';
-import {ProgressChart} from 'react-native-chart-kit';
-import {DiaryEntry} from '../../components/diary-entry.component';
 import {AppStorage} from '../../services/app-storage.service';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {UtilService} from '../../services/util.service';
 import {SaythanxItem} from './saythanx.item.component';
 
 export const SaythanxHistoryScreen = ({navigation}): React.ReactElement => {
@@ -59,7 +40,8 @@ export const SaythanxHistoryScreen = ({navigation}): React.ReactElement => {
           alignSelf: 'center',
           backgroundColor: 'white',
         }}>
-        {sayThanksList.filter(e => e.date != UtilService.getDateToday()).length > 0 && (
+        {sayThanksList.filter(e => e.date != UtilService.getDateToday())
+          .length > 0 && (
           <FlatList
             data={sayThanksList}
             style={{marginTop: '5%'}}
@@ -72,35 +54,41 @@ export const SaythanxHistoryScreen = ({navigation}): React.ReactElement => {
             }}
           />
         )}
-        {sayThanksList.filter(e => e.date != UtilService.getDateToday()).length == 0 &&
-        <View style={{marginVertical:'50%'}}>
-        <Avatar
-          style={{height: 100, width: 100, alignSelf: 'center', borderRadius:0}}
-          source={require('../../assets/images/searchDocuments.png')}
-        />
-         <Text
-                  style={{
-                    marginTop: '10%',
-                    textAlign: 'center',
-                    // fontWeight: 'bold',
-                    fontSize: 20,
-                  }}
-                  appearance='hint'>
-          You have no past
-          </Text>
-          <Text
-                  style={{
-                    marginTop: '1%',
-                    textAlign: 'center',
-                    // fontWeight: 'bold',
-                    fontSize: 20,
-                    paddingTop:'1%'
-                  }}
-                  appearance='hint'>
-          entries at this moment! 😕
-        </Text>
-        </View>
-        }
+        {sayThanksList.filter(e => e.date != UtilService.getDateToday())
+          .length == 0 && (
+          <View style={{marginVertical: '50%'}}>
+            <Avatar
+              style={{
+                height: 100,
+                width: 100,
+                alignSelf: 'center',
+                borderRadius: 0,
+              }}
+              source={require('../../assets/images/searchDocuments.png')}
+            />
+            <Text
+              style={{
+                marginTop: '10%',
+                textAlign: 'center',
+                // fontWeight: 'bold',
+                fontSize: 20,
+              }}
+              appearance="hint">
+              You have no past
+            </Text>
+            <Text
+              style={{
+                marginTop: '1%',
+                textAlign: 'center',
+                // fontWeight: 'bold',
+                fontSize: 20,
+                paddingTop: '1%',
+              }}
+              appearance="hint">
+              entries at this moment! 😕
+            </Text>
+          </View>
+        )}
       </ScrollView>
     </Layout>
   );

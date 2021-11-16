@@ -1,30 +1,19 @@
+import {TopNavigationAction} from '@ui-kitten/components';
 import React from 'react';
-import { StyleSheet, Linking, Dimensions } from 'react-native';
-import {
-  TopNavigation,
-  TopNavigationAction,
-  Divider,
-  TabView,
-  Tab,
-  Text,
-  Layout,
-} from '@ui-kitten/components';
-import { SafeAreaLayout } from '../../components/safe-area-layout.component';
-import { MenuIcon, InfoIcon } from '../../components/icons';
-import Articles from '../../components/articles.component';
-import { ScrollView } from 'react-native-gesture-handler';
+import {Dimensions, StyleSheet} from 'react-native';
+import {InfoIcon, MenuIcon} from '../../components/icons';
+import {SafeAreaLayout} from '../../components/safe-area-layout.component';
 
-const screenHeight = Dimensions.get('window').height
+const screenHeight = Dimensions.get('window').height;
 console.disableYellowBox = true;
 
 export class SaythanxScreen extends React.Component {
-
   constructor(props) {
     super(props);
-    this.setSelectedIndex = this.setSelectedIndex.bind(this)
+    this.setSelectedIndex = this.setSelectedIndex.bind(this);
     this.state = {
       selectedIndex: 0,
-    }
+    };
   }
 
   renderDrawerAction = (): React.ReactElement => (
@@ -42,19 +31,13 @@ export class SaythanxScreen extends React.Component {
   );
 
   setSelectedIndex(index) {
-    this.setState({selectedIndex: index})
+    this.setState({selectedIndex: index});
   }
 
   render() {
-    return (
-      <SafeAreaLayout
-        style={styles.safeArea}
-        insets='top'>
-      </SafeAreaLayout>
-    );
+    return <SafeAreaLayout style={styles.safeArea} insets="top" />;
   }
-
-};
+}
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -67,20 +50,18 @@ const styles = StyleSheet.create({
   },
   active_title: {
     color: '#712177',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   inactive_title: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   bar: {
-    height: 40
+    height: 40,
   },
-  tabView: {
-    
-  },
+  tabView: {},
   tabViewIndicator: {
     backgroundColor: '#712177',
-    borderRadius: 0
+    borderRadius: 0,
   },
   container: {
     paddingHorizontal: 18,
@@ -89,15 +70,15 @@ const styles = StyleSheet.create({
     //flexDirection: 'row',
     //alignItems: 'center',
     //justifyContent: 'center',
-    marginBottom: screenHeight/3.8
+    marginBottom: screenHeight / 3.8,
   },
   item: {
-    marginTop: 15
+    marginTop: 15,
   },
   tit: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   desc: {
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 });

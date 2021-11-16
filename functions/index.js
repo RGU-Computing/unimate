@@ -3,30 +3,16 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 const messages = {
-    anger: [
-        'Anger 1',
-        'Anger 2'
-    ],
-    anxiety: [
-        'Anxiety 1',
-        'Anxiety 2'
-    ],
-    sadness: [
-        'Sad 1',
-        'Sad 2'
-    ],
-    stress: [
-        'Stress 1',
-        'Stress 2',
-    ],
-    tired: [
-        'Tired 1',
-        'Tired 2'
-    ]
+  anger: ['Anger 1', 'Anger 2'],
+  anxiety: ['Anxiety 1', 'Anxiety 2'],
+  sadness: ['Sad 1', 'Sad 2'],
+  stress: ['Stress 1', 'Stress 2'],
+  tired: ['Tired 1', 'Tired 2'],
 };
 
-exports.sendNotification = functions.firestore.document('mood_tracking/{documentId}').onCreate((snap, context) => {
-  
+exports.sendNotification = functions.firestore
+  .document('mood_tracking/{documentId}')
+  .onCreate((snap, context) => {
     console.log(snap.data());
     console.log(context.params.documentId);
 
@@ -37,23 +23,23 @@ exports.sendNotification = functions.firestore.document('mood_tracking/{document
     const negatives = [];
 
     if (parseInt(snap.data().anger) > 2) {
-        negatives.push('anger')
+      negatives.push('anger');
     }
 
     if (parseInt(snap.data().anxiety) > 2) {
-        negatives.push('anxiety')
+      negatives.push('anxiety');
     }
 
     if (parseInt(snap.data().sadness) > 2) {
-        negatives.push('sadness')
+      negatives.push('sadness');
     }
 
     if (parseInt(snap.data().stress) > 2) {
-        negatives.push('stress')
+      negatives.push('stress');
     }
 
     if (parseInt(snap.data().tired) > 2) {
-        negatives.push('tired')
+      negatives.push('tired');
     }
 
     //send the notification
@@ -68,10 +54,10 @@ exports.sendNotification = functions.firestore.document('mood_tracking/{document
             })
         });
     });*/
-    
+
     /*firebase.database().ref('messages').child(event.params.messageID).once('value').then(function(snap) {
         var messageData = snap.val();
-    
+
         var topic = 'notifications_' + messageData.receiverKey;
         var payload = {
             notification: {
@@ -79,7 +65,7 @@ exports.sendNotification = functions.firestore.document('mood_tracking/{document
             body: messageData.content,
             }
         };
-        
+
         admin.messaging().sendToTopic(topic, payload)
             .then(function(response) {
                 console.log("Successfully sent message:", response);
@@ -88,4 +74,4 @@ exports.sendNotification = functions.firestore.document('mood_tracking/{document
                 console.log("Error sending message:", error);
             });
         });*/
-});
+  });

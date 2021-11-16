@@ -1,24 +1,28 @@
-import React, { Component } from 'react';
-import { processColor } from 'react-native';
-import { BarChart as Chart } from 'react-native-charts-wrapper';
+import React, {Component} from 'react';
+import {processColor} from 'react-native';
+import {BarChart as Chart} from 'react-native-charts-wrapper';
 
 export default class BarChart extends Component {
   render() {
     const data = {
-      dataSets: [{
-        values: this.props.tabStep ? this.props.tabStep.map(item => item.value) : [],
-        label: 'Number of steps',
-        config: {
-          color: processColor('rgba(113, 33, 119, 0.9)')
-        }
-      }],
+      dataSets: [
+        {
+          values: this.props.tabStep
+            ? this.props.tabStep.map(item => item.value)
+            : [],
+          label: 'Number of steps',
+          config: {
+            color: processColor('rgba(113, 33, 119, 0.9)'),
+          },
+        },
+      ],
       config: {
-        barWidth: 0.8
-      }
-    }
+        barWidth: 0.8,
+      },
+    };
 
     const yAxis = {
-      left: {enabled: false,},
+      left: {enabled: false},
       right: {
         enabled: true,
         drawAxisLine: true,
@@ -26,12 +30,12 @@ export default class BarChart extends Component {
         axisLineColor: processColor('rgb(0, 0, 0)'),
         textSize: 15,
         spaceBottom: 10,
-        valueFormatter: " "
-      }
-    }
+        valueFormatter: ' ',
+      },
+    };
 
     const xAxis = {
-      position: "BOTTOM",
+      position: 'BOTTOM',
       valueFormatter: this.props.formatter,
       drawGridLines: false,
       drawAxisLine: true,
@@ -39,8 +43,8 @@ export default class BarChart extends Component {
       axisLineColor: processColor('rgb(0, 0, 0)'),
       textSize: 15,
       granularityEnabled: true,
-      granularity : this.props.granularity,
-    }
+      granularity: this.props.granularity,
+    };
 
     return (
       <Chart
@@ -50,7 +54,7 @@ export default class BarChart extends Component {
         xAxis={xAxis}
         chartDescription={{text: ''}}
         legend={{enabled: false}}
-        visibleRange={{x: { min: this.props.formatter.length }}}
+        visibleRange={{x: {min: this.props.formatter.length}}}
         touchEnabled={false}
       />
     );
