@@ -25,6 +25,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { UtilService } from '../../services/util.service';
 import RNRestart from 'react-native-restart';
+import Config from 'react-native-config';
 
 const DATA: MenuItemType[] = [
   { title: 'About Unimate', icon: AboutIcon },
@@ -74,7 +75,7 @@ export const BaseDrawer = ({ navigation }): DrawerElement => {
           //"https://www.googleapis.com/auth/fitness.activity.read",
           //"https://www.googleapis.com/auth/fitness.body.read"
         ],
-        webClientId: '[Web Client ID]'
+        webClientId: Config.WEB_CLIENT_ID
       })
       
       // console.log(await GoogleSignin.isSignedIn())

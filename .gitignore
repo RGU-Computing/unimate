@@ -62,3 +62,8 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+/android/app/google-services.json
+/android/app/debug.keystore
+
+.env

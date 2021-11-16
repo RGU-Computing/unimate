@@ -3,6 +3,7 @@ import { View, StyleSheet, ActivityIndicator, Image, Dimensions, ImageBackground
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
 import { Text } from '@ui-kitten/components';
+import Config from 'react-native-config';
 
 export default class LoginScreen extends Component {
 
@@ -23,7 +24,7 @@ export default class LoginScreen extends Component {
         //"https://www.googleapis.com/auth/fitness.activity.read",
         //"https://www.googleapis.com/auth/fitness.body.read"
       ],
-      webClientId: '[Web Client ID]'
+      webClientId: Config.WEB_CLIENT_ID
     })
     try {
       const { idToken } = await GoogleSignin.signIn()
