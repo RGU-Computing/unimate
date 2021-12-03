@@ -1,9 +1,8 @@
-import { Message } from '../models/message';
+import {Message} from '../models/message';
 
 type MessageGroup = Message[];
 
 export class ChatService {
-
   public createMessageGroups = (source: Message[]): MessageGroup[] => {
     if (!source.length) {
       return [];
@@ -14,14 +13,16 @@ export class ChatService {
 
     let currentGroup: MessageGroup = [firstMessage];
 
-    messages.forEach((message: Message): void => {
-      if (this.fitsGroupSafe(message, currentGroup)) {
-        currentGroup.push(message);
-      } else {
-        result.push(currentGroup);
-        currentGroup = [message];
-      }
-    });
+    messages.forEach(
+      (message: Message): void => {
+        if (this.fitsGroupSafe(message, currentGroup)) {
+          currentGroup.push(message);
+        } else {
+          result.push(currentGroup);
+          currentGroup = [message];
+        }
+      },
+    );
 
     return [...result, currentGroup];
   };

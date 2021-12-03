@@ -39,9 +39,13 @@ const defaultProps: Partial<KeyboardAvoidingViewProps> = {
 
 const translateY = new Animated.Value(0);
 
-export const KeyboardAvoidingView = (props: KeyboardAvoidingViewProps): React.ReactElement => {
-
-  const { style, offset, autoDismiss, ...viewProps } = { ...defaultProps, ...props };
+export const KeyboardAvoidingView = (
+  props: KeyboardAvoidingViewProps,
+): React.ReactElement => {
+  const {style, offset, autoDismiss, ...viewProps} = {
+    ...defaultProps,
+    ...props,
+  };
 
   React.useEffect(() => {
     const showEventSubscription: EmitterSubscription = Keyboard.addListener(
@@ -60,15 +64,17 @@ export const KeyboardAvoidingView = (props: KeyboardAvoidingViewProps): React.Re
 
   const onKeyboardShow = (event: KeyboardEvent): void => {
     const offsetValue: number = -offset(event.endCoordinates.height);
-    createTranslateAnimation({ offsetValue }).start();
+    createTranslateAnimation({offsetValue}).start();
   };
 
   const onKeyboardHide = (event: KeyboardEvent): void => {
     const offsetValue: number = 0;
-    createTranslateAnimation({ offsetValue }).start();
+    createTranslateAnimation({offsetValue}).start();
   };
 
-  const createTranslateAnimation = (params: { offsetValue: number }): Animated.CompositeAnimation => {
+  const createTranslateAnimation = (params: {
+    offsetValue: number;
+  }): Animated.CompositeAnimation => {
     return Animated.timing(translateY, {
       toValue: params.offsetValue,
       duration: animationDuration,
@@ -78,17 +84,14 @@ export const KeyboardAvoidingView = (props: KeyboardAvoidingViewProps): React.Re
 
   const transformsStyle: TransformsStyle = {
     // @ts-ignore
-    transform: [{ translateY }],
+    transform: [{translateY}],
   };
 
   return (
     <TouchableWithoutFeedback
       disabled={!autoDismiss}
       onPress={Keyboard.dismiss}>
-      <Animated.View
-        style={[transformsStyle, style]}
-        {...viewProps}
-      />
+      <Animated.View style={[transformsStyle, style]} {...viewProps} />
     </TouchableWithoutFeedback>
   );
 };

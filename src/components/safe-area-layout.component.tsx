@@ -1,7 +1,7 @@
 import React from 'react';
-import { FlexStyle, View, ViewProps } from 'react-native';
-import { EdgeInsets, SafeAreaConsumer } from 'react-native-safe-area-context';
-import { styled, StyledComponentProps } from '@ui-kitten/components';
+import {FlexStyle, View, ViewProps} from 'react-native';
+import {EdgeInsets, SafeAreaConsumer} from 'react-native-safe-area-context';
+import {styled, StyledComponentProps} from '@ui-kitten/components';
 
 interface InsetProvider {
   toStyle: (insets: EdgeInsets, styles) => FlexStyle;
@@ -29,26 +29,29 @@ export interface SafeAreaLayoutProps extends ViewProps, StyledComponentProps {
   children?: React.ReactNode;
 }
 
-export class SafeAreaLayoutComponent extends React.Component<SafeAreaLayoutProps> {
-
+export class SafeAreaLayoutComponent extends React.Component<
+  SafeAreaLayoutProps
+> {
   static styledComponentName: string = 'SafeAreaLayout';
 
   public render(): React.ReactElement<ViewProps> {
-    return (
-      <SafeAreaConsumer>
-        {this.renderComponent}
-      </SafeAreaConsumer>
-    );
+    return <SafeAreaConsumer>{this.renderComponent}</SafeAreaConsumer>;
   }
 
-  private createInsets = (insets: Inset | Inset[],
-                          safeAreaInsets: EdgeInsets,
-                          style): FlexStyle[] => {
-    return React.Children.map(insets, inset => INSETS[inset].toStyle(safeAreaInsets, style));
+  private createInsets = (
+    insets: Inset | Inset[],
+    safeAreaInsets: EdgeInsets,
+    style,
+  ): FlexStyle[] => {
+    return React.Children.map(insets, inset =>
+      INSETS[inset].toStyle(safeAreaInsets, style),
+    );
   };
 
-  private renderComponent = (safeAreaInsets: EdgeInsets): React.ReactElement<ViewProps> => {
-    const { style, insets, themedStyle, ...viewProps } = this.props;
+  private renderComponent = (
+    safeAreaInsets: EdgeInsets,
+  ): React.ReactElement<ViewProps> => {
+    const {style, insets, themedStyle, ...viewProps} = this.props;
 
     return (
       <View
@@ -60,4 +63,3 @@ export class SafeAreaLayoutComponent extends React.Component<SafeAreaLayoutProps
 }
 
 export const SafeAreaLayout = styled(SafeAreaLayoutComponent);
-

@@ -1,28 +1,20 @@
+import {Button, Divider, Input, Layout, Text} from '@ui-kitten/components';
 import React, {useEffect} from 'react';
-import {StyleSheet, Dimensions, View, Image} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {ProgressChart} from 'react-native-chart-kit';
+import {Dimensions, Image, StyleSheet, View} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import {ProgressChart} from 'react-native-chart-kit';
+import {ScrollView} from 'react-native-gesture-handler';
 import MotionSlider from 'react-native-motion-slider';
+import * as Progress from 'react-native-progress';
 import {
-  Text,
-  Divider,
-  Modal,
-  Layout,
-  Input,
-  Button,
-} from '@ui-kitten/components';
-import {UtilService} from '../../services/util.service';
-import {DiaryEntry} from '../../components/diary-entry.component';
-import {DIARY, MOOD_SLIDES, EMOTIVITY, DATE} from '../../services/types';
-import {FirebaseService} from '../../services/firebase.service';
-import {
-  ArrowIosForwardIcon,
   ArrowIosBackIcon,
+  ArrowIosForwardIcon,
   CheckIcon,
 } from '../../components/icons';
 import {AppStorage} from '../../services/app-storage.service';
-import * as Progress from 'react-native-progress';
+import {FirebaseService} from '../../services/firebase.service';
+import {DIARY, EMOTIVITY, MOOD_SLIDES} from '../../services/types';
+import {UtilService} from '../../services/util.service';
 
 const vals = {
   [EMOTIVITY.DATABASE.FIELDS.ANGER]: 0,
@@ -624,11 +616,21 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
     // Get all the negatives that are >= 3
 
     const moods: string[] = [];
-    if (scores[EMOTIVITY.DATABASE.FIELDS.ANGER] > 2) moods.push('Anger');
-    if (scores[EMOTIVITY.DATABASE.FIELDS.ANXIETY] > 2) moods.push('Anxiety');
-    if (scores[EMOTIVITY.DATABASE.FIELDS.SADNESS] > 2) moods.push('Sadness');
-    if (scores[EMOTIVITY.DATABASE.FIELDS.STRESS] > 2) moods.push('Stress');
-    if (scores[EMOTIVITY.DATABASE.FIELDS.TIRED] > 2) moods.push('Tired');
+    if (scores[EMOTIVITY.DATABASE.FIELDS.ANGER] > 2) {
+      moods.push('Anger');
+    }
+    if (scores[EMOTIVITY.DATABASE.FIELDS.ANXIETY] > 2) {
+      moods.push('Anxiety');
+    }
+    if (scores[EMOTIVITY.DATABASE.FIELDS.SADNESS] > 2) {
+      moods.push('Sadness');
+    }
+    if (scores[EMOTIVITY.DATABASE.FIELDS.STRESS] > 2) {
+      moods.push('Stress');
+    }
+    if (scores[EMOTIVITY.DATABASE.FIELDS.TIRED] > 2) {
+      moods.push('Tired');
+    }
 
     // Generate the modal based on the negatives >= 3
 
@@ -663,8 +665,11 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
       [EMOTIVITY.DATABASE.FIELDS.TIRED]:
         scores[EMOTIVITY.DATABASE.FIELDS.TIRED],
     });
-     //Mark emotivity Completed for today
-     AppStorage.markEmotivityTodayCompleted({date: UtilService.getDateTodayNoFormat(), action: 'Completed'})
+    //Mark emotivity Completed for today
+    AppStorage.markEmotivityTodayCompleted({
+      date: UtilService.getDateTodayNoFormat(),
+      action: 'Completed',
+    });
   };
 
   const onChange = (key, value) => {
@@ -845,7 +850,9 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
                 return '#CC79A7';
               } else if (opacity === 0.4 || opacity === 0.5833333333333334) {
                 // 2nd Ring - Anxiety
-                if (opacity === 0.5833333333333334) isFirstRingLegend = true;
+                if (opacity === 0.5833333333333334) {
+                  isFirstRingLegend = true;
+                }
                 return '#57B4E9';
               } else if (opacity === 0.2) {
                 // 1st Ring Legend
@@ -870,7 +877,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
             marginLeft: -20,
           }}
         />
-      {/* <Divider style={styles.divider} />
+        {/* <Divider style={styles.divider} />
         <Text
           style={{
             fontWeight: 'bold',

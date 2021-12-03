@@ -1,49 +1,34 @@
-import React, {useEffect} from 'react';
 import {
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-  SafeAreaView,
-  StatusBar,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {
-  Divider,
-  TopNavigation,
-  TopNavigationAction,
-  Icon,
-  Text,
-  Input,
-  ListItem,
-  Avatar,
-} from '@ui-kitten/components';
-import {ActionCard} from '../../components/action-card.component';
-import {SafeAreaLayout} from '../../components/safe-area-layout.component';
-import {
-  MenuIcon,
-  InfoIcon,
-  PrivacyLockIcon,
-  TraxivityAvatar,
-  EmotivityAvatar,
-  CompletedAvatar,
-} from '../../components/icons';
-import {FirebaseService} from '../../services/firebase.service';
-import {UtilService} from '../../services/util.service';
-import {AppStorage} from '../../services/app-storage.service';
-import {TodoInput} from '../../components/todo-input.component';
-import {TodoItem} from '../../components/todo-item.component';
-import AsyncStorage from '@react-native-community/async-storage';
-import {text} from '@fortawesome/fontawesome-svg-core';
-import * as Progress from 'react-native-progress';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faBullseye,
   faHandHoldingHeart,
   faSmile,
   faWalking,
 } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  Icon,
+  Text,
+  TopNavigation,
+  TopNavigationAction,
+} from '@ui-kitten/components';
+import React, {useEffect} from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import * as Progress from 'react-native-progress';
+import {ActionCard} from '../../components/action-card.component';
+import {InfoIcon, MenuIcon} from '../../components/icons';
+import {SafeAreaLayout} from '../../components/safe-area-layout.component';
+import {TodoInput} from '../../components/todo-input.component';
+import {TodoItem} from '../../components/todo-item.component';
+import {AppStorage} from '../../services/app-storage.service';
+import {FirebaseService} from '../../services/firebase.service';
+import {UtilService} from '../../services/util.service';
 
 export const MoodScreen = ({navigation}): React.ReactElement => {
   const [actionData, setActionData] = React.useState<Object>();
@@ -73,34 +58,26 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
       const sayThanxDataCompleted = await AppStorage.checkSayThanxTodayCompleted();
       if (
         sayThanxDataCompleted != null &&
-        (
-          Number(sayThanxDataCompleted.date) ==
+        Number(sayThanxDataCompleted.date) ==
           Number(UtilService.getDateTodayNoFormat())
-        )
       ) {
         setSayThanxCompleted(1);
-      }
-      else{
-        setSayThanxCompleted(0);   
+      } else {
+        setSayThanxCompleted(0);
       }
 
       const emotivityDataCompleted = await AppStorage.checkEmotivityTodayCompleted();
       if (
         emotivityDataCompleted != null &&
-        (
-          Number(emotivityDataCompleted.date) ==
+        Number(emotivityDataCompleted.date) ==
           Number(UtilService.getDateTodayNoFormat())
-        )
       ) {
         setEmotivityCompleted(1);
-      }
-      else{
+      } else {
         setEmotivityCompleted(0);
       }
-
     } catch (error) {}
   };
-
 
   const setInitialToDoList = async () => {
     const initialToDoList = await AppStorage.getToDoList();
@@ -370,9 +347,7 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
                 <Progress.Circle
                   style={{alignSelf: 'center'}}
                   size={60}
-                  progress={
-                    emotivityCompleted
-                  }
+                  progress={emotivityCompleted}
                   strokeCap={'round'}
                   showsText={true}
                   thickness={8}
@@ -398,9 +373,7 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
                 <Progress.Circle
                   style={{alignSelf: 'center'}}
                   size={60}
-                  progress={
-                    sayThanxCompleted
-                  }
+                  progress={sayThanxCompleted}
                   strokeCap={'round'}
                   showsText={true}
                   thickness={8}

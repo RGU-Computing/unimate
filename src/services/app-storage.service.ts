@@ -1,9 +1,9 @@
-import {YellowBox} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import {YellowBox} from 'react-native';
+import {User} from 'src/models/auth/user';
 import {Mapping, Theme} from './theme.service';
-import {DATE, EMOTIVITY} from './types';
+import {DATE} from './types';
 import {UtilService} from './util.service';
-import {TodoInput} from 'src/components/todo-input.component';
 
 const MAPPING_KEY: string = 'mapping';
 const THEME_KEY: string = 'theme';
@@ -13,7 +13,7 @@ const SAYTHANX_TODAY_FILLED: string = 'saythanx_today_filled';
 const NOTIFICATIONS_KEY: string = 'notifications_key';
 const DAILY_STEPS_GOAL: string = 'daily_steps_goal';
 
-let USER: Object = {};
+let USER: User;
 let TRAXIVITY_DETAILS = {goal: 0, steps: 0};
 let EMOTIVITY_DETAILS = {
   status: false,
@@ -67,13 +67,17 @@ export class AppStorage {
   static getStoredUser = async () => {
     try {
       const user = await AsyncStorage.getItem('user');
-      return JSON.parse(user);
+      if (user) {
+        return JSON.parse(user) as User;
+      }
+
+      throw new Error('User not exist in async storage');
     } catch (error) {
       return false;
     }
   };
 
-  static setUser = (user: Object) => {
+  static setUser = (user: User) => {
     console.log('setUser');
     console.log(user);
     USER = user;
@@ -285,10 +289,12 @@ export class AppStorage {
     try {
       const goal = await AsyncStorage.getItem(DAILY_STEPS_GOAL);
       console.log(goal);
-      if (Number(goal) == 0) {
+      if (Number(goal) === 0) {
         return {goal: 5000};
-      } else {
+      } else if (goal) {
         return JSON.parse(goal);
+      } else {
+        throw new Error('Goal is empty');
       }
     } catch (error) {
       console.log('Failed to fetch the daily step goal from the storage');

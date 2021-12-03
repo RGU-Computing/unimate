@@ -1,30 +1,18 @@
-import React from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  ListRenderItemInfo,
-  View,
-  ActivityIndicator,
-  TouchableOpacityBase,
-  TouchableOpacity,
-} from 'react-native';
-import {
-  Divider,
+  Avatar,
+  Icon,
+  Layout,
   List,
+  Text,
   TopNavigation,
   TopNavigationAction,
-  Layout,
-  Icon,
-  Button,
-  Text,
-  Avatar,
 } from '@ui-kitten/components';
-import {SafeAreaLayout} from '../../components/safe-area-layout.component';
-import {MenuIcon, InfoIcon} from '../../components/icons';
+import React from 'react';
+import {ListRenderItemInfo, ScrollView, StyleSheet, View} from 'react-native';
+import {InfoIcon, MenuIcon} from '../../components/icons';
 import {NotificationItem} from '../../components/notification.component';
+import {SafeAreaLayout} from '../../components/safe-area-layout.component';
 import {Notification} from '../../models/notification';
-import {FirebaseService} from '../../services/firebase.service';
-import {faHistory} from '@fortawesome/free-solid-svg-icons';
 import {AppStorage} from '../../services/app-storage.service';
 
 const renderItem = (
@@ -124,11 +112,11 @@ export class NotificationsScreen extends React.Component {
           title="Notifications"
           leftControl={this.renderDrawerAction()}
           rightControls={[this.renderSOS()]}
-          titleStyle={{color:'white'}}
-            style={{backgroundColor:'#712177'}}
+          titleStyle={{color: 'white'}}
+          style={{backgroundColor: '#712177'}}
         />
         {/* <Divider /> */}
-        <Layout style={{backgroundColor:'#712177'}}>
+        <Layout style={{backgroundColor: '#712177'}}>
           <ScrollView style={styles.container}>
             {this.state.notifications.length > 0 && (
               <List
@@ -138,7 +126,7 @@ export class NotificationsScreen extends React.Component {
               />
             )}
             {this.state.notifications.length == 0 && (
-              <View style={{marginVertical:'50%'}}>
+              <View style={{marginVertical: '50%'}}>
                 <Avatar
                   style={{height: 100, width: 100, alignSelf: 'center'}}
                   source={require('../../assets/images/completeTick.png')}
@@ -184,7 +172,9 @@ const styles = StyleSheet.create({
   container: {
     //height: (Dimensions.get('window').height/3)-10,
     height: '100%',
-    backgroundColor: 'white', borderTopLeftRadius:30, borderTopRightRadius:30
+    backgroundColor: 'white',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   list: {
     flex: 1,

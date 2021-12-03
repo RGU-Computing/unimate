@@ -58,12 +58,13 @@ export const ActionCard = (props: ActionCardProps): CardElement => {
 
   let ACTION = data;
 
-  if (data && data !== 'empty')
+  if (data && data !== 'empty') {
     ACTION = new Action(
       data.id,
       UtilService.getDateFromDatabaseDateFormat(data.data().date),
       data.data().text,
     );
+  }
 
   useEffect(() => {
     if (data && data !== 'empty') {
