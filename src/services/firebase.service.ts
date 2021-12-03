@@ -368,24 +368,23 @@ export class FirebaseService {
     return firestore()
       .collection('users')
       .doc(uid)
-      .collection('CalendarNotifications')
-      .add(notification);
+      .update({calendarNotification: notification});
   };
 
   static getClanedarNotifications = async () => {
     const {uid} = AppStorage.getUser();
 
     try {
-      const dbRef = firestore().collection(
-        `users/${uid}/CalendarNotifications`,
-      );
+      const dbRef = firestore().doc(`users/${uid}`);
       const snaps = await dbRef.get();
-      if (!snaps.empty) {
-        const docs = snaps.docs.map(doc => doc.data() as CalendarNotification);
-        return docs;
+      if (snaps.exists) {
+        const docs = snaps.data() as {
+          calendarNotification: CalendarNotification;
+        };
+        return docs.calendarNotification;
       }
 
-      return [] as CalendarNotification[];
+      return null;
     } catch (error) {
       _onError(error);
     }
