@@ -94,4 +94,6 @@ export class UtilService {
       AppStorage.getUser().displayName.indexOf(' '),
     );
   };
+
+  
 }

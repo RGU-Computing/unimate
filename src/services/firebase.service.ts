@@ -2,32 +2,33 @@ import firestore, {
   firebase,
   FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
-import {now} from 'moment';
-import GoogleFit, {Scopes} from 'react-native-google-fit';
-import {User} from 'src/models/auth/user';
-import {getSteps} from '../api/googleFitApi';
-import {Notification} from '../models/notification';
-import {AppStorage} from './app-storage.service';
-import {ACTION_CARDS, DATE, DIARY, EMOTIVITY, USERS} from './types';
-import {UtilService} from './util.service';
-
+import { now } from 'moment';
+import GoogleFit, { Scopes } from 'react-native-google-fit';
+import { User } from 'src/models/auth/user';
+import { getSteps } from '../api/googleFitApi';
+import { Notification } from '../models/notification';
+import { AppStorage } from './app-storage.service';
+import { ACTION_CARDS, DATE, DIARY, EMOTIVITY, USERS } from './types';
+import { UtilService } from './util.service';
+import _ from "lodash";
+import { ThanxMessage } from 'src/models/ThanxMessage';
 const _onError = (e: any): void => {
   console.error(e);
 };
 
 export class FirebaseService {
   static setPushToken(token) {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
     firestore()
       .collection(USERS.DATABASE.REF)
       .doc(uid)
       .update({
         pushToken: token,
       })
-      .then(function() {
+      .then(function () {
         console.log('Token updated: ' + token);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error('Error updating token: ', error);
       });
   }
@@ -61,7 +62,7 @@ export class FirebaseService {
   };
 
   static addActionCardReaction = (actionCardID, REACTION_TYPE) => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
 
     firestore()
       .collection(ACTION_CARDS.DATABASE.REF)
@@ -82,7 +83,7 @@ export class FirebaseService {
     oldReaction,
     REACTION_TYPE,
   ) => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
 
     //TODO Change the method
     firestore()
@@ -119,7 +120,7 @@ export class FirebaseService {
   };
 
   static getIsEmotivityDoneToday = (onSuccess, onError = _onError) => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
     let query = firestore().collection(EMOTIVITY.DATABASE.REF);
     query = query.where(EMOTIVITY.DATABASE.FIELDS.USER, '==', uid);
     query = query.where(
@@ -131,7 +132,7 @@ export class FirebaseService {
   };
 
   static subscribeForEmotivity = (onSuccess, onError = _onError) => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
     let query = firestore().collection(EMOTIVITY.DATABASE.REF);
     query = query.where(EMOTIVITY.DATABASE.FIELDS.USER, '==', uid);
     return (query = query
@@ -150,7 +151,7 @@ export class FirebaseService {
     onSuccessDiary,
     onError = _onError,
   ) => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
     firestore()
       .collection(EMOTIVITY.DATABASE.REF)
       .where(EMOTIVITY.DATABASE.FIELDS.USER, '==', uid)
@@ -168,7 +169,7 @@ export class FirebaseService {
   };
 
   static addMoodTrackingRecord = scores => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
     firestore()
       .collection(EMOTIVITY.DATABASE.REF)
       .add({
@@ -198,7 +199,7 @@ export class FirebaseService {
   };
 
   static addNewDiaryEntry = (STATUS_TYPE, data) => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
     const questionsArr = [];
     data.forEach(item => {
       questionsArr.push(item);
@@ -230,7 +231,7 @@ export class FirebaseService {
   };
 
   static getTodayDiaryEntry = (onSuccess, onError = _onError) => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
     let query = firestore().collection(DIARY.DATABASE.REF);
     query = query.where(DIARY.DATABASE.FIELDS.USER, '==', uid);
     query = query.where(
@@ -305,13 +306,13 @@ export class FirebaseService {
             ],
           });
         } else {
-          transaction.update(ref, {user: user});
+          transaction.update(ref, { user: user });
         }
       })
-      .then(function() {
+      .then(function () {
         console.log('setUser success!');
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.warn('setUser failed: ', error);
       });
   };
@@ -327,7 +328,7 @@ export class FirebaseService {
         start.setHours(0, 0, 0, 0);
         end.setHours(23, 59, 59, 999);
         getSteps(
-          {startDate: start, endDate: end},
+          { startDate: start, endDate: end },
           null,
           (res: string | any[]) => {
             console.log(goal);
@@ -343,7 +344,7 @@ export class FirebaseService {
   };
 
   static subscribeForTraxivity = (onSuccess, onError = _onError) => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
     firestore()
       .collection(USERS.DATABASE.REF)
       .doc(uid)
@@ -351,10 +352,55 @@ export class FirebaseService {
   };
 
   static subscribeForNotifications = (onSuccess, onError = _onError) => {
-    const {uid} = AppStorage.getUser();
+    const { uid } = AppStorage.getUser();
     return firestore()
       .collection(USERS.DATABASE.REF)
       .doc(uid)
       .onSnapshot(onSuccess, onError);
   };
+
+  static getChatList = async () => {
+    const { uid: loggedUserId } = AppStorage.getUser();
+
+    const user = await firestore()
+      .collection(USERS.DATABASE.REF)
+      .doc(loggedUserId)
+      .get();
+    return user?.data()?.messages;
+  };
+
+  static getReceivedChats = async () => {
+    const { uid: curUId } = AppStorage.getUser();
+    const users = await firestore().collection(USERS.DATABASE.REF)
+    const sent = users.doc(curUId)
+
+    return _.groupBy((await sent.get()).data()?.messages, "_id")
+  }
+
+  static getSentChatsByReceiverId = async (receiverUID: string) => {
+    // returns sent chats by current user to given reciverid
+    const { uid: currUID } = AppStorage.getUser();
+    const users = await firestore().collection(USERS.DATABASE.REF)
+    console.log("RECIVER ID", { receiverUID });
+
+    const received = await users.doc(receiverUID);
+
+    const msgs = (await received.get()).data()?.messages;
+
+    return msgs.filter((el: ThanxMessage) => el.user._id === currUID);
+  }
+
+  static sendChat = async (msg: ThanxMessage) => {
+    const { uid: currUID } = AppStorage.getUser();
+    const { _id: toUID } = msg;
+    console.log("send service", { toUID, msg });
+
+    const users = await firestore().collection(USERS.DATABASE.REF)
+    return await users.doc(msg._id).update({
+      messages: firebase.firestore.FieldValue.arrayUnion(msg)
+    })
+
+  }
+
+
 }

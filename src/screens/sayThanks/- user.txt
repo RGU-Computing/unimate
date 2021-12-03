@@ -1,0 +1,8 @@
+- user
+    - peers:uid[]
+    - 
+    - messages[]
+        - from:uid
+        - text:string
+        - timeStamp:dateTime
+        

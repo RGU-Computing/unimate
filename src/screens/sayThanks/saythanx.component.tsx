@@ -1,6 +1,7 @@
 import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/core';
 import {
+  Button,
   Divider,
   Icon,
   Input,
@@ -9,12 +10,17 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {InfoIcon, MenuIcon, SearchIcon} from '../../components/icons';
 import {User} from '../../models/auth/user';
 import {AppStorage} from '../../services/app-storage.service';
 import {FirebaseService} from '../../services/firebase.service';
+import React, {FC, useEffect, useState, useCallback, useRef} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {InfoIcon, MenuIcon, SearchIcon} from '../../components/icons';
+/**
+ * - User search
+ * - Old Chats
+ *
+ */
 interface SayThanksScreenProps {
   // props
 }
@@ -27,6 +33,7 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
   const searchRef = useRef<any>();
 
   const nav = useNavigation();
+  const [chats, setChats] = useState<any[]>([]);
 
   const onGettingUsers = useCallback(
     async (documents: FirebaseFirestoreTypes.QuerySnapshot) => {
@@ -92,6 +99,14 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
       onPress={() => nav.navigate('Health')}
     />
   );
+  useEffect(() => {
+    FirebaseService.getReceivedChats().then(res => {
+      console.log('res', {res});
+
+      setChats(Object.keys(res));
+      console.log('keys', Object.keys(res));
+    });
+  }, []);
 
   const renderDrawerAction = (): React.ReactElement => (
     <TopNavigationAction icon={MenuIcon} onPress={(nav as any).toggleDrawer} />
@@ -106,7 +121,6 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
         titleStyle={{color: 'white'}}
         style={{backgroundColor: '#712177'}}
       />
-      {/* <Divider/> */}
       <View style={styles.bar}>
         <View style={styles.container}>
           <Input
@@ -119,6 +133,23 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
           />
           <Divider />
           <List data={filteredUsers} renderItem={renderItem} />
+          <Text>Say Thank</Text>
+          <Button
+            onPress={() => {
+              nav.navigate('Chat');
+            }}>
+            Go to Chat
+          </Button>
+
+          {chats &&
+            chats.map(chat => (
+              <TouchableOpacity
+                onPress={() => {
+                  nav.navigate('Chat', {chatUID: chat});
+                }}>
+                <Text>{chat}</Text>
+              </TouchableOpacity>
+            ))}
         </View>
       </View>
     </>
