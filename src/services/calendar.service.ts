@@ -1,5 +1,9 @@
 import {GoogleSignin} from '@react-native-community/google-signin';
 import axios, {AxiosInstance} from 'axios';
+import BackgroundFetch from 'react-native-background-fetch';
+import {UtilService} from './util.service';
+import {firebase} from '@react-native-firebase/firestore';
+import {AppStorage} from './app-storage.service';
 
 const ENDPOINTS = {
   baseUrl: 'https://www.googleapis.com/calendar/v3/',
@@ -78,6 +82,55 @@ export class CalendarService {
     } else {
       throw new CalanderServiceException('NOT AUTHENTICATED');
     }
+  };
+
+  static scheduleEventBackground = async () => {
+    let status = await BackgroundFetch.configure(
+      {minimumFetchInterval: 1},
+      async taskId => {
+        BackgroundFetch.finish(taskId);
+      },
+      async taskId => {
+        console.log('Timeout occured', taskId);
+        BackgroundFetch.finish(taskId);
+      },
+    );
+
+    console.log('Status of the background fetch: ', status);
+    this.getCalendarNotifData();
+
+    BackgroundFetch.scheduleTask({
+      taskId: 'calendar.event.task',
+      forceAlarmManager: true,
+      delay: 5000,
+      periodic: true,
+      enableHeadless: true,
+    });
+  };
+
+  static scheduleEvent = () => {
+    let dateToday = new Date();
+    let dateTodayString = dateToday.toISOString().split('T')[0];
+    let currentTime = UtilService.getTimeIn24();
+    let isInRangeMorning = UtilService.isTimeBetween(
+      currentTime,
+      '04:00',
+      '06:00',
+    );
+    let isInRangeAfternoon = UtilService.isTimeBetween(
+      currentTime,
+      '12:00',
+      '14:00',
+    );
+  };
+
+  static getCalendarNotifData = async () => {
+    let userDoc = await firebase
+      .firestore()
+      .collection('users')
+      .doc(AppStorage.getUser().uid)
+      .get();
+    console.log(userDoc);
   };
 }
 
