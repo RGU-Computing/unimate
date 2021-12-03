@@ -158,15 +158,15 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
     }
   };
 
-  const addTodoItemTop = async _text => {
+  const addTodoItemTop = async ({text, date}) => {
     const temp = await AppStorage.getToDoList();
     if (temp != null && temp.length > 0) {
-      const userInput = [{text: _text, completed: false}];
+      const userInput = [{text, completed: false, deadline: date}];
       const updatedArr = userInput.concat(temp);
       await AppStorage.saveToDoList(updatedArr);
       setTodoItems(updatedArr);
     } else {
-      const tempIni = [{text: _text, completed: false}];
+      const tempIni = [{text, completed: false, deadline: date}];
       await AppStorage.saveToDoList(tempIni);
       setTodoItems(tempIni);
     }
