@@ -13,7 +13,7 @@ import {TouchableOpacity, View} from 'react-native';
 export const TodoInput = (props): React.ReactElement => {
   const [text, setText] = React.useState<string>('');
 
-  const [date, setDate] = React.useState(null);
+  const [date, setDate] = React.useState(new Date());
 
   const CalendarIcon = style => <Icon {...style} name="calendar" />;
 
