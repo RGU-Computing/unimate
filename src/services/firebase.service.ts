@@ -15,6 +15,10 @@ const _onError = (e: any): void => {
   console.error(e);
 };
 
+export interface CalendarNotification {
+  date: string;
+  time: string;
+}
 export class FirebaseService {
   static setPushToken(token) {
     const {uid} = AppStorage.getUser();
@@ -356,5 +360,34 @@ export class FirebaseService {
       .collection(USERS.DATABASE.REF)
       .doc(uid)
       .onSnapshot(onSuccess, onError);
+  };
+
+  static createCalendarNotification = (notification: CalendarNotification) => {
+    const {uid} = AppStorage.getUser();
+
+    return firestore()
+      .collection('users')
+      .doc(uid)
+      .collection('CalendarNotifications')
+      .add(notification);
+  };
+
+  static getClanedarNotifications = async () => {
+    const {uid} = AppStorage.getUser();
+
+    try {
+      const dbRef = firestore().collection(
+        `users/${uid}/CalendarNotifications`,
+      );
+      const snaps = await dbRef.get();
+      if (!snaps.empty) {
+        const docs = snaps.docs.map(doc => doc.data() as CalendarNotification);
+        return docs;
+      }
+
+      return [] as CalendarNotification[];
+    } catch (error) {
+      _onError(error);
+    }
   };
 }
