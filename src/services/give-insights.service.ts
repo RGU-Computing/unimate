@@ -1,4 +1,6 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 import GoogleFit, {Scopes} from 'react-native-google-fit';
 import {getSteps} from '../api/googleFitApi';
 import {AppStorage} from './app-storage.service';
@@ -11,8 +13,24 @@ const _onError = (e: any): void => {
 
 export class InsightsService {
   static getTodayEmotivityAnalysis = (
-    onSuccessMood,
-    onSuccessDiary,
+    onSuccessMood:
+      | ((
+          value: FirebaseFirestoreTypes.QuerySnapshot,
+        ) =>
+          | FirebaseFirestoreTypes.QuerySnapshot
+          | PromiseLike<FirebaseFirestoreTypes.QuerySnapshot>
+        )
+      | null
+      | undefined,
+    onSuccessDiary:
+      | ((
+          value: FirebaseFirestoreTypes.QuerySnapshot,
+        ) =>
+          | FirebaseFirestoreTypes.QuerySnapshot
+          | PromiseLike<FirebaseFirestoreTypes.QuerySnapshot>
+        )
+      | null
+      | undefined,
     onError = _onError,
   ) => {
     const {uid} = AppStorage.getUser();
@@ -38,7 +56,7 @@ export class InsightsService {
       .then(onSuccessDiary, onError);
   };
 
-  static getStepsToday = (goal, onSuccess) => {
+  static getDailySteps = (goal: any, onSuccess: () => void) => {
     const options = {
       scopes: [Scopes.FITNESS_ACTIVITY_READ_WRITE],
     };
@@ -64,7 +82,7 @@ export class InsightsService {
       .catch(err => console.log(err));
   };
 
-  static getStepsWeek = (goal, onSuccess) => {
+  static getWeeklySteps = (goal: any, onSuccess: () => void) => {
     const options = {
       scopes: [Scopes.FITNESS_ACTIVITY_READ_WRITE],
     };
