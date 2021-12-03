@@ -330,7 +330,7 @@ export class FirebaseService {
           {startDate: start, endDate: end},
           null,
           (res: string | any[]) => {
-            console.log(goal);
+            console.log(`from fit api:${goal}`);
             AppStorage.setTraxivityDetails(
               goal,
               res.length > 0 ? res[0].value : 0,

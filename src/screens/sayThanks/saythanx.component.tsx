@@ -1,4 +1,4 @@
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/core';
 import {
   Button,
@@ -11,12 +11,11 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+import {InfoIcon, MenuIcon, SearchIcon} from '../../components/icons';
 import {User} from '../../models/auth/user';
 import {AppStorage} from '../../services/app-storage.service';
-import {InfoIcon, MenuIcon, SearchIcon} from '../../components/icons';
 import {FirebaseService} from '../../services/firebase.service';
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 interface SayThanksScreenProps {
   // props
 }

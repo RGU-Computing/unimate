@@ -1,25 +1,24 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, View, ActivityIndicator} from 'react-native';
+import {faHeart, faThumbsUp} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
+  Button,
   Card,
   CardElement,
   CardProps,
+  IconElement,
   StyleService,
   Text,
   useStyleSheet,
-  Button,
-  IconElement,
-  Divider,
 } from '@ui-kitten/components';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faThumbsUp, faHeart} from '@fortawesome/free-solid-svg-icons';
+import React, {useEffect} from 'react';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {ImageOverlay} from './image-overlay.component';
 import {Action} from '../models/action';
 import {AppStorage} from '../services/app-storage.service';
 import {FirebaseService} from '../services/firebase.service';
 import {ACTION_CARDS} from '../services/types';
 import {UtilService} from '../services/util.service';
+import {ImageOverlay} from './image-overlay.component';
 
 export interface ActionCardProps extends Omit<CardProps, 'children'> {
   data: any;
