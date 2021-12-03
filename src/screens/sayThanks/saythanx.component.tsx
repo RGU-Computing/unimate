@@ -1,7 +1,6 @@
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/core';
 import {
-  Button,
   Divider,
   Icon,
   Input,
@@ -11,12 +10,11 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {InfoIcon, MenuIcon, SearchIcon} from '../../components/icons';
 import {User} from '../../models/auth/user';
 import {AppStorage} from '../../services/app-storage.service';
-import {InfoIcon, MenuIcon, SearchIcon} from '../../components/icons';
 import {FirebaseService} from '../../services/firebase.service';
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 interface SayThanksScreenProps {
   // props
 }
@@ -38,8 +36,12 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
 
       const userDocs = documents.docs
         .map(doc => doc.data())
-        .map((value: any) => value.user)
-        .filter(user => user.uid !== currentUser.uid)
+        .map((value: any) => {
+          if (value.user.uid === currentUser.uid) {
+            value.user.displayName = 'Me';
+          }
+          return value.user;
+        })
         .map(doc => doc as User);
 
       setUsers(userDocs);
@@ -80,6 +82,7 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
       title={props.item.displayName}
       description={props.item.email}
       icon={renderItemIcon}
+      onPress={() => nav.navigate('Chat', {userId: props.item.uid})}
     />
   );
 
@@ -116,13 +119,6 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
           />
           <Divider />
           <List data={filteredUsers} renderItem={renderItem} />
-          <Text>Say Thank</Text>
-          <Button
-            onPress={() => {
-              nav.navigate('Chat');
-            }}>
-            Go to Chat
-          </Button>
         </View>
       </View>
     </>
