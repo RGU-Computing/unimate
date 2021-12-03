@@ -402,7 +402,7 @@ export class FirebaseService {
 
   }
 
-  static setChatListener = async (onChangeCallback: (doc) => void) => {
+  static setChatListener = (onChangeCallback: (doc) => void) => {
     const { uid } = AppStorage.getUser();
     return firestore().collection("users").doc(uid)
       .onSnapshot(onChangeCallback);

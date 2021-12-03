@@ -2,9 +2,10 @@ import {useNavigationState} from '@react-navigation/core';
 import React, {FC, useEffect, useState} from 'react';
 import {Button, Text, View} from 'react-native';
 import {FirebaseService} from '../../services/firebase.service';
+import { firebase } from "@react-native-firebase/firestore";
 import {GiftedChat} from 'react-native-gifted-chat';
 import { AppStorage } from '../../services/app-storage.service'
-import {Input} from '@ui-kitten/components';
+import { Input, Card } from '@ui-kitten/components';
 import { StoredThanxMessage, ThanxMessage } from 'src/models/ThanxMessage';
 // import {FirebaseService} from './../../services/firebase.service';
 /**import { AppStorage } from './../../services/app-storage.service';
@@ -31,16 +32,7 @@ const messageMapper = (msg:StoredThanxMessage,toUID:string):ThanxMessage=>{
 const ChatView: FC<ChatScreenProps> = () => {
   const {uid} = AppStorage.getUser();
   const [msg, setmsg] = useState<ThanxMessage[]>([
-    {
-      _id: 1,
-      text: 'Hello developer',
-      createdAt: new Date(),
-      user: {
-        _id: 2,
-        name: 'React Native',
-        avatar: 'https://placeimg.com/140/140/any',
-      },
-    },
+  
   ]);
 
   const params = useNavigationState<{userId: string} | undefined>(
@@ -50,7 +42,7 @@ const ChatView: FC<ChatScreenProps> = () => {
     useEffect(()=>{
      const unsub =  FirebaseService.setChatListener((doc)=>{
         // user doc changed
-        console.log("user doc chaned");
+        console.log("user doc changed!!");
         fetchChats();
       })
 
@@ -88,8 +80,9 @@ const ChatView: FC<ChatScreenProps> = () => {
     //   }
     // }, [params]);
 
-  const handleMsgSend = (mesgs: ThanxMessage[]) => {
-    const message = {...mesgs[0], _id:params?.userId||mesgs[0]._id }
+  const handleMsgSend = ([msg]: ThanxMessage[]) => {
+    const message = {...msg, _id:params?.userId||msg[0]._id ,
+      createdAt:firebase.firestore.Timestamp.fromDate(msg.createdAt) }
     console.log('send msg', {message});
     const sendMsg = async (message:ThanxMessage) =>{
       if(!params?.userId) return null;
@@ -125,7 +118,7 @@ const ChatView: FC<ChatScreenProps> = () => {
         messages={msg.map(el=>{
           console.log("date",el.createdAt);
           // TODO handle date 
-          return{...el }
+          return{...el,createdAt: el.createdAt && el.createdAt.toDate()}
 
         })}
         onSend={handleMsgSend}
