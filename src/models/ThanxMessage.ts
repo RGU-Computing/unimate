@@ -1,7 +1,7 @@
 export interface ThanxMessage {
     _id: string; // recirver ID
     text: string;
-    createdAt: Date;
+    createdAt: any;
     user: ThanxUser;// from USER
     image?: string;
     video?: string;

@@ -48,18 +48,21 @@ const ChatView: FC<ChatScreenProps> = () => {
   );
 
     useEffect(()=>{
+     const unsub =  FirebaseService.setChatListener((doc)=>{
+        // user doc changed
+        console.log("user doc chaned");
+        fetchChats();
+      })
 
-
+      return unsub
     },[])
 
-  useEffect(() => {
-    if(!params?.userId) {
-      console.log("NO chatUID!",{params});
-        
-      return null;
-    }
-
     const fetchChats =async ()=>{
+      if(!params?.userId) {
+        console.log("NO chatUID!",{params});
+          
+        return null;
+      }
       if(!params.userId){
         console.log("No to userId");
         
@@ -71,10 +74,11 @@ const ChatView: FC<ChatScreenProps> = () => {
 
      
       console.log("sent",{sent,received})
-      if(sent )
+    
       setmsg(GiftedChat.append([],[...sent||[],...received||[]]))
     }
 
+  useEffect(() => {
     fetchChats();
   }, []);
 
@@ -118,7 +122,12 @@ const ChatView: FC<ChatScreenProps> = () => {
         }}
       /> */}
       <GiftedChat
-        messages={msg}
+        messages={msg.map(el=>{
+          console.log("date",el.createdAt);
+          // TODO handle date 
+          return{...el }
+
+        })}
         onSend={handleMsgSend}
         user={{
           _id: uid,

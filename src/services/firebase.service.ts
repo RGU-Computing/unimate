@@ -402,13 +402,10 @@ export class FirebaseService {
 
   }
 
-  static setChatListener = async () => {
-    // const {} = AppStorage.
-    return firestore().collection("users").doc()
-      .onSnapshot((doc) => {
-        var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-        console.log(source, " data: ", doc.data());
-      });
+  static setChatListener = async (onChangeCallback: (doc) => void) => {
+    const { uid } = AppStorage.getUser();
+    return firestore().collection("users").doc(uid)
+      .onSnapshot(onChangeCallback);
   }
 
 
