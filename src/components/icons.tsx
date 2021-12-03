@@ -8,6 +8,7 @@ import {
   faSmile,
   faTrophy,
   faWalking,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {Avatar, Icon, IconElement, useTheme} from '@ui-kitten/components';

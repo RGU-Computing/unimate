@@ -1,3 +1,4 @@
+import {useNavigation, useNavigationState} from '@react-navigation/core';
 import {
   Tab,
   TabBar,
@@ -7,16 +8,19 @@ import {
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {InfoIcon, MenuIcon} from '../../components/icons';
-
 export const SaythanxTabs = ({navigation, state}): React.ReactElement => {
-  const useForceUpdate = () => React.useState()[1];
+  // const useForceUpdate = () => React.useState()[1];
+  console.log('NAVIGATION', {navigation, state});
+  const nav = useNavigation();
+  const index = useNavigationState(nState => nState.index);
+  const rNames = useNavigationState(nState => nState.routeNames);
 
   const onTabSelect = (index: number): void => {
-    navigation.navigate(state.routeNames[index]);
+    nav.navigate(rNames[index]);
   };
 
   const renderDrawerAction = (): React.ReactElement => (
-    <TopNavigationAction icon={MenuIcon} onPress={navigation.toggleDrawer} />
+    <TopNavigationAction icon={MenuIcon} onPress={(nav as any).toggleDrawer} />
   );
 
   const renderSOS = (): React.ReactElement => (
@@ -26,9 +30,11 @@ export const SaythanxTabs = ({navigation, state}): React.ReactElement => {
     />
   );
 
-  if (state.index === 1) {
-    useForceUpdate();
-  }
+  // if (state.index === 1) {
+  //   console.log('state index == 1');
+
+  //   useForceUpdate();
+  // }
 
   return (
     <>
@@ -45,7 +51,7 @@ export const SaythanxTabs = ({navigation, state}): React.ReactElement => {
           style={styles.bar}
           /*tabBarStyle={styles.bar}*/
           indicatorStyle={styles.indicator}
-          selectedIndex={state.index}
+          selectedIndex={index}
           onSelect={onTabSelect}>
           <Tab
             style={styles.tabToday}

@@ -94,4 +94,8 @@ export class UtilService {
       AppStorage.getUser().displayName.indexOf(' '),
     );
   };
+
+  static getDateString = (timestamp: number) => {
+    return moment(timestamp).format('dddd');
+  };
 }
