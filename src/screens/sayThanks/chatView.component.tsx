@@ -47,6 +47,11 @@ const ChatView: FC<ChatScreenProps> = () => {
     state => state.routes[state.index].params,
   );
 
+    useEffect(()=>{
+
+
+    },[])
+
   useEffect(() => {
     if(!params?.userId) {
       console.log("NO chatUID!",{params});
@@ -61,8 +66,8 @@ const ChatView: FC<ChatScreenProps> = () => {
         return null
       }
       
-      const sent = await FirebaseService.getSentChatsByReceiverId(params?.userId);
-      const received = await FirebaseService.getReceivedChats()[params.userId];
+      const sent = await FirebaseService.getSentChatsByReceiverId(params.userId);
+      const received = await FirebaseService.getReceivedChats(params.userId);
 
      
       console.log("sent",{sent,received})

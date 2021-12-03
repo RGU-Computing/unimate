@@ -369,12 +369,12 @@ export class FirebaseService {
     return user?.data()?.messages;
   };
 
-  static getReceivedChats = async () => {
+  static getReceivedChats = async (senderId: string) => {
     const { uid: curUId } = AppStorage.getUser();
     const users = await firestore().collection(USERS.DATABASE.REF)
     const sent = users.doc(curUId)
 
-    return _.groupBy((await sent.get()).data()?.messages, "_id")
+    return (await sent.get()).data()?.messages.filter(el => el.user._id === senderId)
   }
 
   static getSentChatsByReceiverId = async (receiverUID: string) => {
@@ -400,6 +400,15 @@ export class FirebaseService {
       messages: firebase.firestore.FieldValue.arrayUnion(msg)
     })
 
+  }
+
+  static setChatListener = async () => {
+    // const {} = AppStorage.
+    return firestore().collection("users").doc()
+      .onSnapshot((doc) => {
+        var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+        console.log(source, " data: ", doc.data());
+      });
   }
 
 
