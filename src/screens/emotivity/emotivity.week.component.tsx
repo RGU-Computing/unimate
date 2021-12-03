@@ -17,42 +17,42 @@ const initialLineChartData: {
   datasets: [
     {
       data: [],
-      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+      color: (opacity = 1) => `rgba(1, 114, 178, ${opacity})`, // optional
       strokeWidth: 2,
       label: 'Anger',
     },
     {
       data: [],
-      color: (opacity = 1) => `rgba(114, 65, 244, ${opacity})`, // optional
+      color: (opacity = 1) => `rgba(87, 180, 233, ${opacity})`, // optional
       strokeWidth: 2,
       label: 'Anxiety',
     },
     {
       data: [],
-      color: (opacity = 1) => `rgba(94, 65, 244, ${opacity})`, // optional
+      color: (opacity = 1) => `rgba(6, 158, 115, ${opacity})`, // optional
       strokeWidth: 2,
       label: 'Happiness',
     },
     {
       data: [],
-      color: (opacity = 1) => `rgba(74, 65, 244, ${opacity})`, // optional
+      color: (opacity = 1) => `rgba(204, 121, 167, ${opacity})`, // optional
       strokeWidth: 2,
       label: 'Sadness',
     },
     {
       data: [],
-      color: (opacity = 1) => `rgba(54, 65, 244, ${opacity})`, // optional
+      color: (opacity = 1) => `rgba(230, 159, 3, ${opacity})`, // optional
       strokeWidth: 2,
       label: 'Stress',
     },
     {
       data: [],
-      color: (opacity = 1) => `rgba(34, 65, 244, ${opacity})`, // optional
+      color: (opacity = 1) => `rgba(213, 94, 0, ${opacity})`, // optional
       strokeWidth: 2,
       label: 'Tired',
     },
   ],
-  legend: ['Emotian Progreess of the week'],
+  legend: ['Emotional Progreess of the week'],
 };
 
 export const EmotivityWeekScreen = ({navigation}): React.ReactElement => {
@@ -70,7 +70,7 @@ export const EmotivityWeekScreen = ({navigation}): React.ReactElement => {
     backgroundGradientFromOpacity: 0,
     backgroundGradientTo: 'white',
     backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     strokeWidth: 2, // optional, default 3
     barPercentage: 0.5,
     useShadowColorFromDataset: false, // optional
@@ -169,7 +169,6 @@ export const EmotivityWeekScreen = ({navigation}): React.ReactElement => {
 
       setLineChartData(tempLineChartData);
       setWeeklyEmotivityData(scores);
-      console.log({tempLineChartData});
     }
   };
 
@@ -249,7 +248,7 @@ export const EmotivityWeekScreen = ({navigation}): React.ReactElement => {
               opacity === 0.9166666666666667
             ) {
               // 6th/Outer Ring - Happiness
-              return '#D55E00';
+              return '#069E73';
             } else if (opacity === 1 || opacity === 0.8333333333333333) {
               //5th Ring - Tired
               return '#D55E00';
