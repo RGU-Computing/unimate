@@ -111,4 +111,7 @@ export class UtilService {
       return false;
     }
   };
+  static getDateString = (timestamp: number) => {
+    return moment(timestamp).format('dddd');
+  };
 }

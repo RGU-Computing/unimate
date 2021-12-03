@@ -1,4 +1,7 @@
-import firestore, {firebase} from '@react-native-firebase/firestore';
+import firestore, {
+  firebase,
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 import {now} from 'moment';
 import GoogleFit, {Scopes} from 'react-native-google-fit';
 import {User} from 'src/models/auth/user';
@@ -12,6 +15,10 @@ const _onError = (e: any): void => {
   console.error(e);
 };
 
+export interface CalendarNotification {
+  date: string;
+  time: string;
+}
 export class FirebaseService {
   static setPushToken(token) {
     const {uid} = AppStorage.getUser();
@@ -238,6 +245,20 @@ export class FirebaseService {
     query.get().then(onSuccess, onError);
   };
 
+  static getAllUsers = (
+    next: (
+      data: FirebaseFirestoreTypes.QuerySnapshot,
+    ) => void | PromiseLike<void>,
+  ) => {
+    return firestore()
+      .collection(USERS.DATABASE.REF)
+      .get()
+      .then(next)
+      .catch(error =>
+        console.log(`Error while getting users: ${error.message}`),
+      );
+  };
+
   static subscribeForDiaryEntry = (docID, onSuccess, onError = _onError) => {
     return firestore()
       .collection(DIARY.DATABASE.REF)
@@ -313,7 +334,7 @@ export class FirebaseService {
           {startDate: start, endDate: end},
           null,
           (res: string | any[]) => {
-            console.log(goal);
+            console.log(`from fit api:${goal}`);
             AppStorage.setTraxivityDetails(
               goal,
               res.length > 0 ? res[0].value : 0,
@@ -339,5 +360,34 @@ export class FirebaseService {
       .collection(USERS.DATABASE.REF)
       .doc(uid)
       .onSnapshot(onSuccess, onError);
+  };
+
+  static createCalendarNotification = (notification: CalendarNotification) => {
+    const {uid} = AppStorage.getUser();
+
+    return firestore()
+      .collection('users')
+      .doc(uid)
+      .collection('CalendarNotifications')
+      .add(notification);
+  };
+
+  static getClanedarNotifications = async () => {
+    const {uid} = AppStorage.getUser();
+
+    try {
+      const dbRef = firestore().collection(
+        `users/${uid}/CalendarNotifications`,
+      );
+      const snaps = await dbRef.get();
+      if (!snaps.empty) {
+        const docs = snaps.docs.map(doc => doc.data() as CalendarNotification);
+        return docs;
+      }
+
+      return [] as CalendarNotification[];
+    } catch (error) {
+      _onError(error);
+    }
   };
 }
