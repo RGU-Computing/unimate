@@ -64,10 +64,27 @@ const ChatView: FC<ChatScreenProps> = () => {
       const sent = await FirebaseService.getSentChatsByReceiverId(params.userId);
       const received = await FirebaseService.getReceivedChats(params.userId);
 
+
+      if(sent && received ){
+        if(received.length == 1 && sent.lenth > 0 ){
+
+        }
+      }
      
       console.log("sent",{sent,received})
-    
-      setmsg(GiftedChat.append([],[...sent||[],...received||[]]))
+      
+      setmsg(sortMessages([...sent,...received]))
+    }
+    // array.sort((a,b) =>  new Date(b.date) - new Date(a.date));
+    const sortMessages = (messages:ThanxMessage[])=>{
+      // return messages.sort((a,b)=>{
+      //   const aDate = a.createdAt.toDate();
+      //   const bDate = b.createdAt.toDate();
+
+      //   return aDate - bDate
+
+      // })
+      return GiftedChat.append([],messages);
     }
 
   useEffect(() => {
@@ -81,9 +98,12 @@ const ChatView: FC<ChatScreenProps> = () => {
     // }, [params]);
 
   const handleMsgSend = ([msg]: ThanxMessage[]) => {
+
     const message = {...msg, _id:params?.userId||msg[0]._id ,
       createdAt:firebase.firestore.Timestamp.fromDate(msg.createdAt) }
+
     console.log('send msg', {message});
+
     const sendMsg = async (message:ThanxMessage) =>{
       if(!params?.userId) return null;
       FirebaseService.sendChat(message)
@@ -98,27 +118,32 @@ const ChatView: FC<ChatScreenProps> = () => {
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
-      {/* <Text>Chat Screen: {params && params.chatUID}</Text>
-      <Input
-        value={msg.text}
-        placeholder="message"
-        onChangeText={text => {
-          setmsg(prev => ({...prev, text}));
-        }}
-      />
-      <Button
-        title="Send"
-        onPress={() => {
-          FirebaseService.sendChat(msg).then(() =>
-            setmsg(prev => ({...prev, text: ''})),
-          );
-        }}
-      /> */}
       <GiftedChat
-        messages={msg.map(el=>{
-          console.log("date",el.createdAt);
+    
+        // renderChatEmpty={
+        // ()=>  <View>
+        //     <Text>Yay! This is your first Thank to {params?.userId}</Text>
+        //     <Button title="Be Friends" onPress={()=>{
+        //       if(!params?.userId){
+        //         console.log("No chat sender uId",);
+        //         return null;
+        //       }
+
+        //       FirebaseService.sendChat({_id:AppStorage.getUser().uid, 
+        //        createdAt:firebase.firestore.Timestamp.fromDate(new Date()),
+        //        text:"Hello",
+        //        user:{
+        //         _id:params?.userId,
+        //         avatar:"",
+        //         name:"",  
+        //        } 
+        //     })
+        //     }} />
+        //   </View>
+        // }
+        messages={msg.map((el,i)=>{
           // TODO handle date 
-          return{...el,createdAt: el.createdAt && el.createdAt.toDate()}
+          return{...el,createdAt: el.createdAt && el.createdAt.toDate(),_id:i}
 
         })}
         onSend={handleMsgSend}
