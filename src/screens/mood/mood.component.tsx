@@ -48,7 +48,8 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
       // The screen is focused
       await setCurrentProgressInformation();
     });
-  }, []);
+    return () => unsubscribe();
+  }, [navigation]);
 
   const setCurrentProgressInformation = async () => {
     try {
@@ -145,19 +146,6 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
     </Text>
   );
 
-  const addTodoItemBottom = async _text => {
-    const temp = await AppStorage.getToDoList();
-    if (temp != null) {
-      temp.push({text: _text, completed: false});
-      await AppStorage.saveToDoList(temp);
-      setTodoItems(temp);
-    } else {
-      const tempIni = [{text: _text, completed: false}];
-      await AppStorage.saveToDoList(tempIni);
-      setTodoItems(tempIni);
-    }
-  };
-
   const addTodoItemTop = async ({text, date}) => {
     const temp = await AppStorage.getToDoList();
     if (temp != null && temp.length > 0) {
@@ -184,16 +172,16 @@ export const MoodScreen = ({navigation}): React.ReactElement => {
     const temp = await AppStorage.getToDoList();
     let tempArr = [...temp];
     if (tempArr[_index].completed) {
-      const task = tempArr[_index].text;
+      const task = tempArr[_index];
       tempArr.splice(_index, 1);
-      const userInput = [{text: task, completed: false}];
+      const userInput = [{...task, completed: false}];
       const updatedArr = userInput.concat(tempArr);
       await AppStorage.saveToDoList(updatedArr);
       setTodoItems(updatedArr);
     } else {
-      const task = tempArr[_index].text;
+      const task = tempArr[_index];
       tempArr.splice(_index, 1);
-      tempArr.push({text: task, completed: true});
+      tempArr.push({...task, completed: true});
       await AppStorage.saveToDoList(tempArr);
       setTodoItems(tempArr);
     }
