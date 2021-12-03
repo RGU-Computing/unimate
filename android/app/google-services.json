@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1046322342785",
+    "project_id": "unimate-machang-dev",
+    "storage_bucket": "unimate-machang-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046322342785:android:9367a7ae9652bb59425680",
+        "android_client_info": {
+          "package_name": "com.unimate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046322342785-mefnlvb1fqsdsfnls4blum1cjidca20r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDL2oH_NwMLpNu0EqiU9BG_81Q7C-UDdno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046322342785-mefnlvb1fqsdsfnls4blum1cjidca20r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

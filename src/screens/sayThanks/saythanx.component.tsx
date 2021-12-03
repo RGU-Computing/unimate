@@ -10,17 +10,12 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {InfoIcon, MenuIcon, SearchIcon} from '../../components/icons';
 import {User} from '../../models/auth/user';
 import {AppStorage} from '../../services/app-storage.service';
 import {FirebaseService} from '../../services/firebase.service';
-import React, {FC, useEffect, useState, useCallback, useRef} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {InfoIcon, MenuIcon, SearchIcon} from '../../components/icons';
-/**
- * - User search
- * - Old Chats
- *
- */
 interface SayThanksScreenProps {
   // props
 }
