@@ -35,7 +35,7 @@ const vals = {
 
 export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
   let isFirstRingLegend = true;
-  const nav = useNavigation();  
+  const nav = useNavigation();
   const screenWidth = Dimensions.get('window').width;
 
   const [scores, setScores] = React.useState<Object>({
@@ -99,6 +99,29 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
         .record[EMOTIVITY.DATABASE.FIELDS.TIRED],
     });
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      const emotivityData = await FirebaseService.getEmotivityRecordbyDate(
+        date,
+      );
+      console.log(emotivityData);
+      if (!emotivityData) {
+        // setScores({
+        //   anger: 0,
+        //   anxiety: 0,
+        //   happyness: 0,
+        //   sadness: 0,
+        //   stress: 0,
+        //   tired: 0,
+        // });
+        setDone(false);
+      } else {
+        setScores(emotivityData);
+        setDone(true);
+      }
+    })();
+  }, [date]);
 
   const onSuccess = querySnapshot => {
     console.log('emotoday');
@@ -680,7 +703,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
     );
     //Mark emotivity Completed for today
     AppStorage.markEmotivityTodayCompleted({
-      date: UtilService.getDateTodayNoFormat(),
+      date: Date.now(),
       action: 'Completed',
     });
   };
