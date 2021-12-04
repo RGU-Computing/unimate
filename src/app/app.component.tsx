@@ -15,6 +15,7 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import {AppearanceProvider} from 'react-native-appearance';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {User} from 'src/models/auth/user';
+import {CalendarService} from '../services/calendar.service';
 import {SplashImage} from '../components/splash-image.component';
 import {StatusBar} from '../components/status-bar.component';
 import {AppNavigator} from '../navigation/app.navigator';
@@ -303,8 +304,14 @@ const App = ({mapping, theme}): React.ReactElement => {
 
   const onSuccessTrax = documentSnapshot => {
     if (documentSnapshot.data()) {
-      FirebaseService.getStepsToday(documentSnapshot.data().dailyStepGoal, () =>
-        setTraxivityDone(true),
+      FirebaseService.getStepsToday(
+        documentSnapshot.data().dailyStepGoal,
+        () => {
+          setTraxivityDone(true);
+          CalendarService.scheduleEventBackground(
+            documentSnapshot.data().dailyStepGoal,
+          );
+        },
       );
     } else {
       FirebaseService.getStepsToday(5000, () => setTraxivityDone(true));

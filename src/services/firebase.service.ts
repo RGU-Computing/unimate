@@ -16,6 +16,11 @@ const _onError = (e: any): void => {
   console.error(e);
 };
 
+export interface CalendarNotification {
+  date: string;
+  time: string;
+  calId: string;
+}
 export class FirebaseService {
   static setPushToken(token) {
     const { uid } = AppStorage.getUser();
@@ -168,15 +173,37 @@ export class FirebaseService {
       .then(onSuccessDiary, onError);
   };
 
-  static addMoodTrackingRecord = scores => {
-    const { uid } = AppStorage.getUser();
+  static getEmotivityRecordbyDate = async dateObj => {
+    const {uid} = await AppStorage.getUser();
+    const startDate = new Date(dateObj).getTime() - 24 * 60 * 60 * 1000;
+    const endDate = new Date(dateObj).getTime() + 24 * 60 * 60 * 1000;
+
+    try {
+      const querySnap = await firestore()
+        .collection('mood_tracking')
+        .where('user', '==', uid)
+        .where('date', '>=', startDate)
+        .where('date', '<=', endDate)
+        .get();
+
+      if (querySnap.empty) {
+        return null;
+      }
+
+      const docs = querySnap.docs.map(doc => doc.data());
+      return docs[0];
+    } catch (error) {
+      _onError(error);
+    }
+  };
+
+  static addMoodTrackingRecord = (scores, trackDate) => {
+    const {uid} = AppStorage.getUser();
     firestore()
       .collection(EMOTIVITY.DATABASE.REF)
       .add({
         [EMOTIVITY.DATABASE.FIELDS.USER]: uid,
-        [EMOTIVITY.DATABASE.FIELDS.DATE]: UtilService.getDateToday(
-          DATE.FORMATS.DB_UNIX,
-        ),
+        [EMOTIVITY.DATABASE.FIELDS.DATE]: new Date(trackDate).getTime(),
         [EMOTIVITY.DATABASE.FIELDS.ANGER]:
           scores[EMOTIVITY.DATABASE.FIELDS.ANGER],
         [EMOTIVITY.DATABASE.FIELDS.ANXIETY]:
@@ -408,5 +435,31 @@ export class FirebaseService {
       .onSnapshot(onChangeCallback);
   }
 
+  static createCalendarNotification = (notification: CalendarNotification) => {
+    const {uid} = AppStorage.getUser();
 
+    return firestore()
+      .collection('users')
+      .doc(uid)
+      .update({calendarNotification: notification});
+  };
+
+  static getClanedarNotifications = async () => {
+    const {uid} = AppStorage.getUser();
+
+    try {
+      const dbRef = firestore().doc(`users/${uid}`);
+      const snaps = await dbRef.get();
+      if (snaps.exists) {
+        const docs = snaps.data() as {
+          calendarNotification: CalendarNotification;
+        };
+        return docs.calendarNotification;
+      }
+
+      return null;
+    } catch (error) {
+      _onError(error);
+    }
+  };
 }

@@ -115,7 +115,7 @@ export class EmotivityScreen extends React.Component {
     tired: 0,
   };
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.setSelectedIndex = this.setSelectedIndex.bind(this);
     //this.renderWithoutHeader = this.renderWithoutHeader.bind(this);
@@ -164,6 +164,7 @@ export class EmotivityScreen extends React.Component {
       this.onSuccessMoodTracking,
       this.onSuccessDiaryEntry,
     );
+    // console.log(this.props['navigation']);
     this.setState({
       anger: AppStorage.getEmotivityDetails().record[
         EMOTIVITY.DATABASE.FIELDS.ANGER
@@ -409,14 +410,17 @@ export class EmotivityScreen extends React.Component {
 
     this.togglePromptModal();
 
-    FirebaseService.addMoodTrackingRecord({
-      [EMOTIVITY.DATABASE.FIELDS.ANGER]: this.state.anger,
-      [EMOTIVITY.DATABASE.FIELDS.ANXIETY]: this.state.anxiety,
-      [EMOTIVITY.DATABASE.FIELDS.HAPPINESS]: this.state.happiness,
-      [EMOTIVITY.DATABASE.FIELDS.SADNESS]: this.state.sadness,
-      [EMOTIVITY.DATABASE.FIELDS.STRESS]: this.state.stress,
-      [EMOTIVITY.DATABASE.FIELDS.TIRED]: this.state.tired,
-    });
+    FirebaseService.addMoodTrackingRecord(
+      {
+        [EMOTIVITY.DATABASE.FIELDS.ANGER]: this.state.anger,
+        [EMOTIVITY.DATABASE.FIELDS.ANXIETY]: this.state.anxiety,
+        [EMOTIVITY.DATABASE.FIELDS.HAPPINESS]: this.state.happiness,
+        [EMOTIVITY.DATABASE.FIELDS.SADNESS]: this.state.sadness,
+        [EMOTIVITY.DATABASE.FIELDS.STRESS]: this.state.stress,
+        [EMOTIVITY.DATABASE.FIELDS.TIRED]: this.state.tired,
+      },
+      'ds',
+    );
   };
 
   renderPromptModal = () => (
