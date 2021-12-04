@@ -95,6 +95,22 @@ export class UtilService {
     );
   };
 
+  static getTimeIn24 = () => {
+    let todaysDate = new Date();
+    let hour = todaysDate.getHours();
+    let minutes = todaysDate.getMinutes();
+
+    let time = hour + ':' + minutes;
+    return time;
+  };
+
+  static isTimeBetween = (time, startTime, endTime) => {
+    if (time >= startTime && time <= endTime) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   static getDateString = (timestamp: number) => {
     return moment(timestamp).format('dddd');
   };

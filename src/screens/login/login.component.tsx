@@ -23,6 +23,7 @@ export default class LoginScreen extends Component {
       scopes: [
         'https://www.googleapis.com/auth/userinfo.profile',
         'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/calendar',
         //"https://www.googleapis.com/auth/fitness.location.read",
         //"https://www.googleapis.com/auth/fitness.activity.read",
         //"https://www.googleapis.com/auth/fitness.body.read"
