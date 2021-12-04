@@ -172,15 +172,37 @@ export class FirebaseService {
       .then(onSuccessDiary, onError);
   };
 
-  static addMoodTrackingRecord = scores => {
+  static getEmotivityRecordbyDate = async dateObj => {
+    const {uid} = await AppStorage.getUser();
+    const startDate = new Date(dateObj).getTime() - 24 * 60 * 60 * 1000;
+    const endDate = new Date(dateObj).getTime() + 24 * 60 * 60 * 1000;
+
+    try {
+      const querySnap = await firestore()
+        .collection('mood_tracking')
+        .where('user', '==', uid)
+        .where('date', '>=', startDate)
+        .where('date', '<=', endDate)
+        .get();
+
+      if (querySnap.empty) {
+        return null;
+      }
+
+      const docs = querySnap.docs.map(doc => doc.data());
+      return docs[0];
+    } catch (error) {
+      _onError(error);
+    }
+  };
+
+  static addMoodTrackingRecord = (scores, trackDate) => {
     const {uid} = AppStorage.getUser();
     firestore()
       .collection(EMOTIVITY.DATABASE.REF)
       .add({
         [EMOTIVITY.DATABASE.FIELDS.USER]: uid,
-        [EMOTIVITY.DATABASE.FIELDS.DATE]: UtilService.getDateToday(
-          DATE.FORMATS.DB_UNIX,
-        ),
+        [EMOTIVITY.DATABASE.FIELDS.DATE]: new Date(trackDate).getTime(),
         [EMOTIVITY.DATABASE.FIELDS.ANGER]:
           scores[EMOTIVITY.DATABASE.FIELDS.ANGER],
         [EMOTIVITY.DATABASE.FIELDS.ANXIETY]:
