@@ -18,6 +18,7 @@ const _onError = (e: any): void => {
 export interface CalendarNotification {
   date: string;
   time: string;
+  calId: string;
 }
 export class FirebaseService {
   static setPushToken(token) {

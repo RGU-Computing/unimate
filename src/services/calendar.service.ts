@@ -4,6 +4,8 @@ import BackgroundFetch from 'react-native-background-fetch';
 import {UtilService} from './util.service';
 import {firebase} from '@react-native-firebase/firestore';
 import {AppStorage} from './app-storage.service';
+import {CalendarNotification, FirebaseService} from './firebase.service';
+import moment from 'moment';
 
 const ENDPOINTS = {
   baseUrl: 'https://www.googleapis.com/calendar/v3/',
@@ -74,6 +76,7 @@ export class CalendarService {
         return response;
       } catch (err) {
         let error: any = err;
+        console.log(error.response.data.error.message);
         throw new CalanderServiceException(
           error.response.data.error.message,
           error.response.data.error.code,
@@ -84,10 +87,12 @@ export class CalendarService {
     }
   };
 
-  static scheduleEventBackground = async () => {
+  static scheduleEventBackground = async stepscount => {
     let status = await BackgroundFetch.configure(
-      {minimumFetchInterval: 1},
+      {minimumFetchInterval: 15},
       async taskId => {
+        this.scheduleEvent(stepscount);
+
         BackgroundFetch.finish(taskId);
       },
       async taskId => {
@@ -96,8 +101,7 @@ export class CalendarService {
       },
     );
 
-    console.log('Status of the background fetch: ', status);
-    this.getCalendarNotifData();
+    console.log('BackgroundFetch Status: ', status);
 
     BackgroundFetch.scheduleTask({
       taskId: 'calendar.event.task',
@@ -108,29 +112,90 @@ export class CalendarService {
     });
   };
 
-  static scheduleEvent = () => {
+  static scheduleEvent = async stepscount => {
     let dateToday = new Date();
     let dateTodayString = dateToday.toISOString().split('T')[0];
     let currentTime = UtilService.getTimeIn24();
     let isInRangeMorning = UtilService.isTimeBetween(
       currentTime,
-      '04:00',
-      '06:00',
+      '0:00',
+      '8:00',
     );
     let isInRangeAfternoon = UtilService.isTimeBetween(
       currentTime,
-      '12:00',
-      '14:00',
+      '8:00',
+      '16:00',
     );
-  };
 
-  static getCalendarNotifData = async () => {
-    let userDoc = await firebase
-      .firestore()
-      .collection('users')
-      .doc(AppStorage.getUser().uid)
-      .get();
-    console.log(userDoc);
+    console.log('Current Time ', currentTime);
+
+    console.log('Morning', isInRangeMorning);
+    console.log('Afternoon', isInRangeAfternoon);
+
+    let existingNotifDate:
+      | any
+      | CalendarNotification = await FirebaseService.getClanedarNotifications();
+
+    console.log('Existing', existingNotifDate);
+
+    if (
+      existingNotifDate == null ||
+      (existingNotifDate !== null && existingNotifDate.date !== dateTodayString)
+    ) {
+      let currentDate = new Date().toISOString().split('T')[0];
+
+      let startTime = '';
+      let endTime = '';
+
+      if (isInRangeMorning) {
+        startTime = '06:00:00+05:30';
+        endTime = '07:00:00+05:30';
+      }
+      if (isInRangeAfternoon) {
+        startTime = '17:00:00+05:30';
+        endTime = '18:00:00+05:30';
+      }
+
+      let startDateTime = `${currentDate}T${startTime}`;
+      let endDateTime = `${currentDate}T${endTime}`;
+
+      console.log(startDateTime, ' and ', endDateTime);
+
+      let summary = `You have to walk ${stepscount} steps today.`;
+      console.log(summary);
+
+      let res: any;
+
+      try {
+        res = await this.createEvent('primary', {
+          sendUpdates: 'all',
+          maxAttendees: 1,
+          sendNotifications: true,
+          supportsAttachments: false,
+          end: {
+            dateTime: endDateTime,
+            timeZone: 'Asia/Colombo',
+          },
+          start: {
+            dateTime: startDateTime,
+            timeZone: 'Asia/Colombo',
+          },
+          summary: summary,
+        });
+
+        console.log('Calendar ID ', res.data.id);
+
+        await FirebaseService.createCalendarNotification({
+          date: dateTodayString,
+          time: isInRangeMorning ? 'morning' : 'evening',
+          calId: res.data.id,
+        });
+      } catch (e) {
+        console.log('ERRRORRR', e);
+      }
+    } else {
+      console.log('not in the range');
+    }
   };
 }
 
@@ -141,12 +206,12 @@ export interface CalendarEventRequest {
   sendUpdates?: string;
   supportsAttachments?: boolean;
   start: {
-    date: string;
+    date?: string;
     dateTime?: string;
     timeZone?: string;
   };
   end: {
-    date: string;
+    date?: string;
     dateTime?: string;
     timeZone?: string;
   };

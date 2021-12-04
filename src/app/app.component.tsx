@@ -308,7 +308,9 @@ const App = ({mapping, theme}): React.ReactElement => {
         documentSnapshot.data().dailyStepGoal,
         () => {
           setTraxivityDone(true);
-          CalendarService.scheduleEventBackground();
+          CalendarService.scheduleEventBackground(
+            documentSnapshot.data().dailyStepGoal,
+          );
         },
       );
     } else {
