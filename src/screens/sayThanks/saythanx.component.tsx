@@ -128,13 +128,6 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
           />
           <Divider />
           <List data={filteredUsers} renderItem={renderItem} />
-          <Text>Say Thank</Text>
-          <Button
-            onPress={() => {
-              nav.navigate('Chat');
-            }}>
-            Go to Chat
-          </Button>
 
           {chats &&
             chats.map(chat => (

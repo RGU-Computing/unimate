@@ -75,16 +75,13 @@ const ChatView: FC<ChatScreenProps> = () => {
       
       setmsg(sortMessages([...sent,...received]))
     }
-    // array.sort((a,b) =>  new Date(b.date) - new Date(a.date));
     const sortMessages = (messages:ThanxMessage[])=>{
-      // return messages.sort((a,b)=>{
-      //   const aDate = a.createdAt.toDate();
-      //   const bDate = b.createdAt.toDate();
-
-      //   return aDate - bDate
-
-      // })
-      return GiftedChat.append([],messages);
+      const sortedMessages = messages.map(message => {
+        const time = message.createdAt.toDate();
+        return ({...message, createdAt: time})
+      }).sort((a, b) => b.createdAt - a.createdAt);
+      console.log({sortedMessages});
+      return GiftedChat.append([],sortedMessages);
     }
 
   useEffect(() => {
@@ -111,7 +108,7 @@ const ChatView: FC<ChatScreenProps> = () => {
 
     sendMsg(message)
     
-    setmsg(prev => GiftedChat.append(prev,[message]));
+    setmsg(prev => GiftedChat.append(prev,[{...message, createdAt: message.createdAt.toDate()}]));
 
 
   };
@@ -143,7 +140,7 @@ const ChatView: FC<ChatScreenProps> = () => {
         // }
         messages={msg.map((el,i)=>{
           // TODO handle date 
-          return{...el,createdAt: el.createdAt && el.createdAt.toDate(),_id:i}
+          return{...el,_id:i}
 
         })}
         onSend={handleMsgSend}
