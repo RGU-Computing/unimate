@@ -27,7 +27,7 @@ export const EmotivityTabs = ({navigation, state}): React.ReactElement => {
   );
 
   if (state.index === 1) {
-    useForceUpdate();
+    // useForceUpdate();
   }
 
   return (
@@ -36,8 +36,8 @@ export const EmotivityTabs = ({navigation, state}): React.ReactElement => {
         title="eMotivity"
         leftControl={renderDrawerAction()}
         rightControls={[renderSOS()]}
-        titleStyle={{color: 'white'}}
-        style={{backgroundColor: '#7b187b'}}
+        titleStyle={{ color: 'white' }}
+        style={{ backgroundColor: '#7b187b' }}
       />
       {/* <Divider/> */}
       <TabBar
@@ -46,7 +46,11 @@ export const EmotivityTabs = ({navigation, state}): React.ReactElement => {
         indicatorStyle={styles.indicator}
         selectedIndex={state.index}
         onSelect={onTabSelect}>
-        <Tab style={styles.tabToday} titleStyle={styles.title} title="Today" />
+        <Tab
+          style={styles.tabToday}
+          titleStyle={styles.title}
+          title="Day Record"
+        />
         <Tab style={styles.tabWeek} titleStyle={styles.title} title="Week" />
         <Tab
           style={styles.tabCustom}

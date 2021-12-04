@@ -164,15 +164,13 @@ export class FirebaseService {
       .then(onSuccessDiary, onError);
   };
 
-  static addMoodTrackingRecord = scores => {
+  static addMoodTrackingRecord = (scores, trackDate) => {
     const {uid} = AppStorage.getUser();
     firestore()
       .collection(EMOTIVITY.DATABASE.REF)
       .add({
         [EMOTIVITY.DATABASE.FIELDS.USER]: uid,
-        [EMOTIVITY.DATABASE.FIELDS.DATE]: UtilService.getDateToday(
-          DATE.FORMATS.DB_UNIX,
-        ),
+        [EMOTIVITY.DATABASE.FIELDS.DATE]: new Date(trackDate).getTime(),
         [EMOTIVITY.DATABASE.FIELDS.ANGER]:
           scores[EMOTIVITY.DATABASE.FIELDS.ANGER],
         [EMOTIVITY.DATABASE.FIELDS.ANXIETY]:

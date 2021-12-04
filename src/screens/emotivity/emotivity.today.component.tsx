@@ -1,4 +1,12 @@
-import {Button, Divider, Input, Layout, Text} from '@ui-kitten/components';
+import {useNavigation} from '@react-navigation/native';
+import {
+  Button,
+  Divider,
+  Input,
+  Layout,
+  Text,
+  Datepicker,
+} from '@ui-kitten/components';
 import React, {useEffect} from 'react';
 import {Dimensions, Image, StyleSheet, View} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -27,7 +35,7 @@ const vals = {
 
 export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
   let isFirstRingLegend = true;
-
+  const nav = useNavigation();  
   const screenWidth = Dimensions.get('window').width;
 
   const [scores, setScores] = React.useState<Object>({
@@ -71,6 +79,8 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
   const [mood_string, setMoodString] = React.useState<string>('');
 
   const [diaryData, setDiaryData] = React.useState(undefined);
+
+  const [date, setDate] = React.useState(new Date());
 
   useEffect(() => {
     FirebaseService.getTodayDiaryEntry(onSuccess);
@@ -651,20 +661,23 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
     togglePromptModal();
     console.log('scores');
     console.log(scores);
-    FirebaseService.addMoodTrackingRecord({
-      [EMOTIVITY.DATABASE.FIELDS.ANGER]:
-        scores[EMOTIVITY.DATABASE.FIELDS.ANGER],
-      [EMOTIVITY.DATABASE.FIELDS.ANXIETY]:
-        scores[EMOTIVITY.DATABASE.FIELDS.ANXIETY],
-      [EMOTIVITY.DATABASE.FIELDS.HAPPINESS]:
-        scores[EMOTIVITY.DATABASE.FIELDS.HAPPINESS],
-      [EMOTIVITY.DATABASE.FIELDS.SADNESS]:
-        scores[EMOTIVITY.DATABASE.FIELDS.SADNESS],
-      [EMOTIVITY.DATABASE.FIELDS.STRESS]:
-        scores[EMOTIVITY.DATABASE.FIELDS.STRESS],
-      [EMOTIVITY.DATABASE.FIELDS.TIRED]:
-        scores[EMOTIVITY.DATABASE.FIELDS.TIRED],
-    });
+    FirebaseService.addMoodTrackingRecord(
+      {
+        [EMOTIVITY.DATABASE.FIELDS.ANGER]:
+          scores[EMOTIVITY.DATABASE.FIELDS.ANGER],
+        [EMOTIVITY.DATABASE.FIELDS.ANXIETY]:
+          scores[EMOTIVITY.DATABASE.FIELDS.ANXIETY],
+        [EMOTIVITY.DATABASE.FIELDS.HAPPINESS]:
+          scores[EMOTIVITY.DATABASE.FIELDS.HAPPINESS],
+        [EMOTIVITY.DATABASE.FIELDS.SADNESS]:
+          scores[EMOTIVITY.DATABASE.FIELDS.SADNESS],
+        [EMOTIVITY.DATABASE.FIELDS.STRESS]:
+          scores[EMOTIVITY.DATABASE.FIELDS.STRESS],
+        [EMOTIVITY.DATABASE.FIELDS.TIRED]:
+          scores[EMOTIVITY.DATABASE.FIELDS.TIRED],
+      },
+      date,
+    );
     //Mark emotivity Completed for today
     AppStorage.markEmotivityTodayCompleted({
       date: UtilService.getDateTodayNoFormat(),
@@ -755,9 +768,28 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
     );
   };
 
+  const DateView = props => {
+    const {hide} = props;
+    if (hide) {
+      return null;
+    } else {
+      return (
+        <View style={styles.miniBar}>
+          <View style={styles.dateArea}>
+            <Text style={styles.dateLabel}>Date</Text>
+          </View>
+          <View style={styles.datePicker}>
+            <Datepicker date={date} onSelect={nextDate => setDate(nextDate)} />
+          </View>
+        </View>
+      );
+    }
+  };
+
   if (!isDone) {
     return (
       <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <DateView hide={false} />
         <AppIntroSlider
           slides={MOOD_SLIDES}
           renderItem={emotivitySlide}
@@ -775,6 +807,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
 
   return (
     <Layout style={{height: '100%'}}>
+      <DateView hide={false} />
       <ScrollView
         style={{
           flex: 1,
@@ -934,6 +967,32 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  miniBar: {
+    height: 50,
+    backgroundColor: '#712177',
+    paddingBottom: 0,
+    paddingTop: 0,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  dateArea: {
+    paddingLeft: 50,
+    paddingTop: '3%',
+    paddingBottom: '5%',
+    backgroundColor: '#FFFFFF',
+    flex: 3,
+  },
+  datePicker: {
+    paddingTop: '5%',
+    paddingBottom: '5%',
+    paddingRight: '32%',
+    backgroundColor: '#FFFFFF',
+    flex: 3,
+  },
+  dateLabel: {
+    fontWeight: 'bold',
   },
   modalContainer: {
     justifyContent: 'center',
