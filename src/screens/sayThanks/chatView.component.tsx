@@ -1,12 +1,13 @@
-import { useNavigationState } from '@react-navigation/core';
+import { useNavigation, useNavigationState } from '@react-navigation/core';
 import React, { FC, useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { FirebaseService } from '../../services/firebase.service';
 import { firebase } from "@react-native-firebase/firestore";
 import { GiftedChat } from 'react-native-gifted-chat';
 import { AppStorage } from '../../services/app-storage.service'
-import { Input, Card, TopNavigation } from '@ui-kitten/components';
+import { Input, Card, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { StoredThanxMessage, ThanxMessage } from 'src/models/ThanxMessage';
+import { ArrowIosBackIcon } from '../../components/icons';
 // import {FirebaseService} from './../../services/firebase.service';
 /**import { AppStorage } from './../../services/app-storage.service';
 
@@ -28,14 +29,14 @@ const messageMapper = (msg: StoredThanxMessage, toUID: string): ThanxMessage => 
 }
 
 // const mapMessages = (msgs:StoredThanxMessage[]):ThanxMessage[]=>msgs.map(messageMapper)
-
+``
 const ChatView: FC<ChatScreenProps> = () => {
   const { uid, displayName } = AppStorage.getUser();
   const [msg, setmsg] = useState<ThanxMessage[]>([
 
   ]);
-
-  const params = useNavigationState<{ userId: string } | undefined>(
+  const nav = useNavigation();
+  const params = useNavigationState<{ userId: string, displayName: string } | undefined>(
     state => state.routes[state.index].params,
   );
 
@@ -62,8 +63,7 @@ const ChatView: FC<ChatScreenProps> = () => {
     }
 
     const sent = await FirebaseService.getSentChatsByReceiverId(params.userId);
-    const received = await FirebaseService.getReceivedChats(params.userId);
-
+    const received = uid !== params.userId ? await FirebaseService.getReceivedChats(params.userId) : [];
 
     if (sent && received) {
       if (received.length == 1 && sent.lenth > 0) {
@@ -110,15 +110,18 @@ const ChatView: FC<ChatScreenProps> = () => {
 
     sendMsg(message)
 
-    setmsg(prev => GiftedChat.append(prev, [{ ...message, createdAt: message.createdAt.toDate() }]));
-
-
+    if (params && params.userId !== uid) {
+      setmsg(prev => GiftedChat.append(prev, [{ ...message, createdAt: message.createdAt.toDate() }]));
+    }
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <TopNavigation
-        title={displayName}
+        title={params?.displayName}
+        leftControl={<TopNavigationAction onPress={() => {
+          nav.goBack()
+        }} icon={ArrowIosBackIcon} />}
         titleStyle={{ color: 'white' }}
         style={{ backgroundColor: '#712177' }}
       />

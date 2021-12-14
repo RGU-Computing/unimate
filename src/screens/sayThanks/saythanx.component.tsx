@@ -40,7 +40,7 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
         .map(doc => doc.data())
         .map((value: any) => {
           if (value.user.uid === currentUser.uid) {
-            value.user.displayName = 'Me';
+            value.user.displayName = 'Me 😋';
           }
           return value.user;
         })
@@ -84,7 +84,7 @@ export const SayThanksScreen: FC<SayThanksScreenProps> = () => {
       title={props.item.displayName}
       description={props.item.email}
       icon={renderItemIcon}
-      onPress={() => nav.navigate('Chat', {userId: props.item.uid})}
+      onPress={() => nav.navigate('Chat', {userId: props.item.uid, displayName:props.item.displayName})}
     />
   );
 

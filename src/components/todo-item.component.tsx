@@ -1,15 +1,15 @@
-import {CheckBox} from '@ui-kitten/components';
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { CheckBox } from '@ui-kitten/components';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import PushNotification from 'react-native-push-notification';
-import {UtilService} from '../services/util.service';
+import { UtilService } from '../services/util.service';
 // import { Text } from '@ui-kitten/components';
 
 export const TodoItem = (props): React.ReactElement => {
   const [] = React.useState<string>('');
   const [checked, setChecked] = React.useState(false);
 
-  const isOverdue = new Date(props.item.deadline).getTime() < Date.now();
+  const [isOverdue, setIsOverdue] = React.useState(false);
 
   const clickCheckBox = async _nextCheked => {
     setChecked(_nextCheked);
@@ -18,12 +18,16 @@ export const TodoItem = (props): React.ReactElement => {
   };
 
   useEffect(() => {
+    setIsOverdue(new Date(props.item.deadline).getTime() < Date.now());
+  }, [])
+
+  useEffect(() => {
     if (isOverdue) {
       PushNotification.localNotificationSchedule({
         channelId: 'reminders',
         title: '🕙 Overdue TODO task',
         message: props.item.text,
-        date: new Date(Date.now() + 60 * 1000),
+        date: new Date(Date.now() + 30 * 1000),
         allowWhileIdle: true,
       });
     }
@@ -41,7 +45,7 @@ export const TodoItem = (props): React.ReactElement => {
         marginBottom: 6,
         borderColor: '#DDD',
         borderWidth: 1,
-        backgroundColor: isOverdue ? 'red' : '',
+        backgroundColor: isOverdue ? 'red' : 'white',
       }}>
       <CheckBox
         style={styles.checkbox}
@@ -51,13 +55,12 @@ export const TodoItem = (props): React.ReactElement => {
         onChange={nextChecked => clickCheckBox(nextChecked)}
       />
 
-      <Text style={[{marginHorizontal: 16, fontSize: 14}]}>
+      <Text style={[{ marginHorizontal: 16, fontSize: 14 }]}>
         🔒{' '}
-        {`${props.item.text} ${
-          isOverdue
+        {`${props.item.text} ${isOverdue
             ? `- ${UtilService.getDateFromDatabaseDateFormat(props.item.date)}`
             : ''
-        }`}
+          }`}
       </Text>
       <TouchableOpacity
         style={{
@@ -70,7 +73,7 @@ export const TodoItem = (props): React.ReactElement => {
         }}
         onPress={() => props.deleteFunction()}>
         <Text
-          style={{color: '#fafafa', marginHorizontal: 6, marginVertical: 1}}>
+          style={{ color: '#fafafa', marginHorizontal: 6, marginVertical: 1 }}>
           X
         </Text>
       </TouchableOpacity>

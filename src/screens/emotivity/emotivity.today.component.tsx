@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import {
   Button,
   Divider,
@@ -7,11 +7,12 @@ import {
   Text,
   Datepicker,
 } from '@ui-kitten/components';
-import React, {useEffect} from 'react';
-import {Dimensions, Image, StyleSheet, View} from 'react-native';
+import * as moment from 'moment';
+import React, { useEffect } from 'react';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import {ProgressChart} from 'react-native-chart-kit';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ProgressChart } from 'react-native-chart-kit';
+import { ScrollView } from 'react-native-gesture-handler';
 import MotionSlider from 'react-native-motion-slider';
 import * as Progress from 'react-native-progress';
 import {
@@ -19,10 +20,10 @@ import {
   ArrowIosForwardIcon,
   CheckIcon,
 } from '../../components/icons';
-import {AppStorage} from '../../services/app-storage.service';
-import {FirebaseService} from '../../services/firebase.service';
-import {DIARY, EMOTIVITY, MOOD_SLIDES} from '../../services/types';
-import {UtilService} from '../../services/util.service';
+import { AppStorage } from '../../services/app-storage.service';
+import { FirebaseService } from '../../services/firebase.service';
+import { DIARY, EMOTIVITY, MOOD_SLIDES } from '../../services/types';
+import { UtilService } from '../../services/util.service';
 
 const vals = {
   [EMOTIVITY.DATABASE.FIELDS.ANGER]: 0,
@@ -33,7 +34,7 @@ const vals = {
   [EMOTIVITY.DATABASE.FIELDS.TIRED]: 0,
 };
 
-export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
+export const EmotivityTodayScreen = ({ navigation }): React.ReactElement => {
   let isFirstRingLegend = true;
   const nav = useNavigation();
   const screenWidth = Dimensions.get('window').width;
@@ -232,13 +233,13 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
 
   const renderQuestionsModal = () => (
     <Layout level="3" style={styles.modalContainer}>
-      <View style={{flexDirection: 'row'}}>
-        <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 8 }}>
           📝 New Diary Entry
         </Text>
       </View>
 
-      <Text style={{textAlign: 'justify', marginVertical: 8}}>
+      <Text style={{ textAlign: 'justify', marginVertical: 8 }}>
         *Fill at least one field to make an entry.
       </Text>
       <Input
@@ -311,13 +312,13 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
 
   const renderQuestionStartModal = () => (
     <Layout level="3" style={styles.modalContainer}>
-      <View style={{flexDirection: 'row'}}>
-        <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 8 }}>
           📝 New Diary Entry
         </Text>
       </View>
 
-      <Text style={{textAlign: 'justify', marginVertical: 8}}>
+      <Text style={{ textAlign: 'justify', marginVertical: 8 }}>
         Fill at least one field to make an entry.
       </Text>
       <View
@@ -369,7 +370,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
           Next
         </Button>
       </View>
-      <Text style={{alignSelf: 'flex-start', fontSize: 12, marginVertical: 2}}>
+      <Text style={{ alignSelf: 'flex-start', fontSize: 12, marginVertical: 2 }}>
         Diary Entry Progress 0%
       </Text>
       <Progress.Bar progress={0} width={300} color="#712177" />
@@ -414,7 +415,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
           Next
         </Button>
       </View>
-      <Text style={{alignSelf: 'flex-start', fontSize: 12, marginVertical: 2}}>
+      <Text style={{ alignSelf: 'flex-start', fontSize: 12, marginVertical: 2 }}>
         Diary Entry Progress 33%
       </Text>
       <Progress.Bar progress={0.33} width={300} color="#712177" />
@@ -462,7 +463,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
           Reflect Later
         </Button>
       </View>
-      <Text style={{alignSelf: 'flex-start', fontSize: 12, marginVertical: 2}}>
+      <Text style={{ alignSelf: 'flex-start', fontSize: 12, marginVertical: 2 }}>
         Diary Entry Progress 66%
       </Text>
       <Progress.Bar progress={0.66} width={300} color="#712177" />
@@ -533,8 +534,8 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
 
   const renderReflectModal = () => (
     <Layout level="3" style={styles.modalContainer}>
-      <View style={{flexDirection: 'row'}}>
-        <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 8 }}>
           🤔 Today's Reflection
         </Text>
       </View>
@@ -545,7 +546,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
       <Input
         style={styles.input}
         textStyle={styles.inputText}
-        labelStyle={[styles.label, {marginBottom: 16}]}
+        labelStyle={[styles.label, { marginBottom: 16 }]}
         label="Your thoughts after reflecting and how you felt after reflecting on today:"
         placeholder="Reflecting is about questioning, in a positive way, what you do and why you do it and then deciding whether there is a better, or more efficient, way of doing it in the future."
         multiline={true}
@@ -603,19 +604,19 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
 
   const renderPromptModal = () => (
     <Layout level="3" style={styles.modalContainer}>
-      <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>
+      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 8 }}>
         🙌 Thank You!
       </Text>
       {record_type === 'positive' && (
-        <Text style={{textAlign: 'justify'}}>
+        <Text style={{ textAlign: 'justify' }}>
           Seems like you've had a good day 😄. That's great to hear! Would you
           like to make a note on today's events and reflect on them?
         </Text>
       )}
       {record_type === 'negative' && (
-        <Text style={{textAlign: 'justify'}}>
+        <Text style={{ textAlign: 'justify' }}>
           We noticed that you have felt a noticable amount of
-          <Text style={{color: '#712177', fontWeight: 'bold'}}>
+          <Text style={{ color: '#712177', fontWeight: 'bold' }}>
             {' '}
             {mood_string}{' '}
           </Text>
@@ -717,15 +718,15 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
     setScores(vals);
   };
 
-  const emotivitySlide = ({item}) => {
+  const emotivitySlide = ({ item }) => {
     return (
       <View style={styles.slide}>
         <Text style={styles.title}>{item.title}</Text>
         <Image
           style={[
             scores[item.key] == 0
-              ? {transform: [{scale: 0.5}]}
-              : {transform: [{scale: parseInt(scores[item.key]) * 0.1 + 0.5}]},
+              ? { transform: [{ scale: 0.5 }] }
+              : { transform: [{ scale: parseInt(scores[item.key]) * 0.1 + 0.5 }] },
             styles.icon,
           ]}
           source={item.image}
@@ -749,10 +750,10 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
             justifyContent: 'space-between',
             width: '68%',
           }}>
-          <Text style={[styles.hint, {textAlign: 'left'}]}>
+          <Text style={[styles.hint, { textAlign: 'left' }]}>
             {item.labels.min}
           </Text>
-          <Text style={[styles.hint, {textAlign: 'right'}]}>
+          <Text style={[styles.hint, { textAlign: 'right' }]}>
             {item.labels.max}
           </Text>
         </View>
@@ -766,7 +767,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
       <View style={styles.buttonCircle}>
         <ArrowIosForwardIcon
           fill={'rgba(255, 255, 255, .9)'}
-          style={{backgroundColor: 'transparent'}}
+          style={{ backgroundColor: 'transparent' }}
         />
       </View>
     );
@@ -777,7 +778,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
       <View style={styles.buttonCircle}>
         <ArrowIosBackIcon
           fill={'rgba(255, 255, 255, .9)'}
-          style={{backgroundColor: 'transparent'}}
+          style={{ backgroundColor: 'transparent' }}
         />
       </View>
     );
@@ -786,13 +787,13 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
   const _renderDoneButton = () => {
     return (
       <View style={styles.buttonCircle}>
-        <CheckIcon style={{backgroundColor: 'transparent'}} />
+        <CheckIcon style={{ backgroundColor: 'transparent' }} />
       </View>
     );
   };
 
   const DateView = props => {
-    const {hide} = props;
+    const { hide } = props;
     if (hide) {
       return null;
     } else {
@@ -811,7 +812,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
 
   if (!isDone) {
     return (
-      <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <DateView hide={false} />
         <AppIntroSlider
           slides={MOOD_SLIDES}
@@ -829,7 +830,7 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
   }
 
   return (
-    <Layout style={{height: '100%'}}>
+    <Layout style={{ height: '100%' }}>
       <DateView hide={false} />
       <ScrollView
         style={{
@@ -845,10 +846,10 @@ export const EmotivityTodayScreen = ({navigation}): React.ReactElement => {
             marginTop: 20,
             textAlign: 'center',
           }}>
-          {UtilService.getDateToday()}
+          {UtilService.getDateFromDatabaseDateFormat(date)}
         </Text>
         <Divider
-          style={{width: '100%', alignSelf: 'center', marginVertical: 10}}
+          style={{ width: '100%', alignSelf: 'center', marginVertical: 10 }}
         />
         <Text
           style={{
