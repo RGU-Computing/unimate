@@ -7,6 +7,8 @@
         <img src="https://unimate.app/assets/img/UniMate-Text%20Logo-Home.png" alt="Logo" height="80">
     </a>
     <br/>
+    <a href="https://doi.org/10.5281/zenodo.7702578"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.7702578.svg" alt="DOI"></a>
+
   </p>
   <p align="center">
     Unimate is an ongoing research collaboration between Robert Gordon University (RGU), Aberdeen, Scotland and the Informatics Institute of Technology (IIT), Sri Lanka. The purpose of this study is to develop a digital intervention (app) aimed at enhancing students’ educational experience and wellbeing. The research team, in consultation with IIT students, have identified a need for an app that helps students to manage their studies and also provides information, advice and signposting on physical and mental wellbeing.
