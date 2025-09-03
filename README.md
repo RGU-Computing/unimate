@@ -16,7 +16,7 @@
     <br/>
     <a href="https://www.youtube.com/watch?v=SwfxL84QTrE"><strong>Promo Video</strong></a>
     <br/>
-    <a href="https://unimate.app"><strong>Website (https://unimate.app)</strong></a>
+    <a href="http://unimate.rguairgroup.com"><strong>Website (http://unimate.rguairgroup.com)</strong></a>
     <br/>
     <a href="/resources/Unimate_Project_Guide.pdf" target="_blank"><strong>Project Setup Guide</strong></a>
     <br/>
